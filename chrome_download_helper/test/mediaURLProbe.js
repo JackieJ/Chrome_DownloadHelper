@@ -40,7 +40,7 @@ page.onLoadFinished = function(status) {
 			}
 		    }
 		    //media file extensions
-		    var mediaSuffix ="jpg|jpeg|gif|png|mpg|mpeg|avi|rm|wmv|mov|flv";
+		    var mediaSuffix ="mpg|mpeg|avi|rm|wmv|mov|flv|mpg3|mp4|mp3";
 		    //regex for the whole src/href parts
 		    var mediaPattern=new RegExp("^.*\\.(?:"+mediaSuffix+")$","i");
 		    //extract all href/src/data attributes
