@@ -67,6 +67,5 @@ page.onLoadFinished = function(status) {
 		});
 	    console.log(JSON.stringify(mediaLinks));
 	}
-	phantom.exit();
     }
 }
