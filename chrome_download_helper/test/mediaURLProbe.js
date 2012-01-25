@@ -43,7 +43,6 @@ page.onLoadFinished = function(status) {
 		    var mediaSuffix ="jpg|jpeg|gif|png|mpg|mpeg|avi|rm|wmv|mov|flv";
 		    //regex for the whole src/href parts
 		    var mediaPattern=new RegExp("^.*\\.(?:"+mediaSuffix+")$","i");
-		    
 		    //extract all href/src/data attributes
 		    //walk through DOM-tree
 		    domWalker(document.documentElement, function(dNode) {
@@ -63,7 +62,15 @@ page.onLoadFinished = function(status) {
 				}
 			    }
 			});
-		    return linkAttrList;
+		    //extract media links
+		    var mediaLinks = [];
+		    for (var index = 0 ; index < linkAttrList.length ; index++) {
+			var alinkAttr = linkAttrList[index];
+			if (mediaPattern.test(alinkAttr)) {
+			    mediaLinks.push(alinkAttr);
+			}
+		    }
+		    return mediaLinks;
 		});
 	    console.log(JSON.stringify(mediaLinks));
 	}
