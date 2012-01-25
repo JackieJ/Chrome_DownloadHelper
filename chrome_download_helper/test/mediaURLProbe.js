@@ -51,6 +51,7 @@ page.onLoadFinished = function(status) {
 				var srcAttrNode = attributeMap.getNamedItem('src');
 				var hrefAttrNode = attributeMap.getNamedItem('href');
 				var dataAttrNode = attributeMap.getNamedItem('data');
+				var linkAttrNode = attributeMap.getNamedItem('link');
 				if (srcAttrNode) {
 				    linkAttrList.push(srcAttrNode.textContent);
 				}
@@ -59,6 +60,9 @@ page.onLoadFinished = function(status) {
 				}
 				if (dataAttrNode) {
 				    linkAttrList.push(dataAttrNode.textContent);
+				}
+				if (linkAttrNode) {
+				    linkAttrList.push(linkAttrNode.textContent);
 				}
 			    }
 			});
