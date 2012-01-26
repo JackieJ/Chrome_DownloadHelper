@@ -1,0 +1,18 @@
+{
+   "background_page": "background.html",
+   "browser_action": {
+      "default_icon": "icon16.png",
+      "popup": "popup.html"
+   },
+   "description": "Use Meme emoticons on popular websites!",
+   "icons": {
+      "128": "icon128.png",
+      "16": "icon16.png",
+      "48": "icon48.png"
+   },
+   "permissions": ["webRequest", "webRequestBlocking",
+                   "<all_urls>"],
+   "options_page": "options.html",
+   "name": "TEST",
+   "version": "4.0.7"
+}
