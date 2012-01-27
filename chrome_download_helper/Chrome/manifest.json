@@ -13,6 +13,6 @@
    "permissions": ["webRequest", "webRequestBlocking",
                    "<all_urls>"],
    "options_page": "options.html",
-   "name": "TEST",
+   "name": "Chrome_download_helper_test",
    "version": "4.0.7"
 }
