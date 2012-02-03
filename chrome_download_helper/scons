@@ -8,7 +8,7 @@
 readonly SCRIPT_DIR="$(dirname "$0")"
 readonly SCRIPT_DIR_ABS="$(cd "${SCRIPT_DIR}" ; pwd -P)"
 
-export NACL_SDK_ROOT=/Users/jacky/nacl/nacl_sdk/pepper_16/project_templates/:/Users/jacky/Downloads:/Users/jacky/nacl
+export NACL_SDK_ROOT=/Users/jackie/Chrome_NACL/nacl_sdk/
 # NACL_TARGET_PLATFORM is really the name of a folder with the base dir -
 # usually NACL_SDK_ROOT - within which the toolchain for the target platform
 # are found.
