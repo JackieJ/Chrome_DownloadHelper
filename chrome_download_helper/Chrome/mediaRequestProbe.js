@@ -21,6 +21,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(details) {
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	if(mediaPattern.test(details.url)) {
+	    //check repetition
 	    if (!medialinksMap[details.url]) {
 		console.log(details.url);
 		medialinks.push(details.url);
