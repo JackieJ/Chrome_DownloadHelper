@@ -13,17 +13,6 @@ logging.getLogger().setLevel(logging.INFO)
 SERVER_PORT = 8080
 SERVER_HOST = ''
 
-SAFE_DIR_COMPONENTS = ['chrome_download_helper'];
-SAFE_DIR_SUFFIX = apply(os.path.join, SAFE_DIR_COMPONENTS)
-
-def SanityCheckDirectory():
-  if os.getcwd().endswith(SAFE_DIR_SUFFIX):
-    return
-  logging.error('httpd.py should only be run from the %s', SAFE_DIR_SUFFIX)
-  logging.error('directory for testing purposes.')
-  logging.error('We are currently in %s', os.getcwd())
-  sys.exit(1)
-
 class QuittableHTTPServer(SocketServer.ThreadingMixIn,
                           BaseHTTPServer.HTTPServer):
   def serve_forever(self, timeout=0.5):
@@ -80,8 +69,6 @@ if __name__ == '__main__':
     action='store_false', default=True,
     help='Do not ensure that httpd.py is being run from a safe directory.')
   (options, args) = parser.parse_args(sys.argv)
-  if options.do_safe_check:
-    SanityCheckDirectory()
   if len(args) > 2:
     print 'Too many arguments specified.'
     parser.print_help()
