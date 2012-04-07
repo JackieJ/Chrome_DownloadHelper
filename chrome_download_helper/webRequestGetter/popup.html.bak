@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <title>Command List</title>
+    <script type="text/javascript" src="define.js"></script>
+    <script type="text/javascript" src="mappings.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+      function init() {
+      
+      document.body.style.display = "block";
+      a = 0;
+      var smileyperline = 3;
+      var tbodyElem = document.getElementsByTagName("tbody")[0];
+      tbodyElem.display = "none";
+      var trElem, tdElem;
+      trElem = tbodyElem.insertRow(tbodyElem.rows.length);
+      jQuery.each(ragesdemo, function(name, txt) {
+      tdElem = trElem.insertCell(trElem.cells.length);
+      tdElem.innerHTML = txt+"<br><span>&#58;"+name+"&#58;</span>";
+      a++;
+      if (a==smileyperline) { a = 0;  trElem = tbodyElem.insertRow(tbodyElem.rows.length);}
+      });
+      tbodyElem.display = "block";
+      };
+    </script>
+  </head>
+  <style>
+    body {
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, Arial, Tahoma, sans-serif;
+    width: 350px;
+    }
+    
+    #container {
+    position: relative;
+    }
+    
+    #placeholder,
+    #module {
+    height: 420px;
+    }
+    
+    #module {
+    position: relative;
+    top: 0;
+    left: 0;
+    border: 0;}
+    
+    table {
+    border-spacing: 0px;
+    }
+    tr { }
+    img {
+    margin: 5px;
+    width: 64px;
+    }
+    span {
+    position: relative;
+    padding: 5px;
+    z-index: 100;
+    background: rgb(53, 53, 53);
+    color: #fff;
+    border-radius: 5px 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    text-align: center;
+    text-indent: 0;
+    font: normal bold 10px/13px Tahoma,sans-serif;
+    white-space: nowrap;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+    }
+    td {
+    height: 64px;
+    padding-right: 10px;
+    padding-bottom: 15px;
+    width: 64px;
+    align: center;
+    text-align: center;
+    border-spacing: 0px;
+    }
+  </style>
+  <body onLoad="init();" background="img/fSMR.bg.jpg">
+    <div id="container">
+      <div id="placeholder">
+	<center>Grab Troll Emoticons Plus <a href="http://bit.ly/o5v8Ht" target="_new">here</a>.</center>
+	<table>
+	  <tbody id="trololtbody">
+	  </tbody>
+	</table>
+      </div>
+    </div>
+  </body>
+</html>
