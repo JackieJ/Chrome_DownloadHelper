@@ -4,7 +4,7 @@
       "default_icon": "icon.png",
       "popup": "popup.html"
    },
-   "description": "Chrome Download Helper testing",
+   "description": "Chrome Download Helper",
    "icons": {
       "128": "icon.png",
       "16": "icon.png",
@@ -13,6 +13,6 @@
    "permissions": ["webRequest", "webRequestBlocking",
                    "<all_urls>"],
    "options_page": "options.html",
-   "name": "Chrome_download_helper_test",
+   "name": "Chrome_download_helper",
    "version": "4.0.7"
 }
