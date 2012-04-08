@@ -14,5 +14,5 @@
                    "<all_urls>"],
    "options_page": "options.html",
    "name": "Chrome_download_helper",
-   "version": "4.0.7"
+   "version": "0.0.1"
 }
