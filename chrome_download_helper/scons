@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2011 The Native Client Authors. All rights reserved.
+# Copyright (c) 2012 Jackie Jin(liveaeon@gmail.com). All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
@@ -8,12 +8,8 @@
 readonly SCRIPT_DIR="$(dirname "$0")"
 readonly SCRIPT_DIR_ABS="$(cd "${SCRIPT_DIR}" ; pwd -P)"
 
+#modify it to the correctly NACL path
 export NACL_SDK_ROOT=$HOME/nacl/nacl_sdk/
-# NACL_TARGET_PLATFORM is really the name of a folder with the base dir -
-# usually NACL_SDK_ROOT - within which the toolchain for the target platform
-# are found.
-# Replace the platform with the name of your target platform.  For example, to
-# build applications that target the pepper_16 API, set
 #   NACL_TARGET_PLATFORM="pepper_16"
 export NACL_TARGET_PLATFORM="pepper_16"
 
