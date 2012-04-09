@@ -1,5 +1,5 @@
 chrome_download_helper/node_modules
-~
+*~
 chrome_download_helper/chrome_download_helper_x86_32.nexe
 chrome_download_helper/chrome_download_helper_x86_32_dbg.nexe
 chrome_download_helper/chrome_download_helper_x86_64.nexe
