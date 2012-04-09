@@ -9,7 +9,7 @@ readonly SCRIPT_DIR="$(dirname "$0")"
 readonly SCRIPT_DIR_ABS="$(cd "${SCRIPT_DIR}" ; pwd -P)"
 
 #modify it to the correctly NACL path
-export NACL_SDK_ROOT=$HOME/nacl/nacl_sdk/
+export NACL_SDK_ROOT=$HOME/tools/nacl_sdk/
 #   NACL_TARGET_PLATFORM="pepper_16"
 export NACL_TARGET_PLATFORM="pepper_16"
 
