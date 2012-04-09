@@ -25,6 +25,10 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	    //check repetition
 	    if (!medialinksMap[details.url]) {
 		console.log(details.url);
+		var vidList = document.getElementById("videoReq");
+		var li = document.createElement("li");
+		li.textContent = details.url;
+		vidList.appendChild(li);
 		medialinks.push(details.url);
 	    }
 	}
