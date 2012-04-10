@@ -10,7 +10,7 @@
       "16": "icon.png",
       "48": "icon.png"
    },
-   "permissions": ["webRequest", "webRequestBlocking",
+   "permissions": ["webRequest", "webRequestBlocking", "tabs",
                    "<all_urls>"],
    "options_page": "options.html",
    "name": "Chrome_download_helper",
