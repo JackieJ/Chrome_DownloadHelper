@@ -15,6 +15,10 @@
   }
 */
 
+//acitve tab and url check
+var activeURL = null;
+var activeTabId = null;
+
 mediaRequestsMap = {};
 //media file extensions regex
 var mediaPattern = /\.rmvb|\.mpg|\.mpeg|\.avi|\.rm|\.wmv|\.mov|\.flv|\.mpg3|\.mp4|\.mp3/;
@@ -27,24 +31,24 @@ chrome.tabs.onCreated.addListener(function(tab) {
     });
 
 //remove tab from the map if user closes the tab, no access to the media url
-chrome.tabs.onRemoved.addListener(function(tab) {
-	delete mediaRequestMap[tab.id];
+chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
+	console.log("onRemoved tabId:"+tabId);
+	delete mediaRequestsMap[tabId];
 	console.log("onRemoved Meta:"+JSON.stringify(mediaRequestsMap));
     });
 
-//acitve tab and url check
-var activeURL = null;
-var activeTabId = null;
+//issue:when url changes, the tabid changes as well,
+//changing the url = remove original tab and create a new tab.
 chrome.tabs.onActivated.addListener(function(activeInfo) {
 	activeTabId = activeInfo.tabId;
 	var tabID = activeInfo.tabId;
-	console.log("activated tab id:"+tabID);
+	console.log("onActivated activated tab id:"+tabID);
     });
 
 //update the active url info when the active tab completes updating
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		console.log("updated tab id:"+tabId);
-		if (tabId === activeTabId) {
+		if (tab.id === activeTabId) {
 			activeURL = tab.url;
 			console.log("active url:"+activeURL);
 			//update url activision state
@@ -76,19 +80,19 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	//threshholds
 	if (details.tabId === -1) return;//return if the request if not  related to a tab
 	if (!mediaRequestsMap.hasOwnProperty(details.tabId)) return;//return if tab is no longer open
-	
 	if(mediaPattern.test(details.url)) {
-	    //console.log(details.url);
 	    //console.log("Inside webRequest:"+activeURL);
 	    //console.log("Inside webRequest:"+details.tabId);
-	    
-	    if(mediaRequestsMap.hasProperty(details.tabId)) {
+	    console.log("requests:"+details.url);
+	    if(mediaRequestsMap.hasOwnProperty(details.tabId)) {
 		//match tab with the tabId
 		chrome.tabs.get(details.tabId, function(tab) {
 				targetTab = mediaRequestsMap[details.tabId];
 				if (!targetTab.hasOwnProperty(tab.url)) {
 					targetTab[tab.url] = {};
 				}
+				console.log("webrequest tab url:"+tab.url);
+				console.log("webrequest active URL:"+activeURL);
 				//add request to the media meta
 				if (tab.url === activeURL) {
 					//change url's activision state
@@ -104,7 +108,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				}
 				requestID = details.requestId;
 				urlMeta.requests[requestID] = details.url;
-				console.log("mediaTabAndUrlMeta:"+JSON.stringify(mediaRequestsMap));
+				console.log("webrequest mediaTabAndUrlMeta:"+JSON.stringify(mediaRequestsMap));
 			});
 	    }
 	    
@@ -112,7 +116,6 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	    var li = document.createElement("li");
 	    li.textContent = details.url;
 	    vidList.appendChild(li);
-	    medialinks.push(details.url);
 	}
 	return;
     },{urls: ["<all_urls>"]});
