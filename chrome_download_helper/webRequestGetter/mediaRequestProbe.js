@@ -15,20 +15,21 @@
   }
 */
 
-var mediaRequestsMap = {};
+mediaRequestsMap = {};
 //media file extensions regex
 var mediaPattern = /\.rmvb|\.mpg|\.mpeg|\.avi|\.rm|\.wmv|\.mov|\.flv|\.mpg3|\.mp4|\.mp3/;
 
 //watch tab status
 //add tab into the map
 chrome.tabs.onCreated.addListener(function(tab) {
-	mediaRequestMap[tab.id] = {};
+	mediaRequestsMap[tab.id] = {};
+	console.log("onCreated Meta:"+JSON.stringify(mediaRequestsMap));
     });
 
 //remove tab from the map if user closes the tab, no access to the media url
 chrome.tabs.onRemoved.addListener(function(tab) {
 	delete mediaRequestMap[tab.id];
-	
+	console.log("onRemoved Meta:"+JSON.stringify(mediaRequestsMap));
     });
 
 //acitve tab and url check
@@ -44,7 +45,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		console.log("updated tab id:"+tabId);
 		if (tabId === activeTabId) {
-			activeURL = changeInfo.url;
+			activeURL = tab.url;
 			console.log("active url:"+activeURL);
 			//update url activision state
 			if (mediaRequestsMap.hasOwnProperty(tabId)
