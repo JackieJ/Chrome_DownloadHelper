@@ -38,11 +38,12 @@ chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
     });
 
 //issue:when url changes, the tabid changes as well,
-//changing the url = remove original tab and create a new tab.
+//changing the url === remove original tab and create a new tab.
 chrome.tabs.onActivated.addListener(function(activeInfo) {
 	activeTabId = activeInfo.tabId;
 	var tabID = activeInfo.tabId;
-	console.log("onActivated activated tab id:"+tabID);
+	
+	console.log("onActivated tab id:"+tabID);
     });
 
 //update the active url info when the active tab completes updating
