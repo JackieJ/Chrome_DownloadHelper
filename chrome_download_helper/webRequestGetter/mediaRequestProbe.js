@@ -23,6 +23,40 @@ mediaRequestsMap = {};
 //media file extensions regex
 var mediaPattern = /\.rmvb|\.mpg|\.mpeg|\.avi|\.rm|\.wmv|\.mov|\.flv|\.mpg3|\.mp4|\.mp3/;
 
+/*************Helper functions********************/
+var updateMeta = function(tab,tabId) {
+	if (tab.active) {
+		activeURL = tab.url;
+		console.log("HELPER:"+activeURL);
+		console.log("HELPER-TABID:"+tabId+" "+ typeof tabId);
+		//update url activision state
+		//console.log("=============CHANGE STATE=============");
+		//change the state of active url
+		console.log("=========CHANGE STATE=========");
+		var tabKey;
+		for (tabKey in mediaRequestsMap) {
+			var urlKey;
+			for (urlKey in mediaRequestsMap[tabKey]) {
+				(mediaRequestsMap[tabKey])[urlKey].active = false;
+			}
+		}
+		if (mediaRequestsMap.hasOwnProperty(tabId.toString())
+		&& mediaRequestsMap[tabId.toString()].hasOwnProperty(activeURL)) {
+			(mediaRequestsMap[tabId.toString()])[activeURL].active = true;
+		}
+		console.log("META:"+JSON.stringify(mediaRequestsMap));
+	}
+	else {
+		console.log("non-active tab:"+tabId.toString());
+		if (mediaRequestsMap.hasOwnProperty(tabId.toString())
+		&& mediaRequestsMap[tabId.toString()].hasOwnProperty(tab.url)) {
+			(mediaRequestsMap[tabId.toString()])[tab.url].active = false;
+		} 
+	}
+	console.log("HELPER-METAUPDATE:"+JSON.stringify(mediaRequestsMap));
+};
+/************************************************/
+
 //watch tab status
 //add tab into the map
 chrome.tabs.onCreated.addListener(function(tab) {
@@ -42,38 +76,19 @@ chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
 chrome.tabs.onActivated.addListener(function(activeInfo) {
 	activeTabId = activeInfo.tabId;
 	var tabID = activeInfo.tabId;
-	
-	console.log("onActivated tab id:"+tabID);
+	chrome.tabs.get(tabID, function(tab) {
+			console.log("ONACTIVATED URL:"+tab.url);
+			activeURL = tab.url;
+			updateMeta(tab,tabID);
+		});
+	console.log("ONACTIVATED tab id:"+tabID);
+	console.log("ONACTIVATED META:"+JSON.stringify(mediaRequestsMap));
     });
 
 //update the active url info when the active tab completes updating
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-		console.log("updated tab id:"+tabId);
-		if (tab.id === activeTabId) {
-			activeURL = tab.url;
-			console.log("active url:"+activeURL);
-			//update url activision state
-			if (mediaRequestsMap.hasOwnProperty(tabId)
-			    && mediaRequestsMap[tabId].hasOwnProperty(activeURL)) {
-				//change the state of active url
-				var tabKey;
-				for (tabKey in mediaRequestsMap) {
-					var urlKey;
-					for (urlKey in mediaRequestsMap[tabKey]) {
-						(mediaRequestsMap[tabKey])[urlKey].active = false;
-					}
-				}
-				(mediaRequestsMap[tabId])[activeURL].active = true;
-			}
-			console.log("META:"+JSON.stringify(mediaRequestsMap));
-		}
-		else {
-			console.log("non-active tab"+tabId);
-			if (mediaRequestsMap.hasOwnProperty(tabId)
-			    && mediaRequestsMap[tabId].hasOwnProperty(tab.url)) {
-				(mediaRequestsMap[tabId])[tab.url].active = false;
-			} 
-		}
+		console.log("ONUPDATED:updated tab id:"+tabId);
+		updateMeta(tab,tabId);
 	});
 
 //media request mapping
