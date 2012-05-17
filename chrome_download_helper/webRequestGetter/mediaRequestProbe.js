@@ -32,9 +32,11 @@ var listUpdater = function (tab) {
 	//reload page to reset the dynamic list
 	//window.location.reload();
 	
-	var downloadList = document.getElementById("downloadList");
-	var coutner = document.getElementById("counter");
-
+	/*
+	  var downloadList = document.getElementById("downloadList");
+	  var coutner = document.getElementById("counter");
+	*/
+	
 	var hasMedia = false;
 	
 	var tabMeta = mediaRequestsMap[tab.id];
@@ -55,6 +57,7 @@ var listUpdater = function (tab) {
 		    num++;
 		    
 		    //add list item
+		    /*
 		    var li = document.createElement("li");
 		    var parapgraph = document.createElement("p");
 		    var linebreak = document.createElement("br");
@@ -66,12 +69,17 @@ var listUpdater = function (tab) {
 		    li.appendChild(linebreak);
 		    li.appendChild(hyperLink);
 		    downloadList.appendChild(li);
+		    */
 		}
 	    }
-	    counter.textContent = num;
+	    //counter.textContent = num;
+	    
+	    //send response back to popup
+	    
 	    
 	} else {
 	    //media request doesn't exist
+	    /*
 	    counter.textContent = 0;
 	    var li = document.createElement("li");
 	    var italic = document.createElement("i");
@@ -79,6 +87,7 @@ var listUpdater = function (tab) {
 	    italic.textContent = "No Downloadables";
 	    li.appendChild(italic);
 	    downloadList.appendChild(li);
+	    */
 	}
     }
 }
