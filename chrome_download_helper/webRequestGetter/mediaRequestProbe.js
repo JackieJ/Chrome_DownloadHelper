@@ -19,7 +19,7 @@
 var activeURL = null;
 var activeTabId = null;
 
-mediaRequestsMap = {};
+var mediaRequestsMap = {};
 //media file extensions regex
 var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\.flv|.*\.mpg3|.*\.mp4|.*\.mp3/;
 
