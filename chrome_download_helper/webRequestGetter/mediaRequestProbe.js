@@ -27,15 +27,10 @@ var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\
 // add timeout function for sanity checking
 
 //list updater
+//messaging port
+var port = chrome.extension.connect({"name":"mediaMeta"});
 var listUpdater = function (tab) {
     if (tab.active) {
-	//reload page to reset the dynamic list
-	//window.location.reload();
-	
-	/*
-	  var downloadList = document.getElementById("downloadList");
-	  var coutner = document.getElementById("counter");
-	*/
 	
 	var hasMedia = false;
 	
@@ -55,39 +50,11 @@ var listUpdater = function (tab) {
 		    
 		    //increment the number of downloadables
 		    num++;
-		    
-		    //add list item
-		    /*
-		    var li = document.createElement("li");
-		    var parapgraph = document.createElement("p");
-		    var linebreak = document.createElement("br");
-		    var hyperLink = document.createElement("a");
-		    li.className = "ui-btn ui-btn-up-d";
-		    hyperLink.href = requests[requestKey];
-		    parapgraph.textContent = requestKeys;
-		    hyperLink.appendChild(parapgraph);
-		    li.appendChild(linebreak);
-		    li.appendChild(hyperLink);
-		    downloadList.appendChild(li);
-		    */
-		}
-	    }
-	    //counter.textContent = num;
-	    
-	    //send response back to popup
-	    
-	    
-	} else {
-	    //media request doesn't exist
-	    /*
-	    counter.textContent = 0;
-	    var li = document.createElement("li");
-	    var italic = document.createElement("i");
-	    li.className = "ui-btn ui-btn-up-d";
-	    italic.textContent = "No Downloadables";
-	    li.appendChild(italic);
-	    downloadList.appendChild(li);
-	    */
+	    	}
+	    } 
+	    //send request to popup
+	    console.log("LISTUPDATE:number of requests-"+num);
+	    port.postMessage({"reqNumber":num});
 	}
     }
 }
@@ -200,16 +167,6 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		console.log("webrequest mediaTabAndUrlMeta:"+JSON.stringify(mediaRequestsMap));
 	    });
 	}
-	
-	//add request onto popup list
-
-	//for debugging
-	/*
-	  var vidList = document.getElementById("videoReq");
-	  var li = document.createElement("li");
-	  li.textContent = details.url;
-	  vidList.appendChild(li);
-	*/
     }
     return;
 },{urls: ["<all_urls>"]});
