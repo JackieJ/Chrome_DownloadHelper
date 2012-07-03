@@ -19,43 +19,53 @@
 var activeURL = null;
 var activeTabId = null;
 
-var mediaRequestsMap = {};
+var mediaRequestsMap = {
+    "update":false
+};
 //media file extensions regex
 var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\.flv|.*\.mpg3|.*\.mp4|.*\.mp3/;
 
 /*************Helper functions********************/
 // add timeout function for sanity checking
+var metaComparator = function(popupMeta, currentMeta) {
+    //compare the request num
+    if (popupMeta.requestsNum == currentMeta.requestNum) {
+	return false;
+    }
+    
+    
+    
+};
+
+
+//request listener from the popup
+chrome.extension.onConnect.addListener(function(port) {
+    console.log("Request from popup detected!");
+    if (port.name === "popup") {
+	
+    }                                                                                                         
+});          
 
 //list updater
-//messaging port
-var port = chrome.extension.connect({"name":"mediaMeta"});
 var listUpdater = function (tab) {
-    if (tab.active) {
-	
-	var hasMedia = false;
-	
-	var tabMeta = mediaRequestsMap[tab.id];
-	if (tabMeta) {
-	    hasMedia = true;
+    var hasTab = false;
+    var tabMeta = mediaRequestsMap[tab.id];
+    if (tabMeta) {
+	hasTab = true;
+    }
+    if (hasTab) {
+	var num = 0;
+	for (iter in tabMeta) {
+	    //skip the requestNum entry and iter through requests
+	    if(iter !== "requestNum" && tabMeta[iter].hasOwnProperty(requests)) {
+		var requests = tabMeta[iter].requests;
+		for (i in requests) {
+		    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		    num++
+		}
+	    }
 	}
-	if (hasMedia) {
-	    //media request exists
-	    var num = 0;
-	    
-	    var tabURLKey;
-	    for (tabURLKey in tabMeta) {
-		var requests = tabMeta[tabURLKey].requests;
-		var requestKey;
-		for (requestKey in requests) {
-		    
-		    //increment the number of downloadables
-		    num++;
-	    	}
-	    } 
-	    //send request to popup
-	    console.log("LISTUPDATE:number of requests-"+num);
-	    port.postMessage({"reqNumber":num});
-	}
+	mediaRequestsMap[tab.id].requestNum = num;
     }
 }
 
@@ -94,7 +104,7 @@ var updateMeta = function(tab,tabId) {
 //watch tab status
 //add tab into the map
 chrome.tabs.onCreated.addListener(function(tab) {
-    mediaRequestsMap[tab.id] = {};
+    mediaRequestsMap[tab.id] = {requestNum:0};
     console.log("onCreated Meta:"+JSON.stringify(mediaRequestsMap));
     listUpdater(tab);
 });
@@ -164,6 +174,8 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		var captureGroup = new RegExp("("+mediaPattern+")"+".*");
 		var mediaID = (captureGroup.exec(details.url))[1];
 		urlMeta.requests[mediaID] = details.url;
+		console.log("List Updator for WEBREUEST");
+		listUpdater(tab);
 		console.log("webrequest mediaTabAndUrlMeta:"+JSON.stringify(mediaRequestsMap));
 	    });
 	}
