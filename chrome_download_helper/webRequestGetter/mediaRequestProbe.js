@@ -30,7 +30,20 @@ var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\
 chrome.extension.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(msg) {
 	if(msg.userReq) {
-	    console.log("Hi");
+	    var counter = 0;
+	    while(port) {
+		//eliminate redundancy in message passing
+		if(mediaRequestsMap.update === false && counter === 1) {
+		    counter = 0;
+		}
+		
+		console.log("communication processing!!!");
+		if(mediaRequestsMap.update === true && counter === 0) {
+		    console.log("Meta data updated!!!");
+		    port.postMessage(mediaRequestsMap);
+		    counter = 1;
+		}
+	    }
 	} 
     });                                                    
 });          
@@ -61,6 +74,7 @@ var listUpdater = function (tab, isUpdated) {
 	}
 	mediaRequestsMap[tab.id].requestNum = num;
     }
+    console.log(JSON.stringify(mediaRequestsMap));
 }
 
 var updateMeta = function(tab,tabId) {
