@@ -27,15 +27,12 @@ var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\
 
 //request listener from the popup
 
-var P;
-
 chrome.extension.onConnect.addListener(function(port) {
-    
-    console.dir(port);
-    
-    if (port.name === "popup") {
-	p = port;
-    }                                                                                                         
+    port.onMessage.addListener(function(msg) {
+	if(msg.userReq) {
+	    console.log("Hi");
+	} 
+    });                                                    
 });          
 
 //list updater
@@ -64,12 +61,6 @@ var listUpdater = function (tab, isUpdated) {
 	}
 	mediaRequestsMap[tab.id].requestNum = num;
     }
-    
-    if (P) {
-	P.postMessage(mediaRequestsMap);
-    }
-    
-    console.log(JSON.stringify(mediaRequestsMap));
 }
 
 var updateMeta = function(tab,tabId) {
