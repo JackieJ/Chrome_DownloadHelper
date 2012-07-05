@@ -28,24 +28,22 @@ var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\
 //request listener from the popup
 
 chrome.extension.onConnect.addListener(function(port) {
-    port.onMessage.addListener(function(msg) {
-	if(msg.userReq) {
-	    var counter = 0;
-	    while(port) {
-		//eliminate redundancy in message passing
-		if(mediaRequestsMap.update === false && counter === 1) {
-		    counter = 0;
-		}
-		
-		console.log("communication processing!!!");
-		if(mediaRequestsMap.update === true && counter === 0) {
-		    console.log("Meta data updated!!!");
-		    port.postMessage(mediaRequestsMap);
-		    counter = 1;
-		}
+    
+    var intervalReturn;
+    
+    if(port.name === "popup") {
+	port.onMessage.addListener(function(msg) {
+	    console.log("Communication established!");
+	    intervalReturn = window.setInterval(port.postMessage({msg:"msg sent!"}),3000);
+	    if(msg.response) {
+		console.log(msg.response);
 	    }
-	} 
-    });                                                    
+	});
+	port.onDisconnect.addListener(function(msg) {
+	    console.log("Communication closed!");
+	    window.clearInterval(intervalReturn);
+	});
+    }                                                 
 });          
 
 //list updater
