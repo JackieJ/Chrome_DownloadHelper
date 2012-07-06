@@ -46,7 +46,6 @@ var listUpdater = function (tab) {
 	}
 	mediaRequestsMap[tab.id].requestNum = num;
     }
-    console.log(JSON.stringify(mediaRequestsMap));
 }
 
 var updateMeta = function(tab,tabId) {

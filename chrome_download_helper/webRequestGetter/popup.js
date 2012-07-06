@@ -27,13 +27,13 @@ var listContructor = function(requestsMeta) {
     for(iter in requestsMeta) { 
 	var name = iter.length < 25 ? iter : iter.substring(0,25) + "...";
 	
-	var content = "<li>"
-	    +"<div class=\"ui-btn-inner ui-li\"><div class=\"ui-btn-text\"><a href="
+	var content = 
+	    "<li class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\">"
+	    +"<a href="
 	    +requestsMeta[iter]+">"+name+"</a>"
-	    +"</div></div></li>";
+	    +"</li>";
 	
 	$('#downloadList').append(content);
-	
     }
 };
 
@@ -46,7 +46,6 @@ $(document).ready(function() {
     var counterTag = document.getElementById("counter");
     if(tabMeta) {
 	counterTag.textContent = tabMeta.requestNum;
-	console.log("1stMeta: " + JSON.stringify(tabMeta));
 	for(reqMetaID in tabMeta) {
 	    var subMeta = tabMeta[reqMetaID];
 	    if(reqMetaID !== "requestNum") {
