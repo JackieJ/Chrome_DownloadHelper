@@ -19,38 +19,12 @@
 var activeURL = null;
 var activeTabId = null;
 
-var mediaRequestsMap = {
-    "update":false
-};
+var mediaRequestsMap = {};
 //media file extensions regex
 var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\.flv|.*\.mpg3|.*\.mp4|.*\.mp3/;
 
-//request listener from the popup
-
-chrome.extension.onConnect.addListener(function(port) {
-    
-    var intervalReturn;
-    
-    if(port.name === "popup") {
-	port.onMessage.addListener(function(msg) {
-	    console.log("Communication established!");
-	    intervalReturn = window.setInterval(port.postMessage({msg:"msg sent!"}),3000);
-	    if(msg.response) {
-		console.log(msg.response);
-	    }
-	});
-	port.onDisconnect.addListener(function(msg) {
-	    console.log("Communication closed!");
-	    window.clearInterval(intervalReturn);
-	});
-    }                                                 
-});          
-
 //list updater
-var listUpdater = function (tab, isUpdated) {
-    
-    //change update status
-    mediaRequestsMap.update = isUpdated;
+var listUpdater = function (tab) {
     
     var hasTab = false;
     var tabMeta = mediaRequestsMap[tab.id];
@@ -105,7 +79,7 @@ var updateMeta = function(tab,tabId) {
 //add tab into the map
 chrome.tabs.onCreated.addListener(function(tab) {
     mediaRequestsMap[tab.id] = {requestNum:0};
-    listUpdater(tab,false);
+    listUpdater(tab);
 });
 
 //remove tab from the map if user closes the tab, no access to the media url
@@ -121,14 +95,14 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.tabs.get(tabID, function(tab) {
 	activeURL = tab.url;
 	updateMeta(tab,tabID);
-	listUpdater(tab,false);
+	listUpdater(tab);
     });
 });
 
 //update the active url info when the active tab completes updating
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     updateMeta(tab,tabId);
-    listUpdater(tab,false);
+    listUpdater(tab);
 });
 
 //media request mapping
@@ -163,7 +137,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		var captureGroup = new RegExp("("+mediaPattern+")"+".*");
 		var mediaID = (captureGroup.exec(details.url))[1];
 		urlMeta.requests[mediaID] = details.url;
-		listUpdater(tab,true);
+		listUpdater(tab);
 	    });
 	}
     }
