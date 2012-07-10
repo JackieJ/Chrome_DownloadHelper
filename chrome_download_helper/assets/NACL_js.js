@@ -1,7 +1,7 @@
 DownloadHelperModule = null;//initialization
 statusText = 'NO-STATUS';
 
-var url = "www.thedailyshow.com";
+var url = "www.vimeo.com";
 
 var moduleDidLoad = function() {
     DownloadHelperModule = document.getElementById('chrome_download_helper');
