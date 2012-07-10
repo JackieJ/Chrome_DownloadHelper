@@ -1,0 +1,14 @@
+{
+  "name": "Chrome_DownloadHelper",
+  "description": "chrome app that helps downloading streamed media",
+  "version": "0.1",
+  "icons": {
+    "16": "webRequestGetter/icon.png",
+    "128": "webRequestGetter/icon.png"
+  },
+  "app": {
+    "launch": {
+      "local_path": "chrome_download_helper.html"
+    }
+  }
+}
