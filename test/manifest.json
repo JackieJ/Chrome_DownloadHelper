@@ -1,0 +1,14 @@
+{
+  "name": "test",
+  "description": "streaming test",
+  "version": "0.1",
+  "icons": {
+    "16": "1-1736840-6787-t.jpg",
+    "128": "1-1736840-6787-t.jpg"
+  },
+  "app": {
+    "launch": {
+      "local_path": "test.html"
+    }
+  }
+}
