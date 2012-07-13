@@ -1,12 +1,15 @@
 DownloadHelperModule = null;//initialization
 statusText = 'NO-STATUS';
 
-var url = "www.vimeo.com";
-
+var loadURL = function(URL) {
+    DownloadHelperModule.postMessage(URL);
+}
+    
 var moduleDidLoad = function() {
     DownloadHelperModule = document.getElementById('chrome_download_helper');
     updateStatus('SUCCESS');
-    DownloadHelperModule.postMessage(url);
+    //load url
+    loadURL("test/test.html");
 };
 
 var handleMessage = function(message_event) {
