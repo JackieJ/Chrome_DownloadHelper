@@ -46,6 +46,9 @@ var listUpdater = function (tab) {
 	}
 	mediaRequestsMap[tab.id].requestNum = num;
     }
+    
+    //debugging
+    //console.log(JSON.stringify(mediaRequestsMap));
 }
 
 var updateMeta = function(tab,tabId) {
@@ -77,14 +80,14 @@ var updateMeta = function(tab,tabId) {
 //watch tab status
 //add tab into the map
 chrome.tabs.onCreated.addListener(function(tab) {
-    mediaRequestsMap[tab.id] = {requestNum:0};
-    listUpdater(tab);
-});
+	mediaRequestsMap[tab.id] = {requestNum:0};
+	listUpdater(tab);
+    });
 
 //remove tab from the map if user closes the tab, no access to the media url
 chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
-    delete mediaRequestsMap[tabId];
-});
+	delete mediaRequestsMap[tabId];
+    });
 
 //issue:when url changes, the tabid changes as well,
 //changing the url === remove original tab and create a new tab.
@@ -100,9 +103,10 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 
 //update the active url info when the active tab completes updating
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    updateMeta(tab,tabId);
-    listUpdater(tab);
-});
+	updateMeta(tab,tabId);
+	listUpdater(tab);
+	console.log("=========debug=========                                       ");
+    });
 
 //media request mapping
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
