@@ -12,8 +12,6 @@
 
 using namespace std;
 
-
-//
 class ChromeDownloadHelperInstance : public pp::Instance {
 public:
   explicit ChromeDownloadHelperInstance(PP_Instance instance) : pp::Instance(instance)

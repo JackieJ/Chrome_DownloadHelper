@@ -4,3 +4,4 @@
 ### 'make ffmpeg'
 ### go to out/repo-config/ffmpeg and configure --enable-shared
 ### make and make install
+### In Makefile, add the -I "ffmpeg lib dir".

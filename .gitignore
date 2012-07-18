@@ -1,5 +1,6 @@
 ./chrome_download_helper/node_modules
 *~
+./chrome_download_helper/Makefile
 ./chrome_download_helper/.sconsign.dblite
 ./chrome_download_helper/scons
 ./chrome_download_helper/chrome_download_helper_x86_32.nexe
