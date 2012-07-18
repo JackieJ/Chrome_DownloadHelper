@@ -2,12 +2,26 @@
 <html style="width:250px">
   <head>
     <title>Chrome Download Helper</title>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css"/>
-    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+    <link rel="stylesheet" href="lib/jquery.mobile-1.1.1/jquery.mobile-1.1.1.min.css"/>
+    <script src="lib/jquery-1.7.2.min.js"></script>
+    <script src="lib/jquery.mobile-1.1.1/jquery.mobile-1.1.1.min.js"></script>
     <script type="text/javascript" src="popup.js"></script>
   </head>
-  <body style="width:250px">
+  <body style="width:250px"  onload="pageDidLoad()">
+    <!--Listener for NACL module-->
+    <div id="listener">
+      <script type="text/javascript">
+        var listener = document.getElementById('listener');
+        listener.addEventListener('load', moduleDidLoad, true);
+        listener.addEventListener('message', handleMessage, true);
+      </script>
+      <embed name="nacl_module"
+             id="chrome_download_helper"
+             width=0 height=0
+             src="chrome_download_helper.nmf"
+             type="application/x-nacl" />
+    </div>
+    
     <div data-role="page" id="menu">
       <div align="center" class="ui-bar ui-bar-b">
 	<h3>Download Helper</h3>
@@ -31,5 +45,13 @@
 	<ul id="types" class="ui-listview-inset" data-role="listview"></ul>
       </div>
     </div>
+    
+    <div data-role="page" id="debug">
+      <h2>Status</h2>
+      <div id="status_field">NO-STATUS</div>
+      <h3>Video URL List</h3>
+      <ul id="testContent"></ul>
+    </div>
+    
   </body>
 </html>

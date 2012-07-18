@@ -13,11 +13,6 @@
       "16": "icon.png",
       "48": "icon.png"
    },
-   "app": {
-     "launch": {
-      "local_path": "chrome_download_helper.html"
-     }
-   },
    "permissions": ["webRequest", "webRequestBlocking", "tabs",
                    "<all_urls>"],
    "options_page": "options.html",
