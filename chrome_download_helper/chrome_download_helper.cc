@@ -5,6 +5,9 @@
 #include "ppapi/cpp/var.h"
 #include "ppapi/cpp/url_loader.h"
 
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+
 #include "geturl_handler.h"
 
 using namespace std;

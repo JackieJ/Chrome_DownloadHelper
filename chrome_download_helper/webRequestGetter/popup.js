@@ -41,7 +41,7 @@ var videoSelector = function(vID) {
 };
 
 var hookupNACL = function(videoURL, convertType) {
-
+    
 };
 
 var conversionTypeSelector = function(cType) {
@@ -55,7 +55,7 @@ var conversionTypeSelector = function(cType) {
     
     //send message to NACL and start encoding process
     hookupNACL(videoLink, conversionType);    
-
+    
     //debugging message
     console.log("conversion type:"+conversionType);
     
@@ -89,9 +89,10 @@ $(document).ready(function() {
 	//construct the conversion type menu
 	for(var ID = 0; ID < mediaTypes.length; ID++) {
 	    
-	    var listItem = "<li class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\""
+	    var listItem = 
+		"<li class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\""
 		+"onclick=\"conversionTypeSelector(\'"+mediaTypes[ID]+"\')\">"
-		+mediaTypes[ID]+"</li>";
+		+"<a href=\"#menu\">"+mediaTypes[ID]+"</a></li>";
 	    
 	    $('#types').append(listItem);
 
