@@ -29,7 +29,7 @@ NACL_SDK_ROOT?=$(abspath $(dir $(THIS_MAKEFILE))../..)
 
 # Project Build flags
 WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -pedantic -Werror
-CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS) -I /Users/jacky/tools/naclports/src/out/repository-i686/ffmpeg-0.5
+CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS) -I /Users/jackie/tools/naclports/src/out/repository-i686/ffmpeg-0.5
 
 #
 # Compute tool paths

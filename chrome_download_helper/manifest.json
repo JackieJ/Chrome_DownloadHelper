@@ -1,14 +1,25 @@
 {
-  "name": "Chrome_DownloadHelper",
-  "description": "chrome app that helps downloading streamed media",
-  "version": "0.1",
-  "icons": {
-    "16": "webRequestGetter/icon.png",
-    "128": "webRequestGetter/icon.png"
-  },
-  "app": {
-    "launch": {
+   "name": "Chrome_DownloadHelper",
+   "background": {
+      "scripts": ["mediaRequestProbe.js"]
+   },
+   "browser_action": {
+      "default_icon": "icon.png",
+      "popup": "popup.html"
+   },
+   "description": "Chrome Download Helper",
+   "icons": {
+      "128": "icon.png",
+      "16": "icon.png",
+      "48": "icon.png"
+   },
+   "app": {
+     "launch": {
       "local_path": "chrome_download_helper.html"
-    }
-  }
+     }
+   },
+   "permissions": ["webRequest", "webRequestBlocking", "tabs",
+                   "<all_urls>"],
+   "options_page": "options.html",
+   "version": "0.0.1"
 }
