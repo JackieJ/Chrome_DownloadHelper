@@ -35,12 +35,12 @@ class GetURLHandler {
   // GetURLHandler objects shall be created only on the heap (they
   // self-destroy when all data is in).
   static GetURLHandler* Create(pp::Instance* instance_,
-                               const std::string& url);
+                               const std::string& url, const std::string& conversionType);
   // Initiates page (URL) download.
   void Start();
 
  private:
-  GetURLHandler(pp::Instance* instance_, const std::string& url);
+  GetURLHandler(pp::Instance* instance_, const std::string& url, const std::string& conversionType);
   ~GetURLHandler();
 
   // Callback fo the pp::URLLoader::Open().
@@ -58,7 +58,7 @@ class GetURLHandler {
   // Reads the response body (asynchronously) into this->buffer_.
   // OnRead() will be called when bytes are received or when an error occurs.
   void ReadBody();
-
+ 
   // Append data bytes read from the URL onto the internal buffer.  Does
   // nothing if |num_bytes| is 0.
   void AppendDataBytes(const char* buffer, int32_t num_bytes);
@@ -72,9 +72,10 @@ class GetURLHandler {
   void ReportResultAndDie(const std::string& fname,
                           const std::string& text,
                           bool success);
-
+  
   pp::Instance* instance_;  // Weak pointer.
   std::string url_;  // URL to be downloaded.
+  std::string conversionType_; //conversion type to be encoded to
   pp::URLRequestInfo url_request_;
   pp::URLLoader url_loader_;  // URLLoader provides an API to download URLs.
   char* buffer_;  // Temporary buffer for reads.

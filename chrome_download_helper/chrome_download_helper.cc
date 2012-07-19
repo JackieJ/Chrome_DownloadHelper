@@ -5,9 +5,6 @@
 #include "ppapi/cpp/var.h"
 #include "ppapi/cpp/url_loader.h"
 
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
-
 #include "geturl_handler.h"
 
 using namespace std;
@@ -24,9 +21,18 @@ void ChromeDownloadHelperInstance::HandleMessage(const pp::Var& var_message) {
   if(!var_message.is_string()) {
     return;
   }
-  string url = var_message.AsString();
+  string mediaEntry = var_message.AsString();
+  //split conversion type and media url
+  size_t found;
+  string url;
+  string conversionType;
+  found = mediaEntry.find(':');
+  if (found != string::npos) {
+    conversionType = mediaEntry.substr(0,found);
+    url = mediaEntry.substr(found+1, mediaEntry.size() - found);
+  }
   //create a url handler
-  GetURLHandler* handler = GetURLHandler::Create(this, url);  
+  GetURLHandler* handler = GetURLHandler::Create(this, url, conversionType);  
   if(handler != NULL) {
     //start url content processing
     handler->Start();

@@ -9,23 +9,27 @@
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
 
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+
 #include "geturl_handler.h"
 
 namespace {
-bool IsError(int32_t result) {
-  return ((PP_OK != result) && (PP_OK_COMPLETIONPENDING != result));
-}
+  bool IsError(int32_t result) {
+    return ((PP_OK != result) && (PP_OK_COMPLETIONPENDING != result));
+  }
 }  // namespace
 
 GetURLHandler* GetURLHandler::Create(pp::Instance* instance,
-                                     const std::string& url) {
-  return new GetURLHandler(instance, url);
+                                     const std::string& url, const std::string& conversionType) {
+  return new GetURLHandler(instance, url, conversionType);
 }
 
 GetURLHandler::GetURLHandler(pp::Instance* instance,
-                             const std::string& url)
+                             const std::string& url, const std::string& conversionType)
     : instance_(instance),
       url_(url),
+      conversionType_(conversionType),
       url_request_(instance),
       url_loader_(instance),
       buffer_(new char[READ_BUFFER_SIZE]),
@@ -33,6 +37,10 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetURL(url);
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
+
+  //debugging
+  //instance_->PostMessage(url);
+  
 }
 
 GetURLHandler::~GetURLHandler() {
@@ -51,10 +59,11 @@ void GetURLHandler::OnOpen(int32_t result) {
     ReportResultAndDie(url_, "pp::URLLoader::Open() failed", false);
     return;
   }
-  // Here you would process the headers. A real program would want to at least
-  // check the HTTP code and potentially cancel the request.
-  // pp::URLResponseInfo response = loader_.GetResponseInfo();
-
+  
+  //pp::URLResponseInfo response = loader_.GetResponseInfo();
+  
+  //TODO:record the progress and show it on the page
+  
   // Try to figure out how many bytes of data are going to be downloaded in
   // order to allocate memory for the response body in advance (this will
   // reduce heap traffic and also the amount of memory allocated).
@@ -71,7 +80,7 @@ void GetURLHandler::OnOpen(int32_t result) {
   }
   // We will not use the download progress anymore, so just disable it.
   url_request_.SetRecordDownloadProgress(false);
-
+  
   // Start streaming.
   ReadBody();
 }
@@ -156,7 +165,7 @@ void GetURLHandler::ReportResult(const std::string& fname,
     printf("GetURLHandler::ReportResult(Err). %s\n", text.c_str());
   fflush(stdout);
   if (instance_) {
-    pp::Var var_result(text);
+    pp::Var var_result("SUCCESS!!");
     instance_->PostMessage(var_result);
   }
 }

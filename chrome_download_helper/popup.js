@@ -1,13 +1,14 @@
 //nacl message handling
 DownloadHelperModule = null;//initialization                                                                                                                                                                                                                                
-statusText = 'NO-STATUS';
+headTitle = 'Initiliazing';
 
-var loadURL = function(URL) {
-    DownloadHelperModule.postMessage(URL);
+var loadURL = function(mediaStr) {
+    DownloadHelperModule.postMessage(mediaStr);
 };
 
 var moduleDidLoad = function() {	
-    DownloadHelperModule = document.getElementById('chrome_download_helper');	updateStatus('SUCCESS');
+    DownloadHelperModule = document.getElementById('chrome_download_helper');	
+    updateStatus('Download Helper');
 };
 
 var handleMessage = function(message_event) {
@@ -17,6 +18,9 @@ var handleMessage = function(message_event) {
     li.textContent = message_event.data;
     contentList.appendChild(li);
     /******************************/
+
+    //pull out download menu
+    
 };
 
 var pageDidLoad = function() {
@@ -29,15 +33,12 @@ var pageDidLoad = function() {
 
 var updateStatus = function(opt_message) {
     if (opt_message)
-        statusText = opt_message;
-    var statusField = document.getElementById('status_field');
+        headTitle = opt_message;
+    var statusField = document.getElementById('headTitle');
     if (statusField) {
-        statusField.innerHTML = statusText;
+        statusField.innerHTML = headTitle;
     }
 };
-
-
-//send request to the background page
 
 //meta data comparator(only compare the meta in the active tab)
 var metaComparator = function(newMeta) {
@@ -75,12 +76,17 @@ var videoSelector = function(vID) {
     videoLink = rMeta[vID];
     
     //debugging message
-    console.log(JSON.stringify(videoLink));
+    //console.log(JSON.stringify(videoLink));
     
 };
 
 var hookupNACL = function(videoURL, convertType) {
-    loadURL("test/test.html");
+    var mStr = convertType + ":" + videoURL;
+    
+    //debugging
+    console.log(mStr);
+    
+    loadURL(mStr);
 };
 
 var conversionTypeSelector = function(cType) {
@@ -96,7 +102,7 @@ var conversionTypeSelector = function(cType) {
     hookupNACL(videoLink, conversionType);    
     
     //debugging message
-    console.log("conversion type:"+conversionType);
+    //console.log("conversion type:"+conversionType);
     
 };
 
