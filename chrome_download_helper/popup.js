@@ -1,6 +1,9 @@
+//UI components
+
+
 //nacl message handling
 DownloadHelperModule = null;//initialization                                                                                                                                                                                                                                
-headTitle = 'Initiliazing';
+var headTitle = 'Initiliazing';
 
 var loadURL = function(mediaStr) {
     DownloadHelperModule.postMessage(mediaStr);
@@ -12,19 +15,14 @@ var moduleDidLoad = function() {
 };
 
 var handleMessage = function(message_event) {
-    /*********Debug Test***********/
-    var contentList = document.getElementById("testContent");
-    var li = document.createElement("li");
-    li.textContent = message_event.data;
-    contentList.appendChild(li);
-    /******************************/
-
-    //pull out download menu
     
+    var report = document.getElementById("report");
+    report.textContent = message_event.data;
+
 };
 
 var pageDidLoad = function() {
-    if (DownloadHelperModule == null) {
+    if (DownloadHelperModule === null) {
         updateStatus('LOADING...');
     } else {
         updateStatus();
@@ -130,7 +128,7 @@ var mediaTypes = [
 		  ];
 
 $(document).ready(function() {
-	
+
 	//construct the conversion type menu
 	for(var ID = 0; ID < mediaTypes.length; ID++) {
 	    
@@ -159,4 +157,10 @@ $(document).ready(function() {
 	} else {
 	    counterTag.textContent = 0;
 	}
+
+	//initialize the progress bar
+	$('#progressbar').progressbar({
+		value:0
+	    });
+	
     });

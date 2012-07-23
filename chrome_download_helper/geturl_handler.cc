@@ -60,10 +60,6 @@ void GetURLHandler::OnOpen(int32_t result) {
     return;
   }
   
-  //pp::URLResponseInfo response = loader_.GetResponseInfo();
-  
-  //TODO:record the progress and show it on the page
-  
   // Try to figure out how many bytes of data are going to be downloaded in
   // order to allocate memory for the response body in advance (this will
   // reduce heap traffic and also the amount of memory allocated).
@@ -136,6 +132,15 @@ void GetURLHandler::ReadBody() {
     // end up with a deeply recursive stack.
     if (result > 0) {
       AppendDataBytes(buffer_, result);
+      
+      //send progress message to client side js
+      int64_t bytes_received = 0;
+      int64_t total_bytes_to_be_received = 0;
+      url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
+      
+      pp::Var var_result(bytes_received);
+      instance_->PostMessage(var_result);
+      
     }
   } while (result > 0);
 
@@ -165,7 +170,7 @@ void GetURLHandler::ReportResult(const std::string& fname,
     printf("GetURLHandler::ReportResult(Err). %s\n", text.c_str());
   fflush(stdout);
   if (instance_) {
-    pp::Var var_result("SUCCESS!!");
+    pp::Var var_result("Finished!");
     instance_->PostMessage(var_result);
   }
 }
