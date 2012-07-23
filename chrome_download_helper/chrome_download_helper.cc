@@ -15,7 +15,7 @@ public:
   {}
   virtual ~ChromeDownloadHelperInstance() {}
   virtual void HandleMessage(const pp::Var& var_message);
-`};
+};
 
 void ChromeDownloadHelperInstance::HandleMessage(const pp::Var& var_message) {
   if(!var_message.is_string()) {
