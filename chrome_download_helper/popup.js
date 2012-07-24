@@ -135,7 +135,7 @@ $(document).ready(function() {
 	    var listItem = 
 		"<li class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\""
 		+"onclick=\"conversionTypeSelector(\'"+mediaTypes[ID]+"\')\">"
-		+"<a href=\"#debug\">"+mediaTypes[ID]+"</a></li>";
+		+"<a href=\"#progress\">"+mediaTypes[ID]+"</a></li>";
 	    
 	    $('#types').append(listItem);
 

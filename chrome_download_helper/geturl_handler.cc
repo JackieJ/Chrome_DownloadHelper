@@ -14,6 +14,8 @@
 
 #include "geturl_handler.h"
 
+using namespace std;
+
 namespace {
   bool IsError(int32_t result) {
     return ((PP_OK != result) && (PP_OK_COMPLETIONPENDING != result));
@@ -75,7 +77,7 @@ void GetURLHandler::OnOpen(int32_t result) {
     }
   }
   // We will not use the download progress anymore, so just disable it.
-  url_request_.SetRecordDownloadProgress(false);
+  url_request_.SetRecordDownloadProgress(true);
   
   // Start streaming.
   ReadBody();
@@ -138,9 +140,14 @@ void GetURLHandler::ReadBody() {
       int64_t total_bytes_to_be_received = 0;
       url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
       
-      pp::Var var_result(bytes_received);
-      instance_->PostMessage(var_result);
-      
+      int64_t totalBytes = bytes_received + total_bytes_to_be_received;
+      if (totalBytes != 0) {  
+		
+	//int32_t percentage = (int32_t)((bytes_received / totalBytes) * 100);
+	pp::Var progressReportBack((int32_t) bytes_received);
+	instance_->PostMessage(progressReportBack);
+	
+      }
     }
   } while (result > 0);
 

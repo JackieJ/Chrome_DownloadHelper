@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html style="width:250px">
+<html style="width:250px;height:100px">
   <head>
     <title>Chrome Download Helper</title>
     <link rel="stylesheet" href="lib/jquery.mobile-1.1.1/jquery.mobile-1.1.1.min.css"/>
     <script src="lib/jquery-1.7.2.min.js"></script>
     <script src="lib/jquery.mobile-1.1.1/jquery.mobile-1.1.1.min.js"></script>
-    <link type="text/css" href="lib/jqueryUI/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />
-    <script type="text/javascript" src="lib/jqueryUI/js/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="popup.js"></script>
   </head>
-  <body style="width:250px"  onload="pageDidLoad()">
+  <body style="width:250px;height:100px"  onload="pageDidLoad()">
     <!--Listener for NACL module-->
     <div id="listener">
       <script type="text/javascript">
@@ -48,6 +46,12 @@
       </div>
     </div>
    
+    <div data-role="page" id="savePath">
+      <div align="center" class="ui-bar ui-bar-b">
+        <h3>Save To</h3>
+      </div>
+    </div>
+    
     <div data-role="page" id="progress">
       <div align="center" class="ui-bar ui-bar-b">
         <h3>Downloading...</h3>
