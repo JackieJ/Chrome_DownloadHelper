@@ -9,11 +9,13 @@
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
 
+/*
 extern "C" {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavutil/mathematics.h"
 }
+*/
 
 #include "geturl_handler.h"
 
@@ -28,7 +30,7 @@ namespace {
 GetURLHandler* GetURLHandler::Create(pp::Instance* instance,
                                      const std::string& url, const std::string& conversionType) {
   //ffmpeg debug
-  avcodec_init();
+  //avcodec_init();
   
   return new GetURLHandler(instance, url, conversionType);
 }

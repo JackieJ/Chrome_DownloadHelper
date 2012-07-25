@@ -15,7 +15,7 @@
 # only the list of sources and project name that will actually change and
 #
 PROJECT:=chrome_download_helper
-LDFLAGS:=-lppapi_cpp -lppapi -lavdevice -lavformat -lavutil -lavcodec
+LDFLAGS:=-lppapi_cpp -lppapi
 CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc
 
 #
