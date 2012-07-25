@@ -16,7 +16,7 @@
 #
 PROJECT:=chrome_download_helper
 LDFLAGS:=-lppapi_cpp -lppapi 
-CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc
+CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc
 
 #
 # Get pepper directory for toolchain and includes.

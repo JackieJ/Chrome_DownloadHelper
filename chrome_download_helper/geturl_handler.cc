@@ -11,6 +11,7 @@
 
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
+#include "libavutil/mathematics.h"
 
 #include "geturl_handler.h"
 
@@ -39,7 +40,7 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetURL(url);
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
-
+  
   //debugging
   //instance_->PostMessage(url);
   
@@ -52,7 +53,7 @@ GetURLHandler::~GetURLHandler() {
 
 void GetURLHandler::Start() {
   pp::CompletionCallback cc =
-      cc_factory_.NewCallback(&GetURLHandler::OnOpen);
+    cc_factory_.NewCallback(&GetURLHandler::OnOpen);
   url_loader_.Open(url_request_, cc);
 }
 

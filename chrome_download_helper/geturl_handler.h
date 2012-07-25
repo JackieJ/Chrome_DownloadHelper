@@ -75,7 +75,7 @@ class GetURLHandler {
   
   pp::Instance* instance_;  // Weak pointer.
   std::string url_;  // URL to be downloaded.
-  std::string conversionType_; //conversion type to be encoded to
+  std::string conversionType_; //conversion type to be transcoded to
   pp::URLRequestInfo url_request_;
   pp::URLLoader url_loader_;  // URLLoader provides an API to download URLs.
   char* buffer_;  // Temporary buffer for reads.
