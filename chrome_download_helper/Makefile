@@ -15,7 +15,7 @@
 # only the list of sources and project name that will actually change and
 #
 PROJECT:=chrome_download_helper
-LDFLAGS:=-lppapi_cpp -lppapi 
+LDFLAGS:=-lppapi_cpp -lppapi -lavdevice -lavformat -lavutil -lavcodec
 CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc
 
 #
@@ -29,7 +29,7 @@ NACL_SDK_ROOT?=$(abspath $(dir $(THIS_MAKEFILE))../..)
 
 # Project Build flags
 WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -pedantic -Werror
-CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS) -I /Users/jackie/tools/naclports/src/out/repository-i686/ffmpeg-0.5
+CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS) #-I /Users/jackie/tools/naclports/src/out/repository-i686/ffmpeg-0.5
 
 #
 # Compute tool paths
