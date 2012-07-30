@@ -21,19 +21,15 @@ CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc
 #
 # Get pepper directory for toolchain and includes.
 #
-# If PEPPER_ROOT is not set, then assume it can be found a two directories up,
-# from the default example directory location.
-#
 THIS_MAKEFILE:=$(abspath $(lastword $(MAKEFILE_LIST)))
 NACL_SDK_ROOT?=$(abspath $(dir $(THIS_MAKEFILE))../..)
 
 # Project Build flags
 WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -pedantic -Werror
-CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS) #-I /Users/jackie/tools/naclports/src/out/repository-i686/ffmpeg-0.5
+CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS)
 
 #
 # Compute tool paths
-#
 #
 OSNAME:=$(shell python $(NACL_SDK_ROOT)/tools/getos.py)
 TC_PATH:=$(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_x86_newlib)

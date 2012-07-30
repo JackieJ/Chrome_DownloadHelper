@@ -9,14 +9,6 @@
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
 
-/*
-extern "C" {
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
-#include "libavutil/mathematics.h"
-}
-*/
-
 #include "geturl_handler.h"
 
 using namespace std;
@@ -70,12 +62,6 @@ void GetURLHandler::OnOpen(int32_t result) {
     return;
   }
   
-  // Try to figure out how many bytes of data are going to be downloaded in
-  // order to allocate memory for the response body in advance (this will
-  // reduce heap traffic and also the amount of memory allocated).
-  // It is not a problem if this fails, it just means that the
-  // url_response_body_.insert() call in GetURLHandler::AppendDataBytes()
-  // will allocate the memory later on.
   int64_t bytes_received = 0;
   int64_t total_bytes_to_be_received = 0;
   if (url_loader_.GetDownloadProgress(&bytes_received,
@@ -151,8 +137,8 @@ void GetURLHandler::ReadBody() {
       int64_t totalBytes = bytes_received + total_bytes_to_be_received;
       if (totalBytes != 0) {  
 		
-	//int32_t percentage = (int32_t)((bytes_received / totalBytes) * 100);
-	pp::Var progressReportBack((int32_t) bytes_received);
+	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
+	pp::Var progressReportBack(percentage);
 	instance_->PostMessage(progressReportBack);
 	
       }
