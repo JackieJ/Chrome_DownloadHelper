@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 
   strcat(eScript, "ffmpeg -i ");
   strcat(eScript, inputFileName);
-  strcat(eScript, " -strict experimental -sameq -s vga -aspect 1.7777  -y output.mp4");
+  strcat(eScript, " -strict experimental -sameq -s vga -aspect 1.7777  -y output.mp3");
   const char*executeScript = eScript;
   printf("%s\n",executeScript);
   
