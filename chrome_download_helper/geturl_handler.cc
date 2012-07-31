@@ -171,7 +171,7 @@ void GetURLHandler::ReportResult(const std::string& fname,
     printf("GetURLHandler::ReportResult(Err). %s\n", text.c_str());
   fflush(stdout);
   if (instance_) {
-    pp::Var var_result("Finished!");
+    pp::Var var_result((double) 100);
     instance_->PostMessage(var_result);
   }
 }
