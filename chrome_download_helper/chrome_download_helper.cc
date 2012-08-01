@@ -22,17 +22,23 @@ void ChromeDownloadHelperInstance::HandleMessage(const pp::Var& var_message) {
     return;
   }
   string mediaEntry = var_message.AsString();
+
   //split conversion type and media url
-  size_t found;
+  size_t foundFirstColon;
+  size_t foundSecondColon;
+  string vidID;
   string url;
   string conversionType;
-  found = mediaEntry.find(':');
-  if (found != string::npos) {
-    conversionType = mediaEntry.substr(0,found);
-    url = mediaEntry.substr(found+1, mediaEntry.size() - found);
+  foundFirstColon = mediaEntry.find("((--))");
+  foundSecondColon = mediaEntry.find("((--))", foundFirstColon + 1);
+  
+  if (foundFirstColon != string::npos) {
+    vidID = mediaEntry.substr(0,foundFirstColon);
+    conversionType = mediaEntry.substr(foundFirstColon + 6, foundSecondColon - (foundFirstColon + 6));
+    url = mediaEntry.substr(foundSecondColon + 6);    
   }
   //create a url handler
-  GetURLHandler* handler = GetURLHandler::Create(this, url, conversionType);  
+  GetURLHandler* handler = GetURLHandler::Create(this, url, conversionType, vidID);  
   if(handler != NULL) {
     //start url content processing
     handler->Start();

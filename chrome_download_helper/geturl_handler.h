@@ -35,12 +35,12 @@ class GetURLHandler {
   // GetURLHandler objects shall be created only on the heap (they
   // self-destroy when all data is in).
   static GetURLHandler* Create(pp::Instance* instance_,
-                               const std::string& url, const std::string& conversionType);
+                               const std::string& url, const std::string& conversionType, const std::string& vidID);
   // Initiates page (URL) download.
   void Start();
 
  private:
-  GetURLHandler(pp::Instance* instance_, const std::string& url, const std::string& conversionType);
+  GetURLHandler(pp::Instance* instance_, const std::string& url, const std::string& conversionType, const std::string& vidID);
   ~GetURLHandler();
 
   // Callback fo the pp::URLLoader::Open().
@@ -75,6 +75,7 @@ class GetURLHandler {
   
   pp::Instance* instance_;  // Weak pointer.
   std::string url_;  // URL to be downloaded.
+  std::string vidID_;
   std::string conversionType_; //conversion type to be transcoded to
   pp::URLRequestInfo url_request_;
   pp::URLLoader url_loader_;  // URLLoader provides an API to download URLs.

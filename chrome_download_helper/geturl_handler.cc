@@ -20,17 +20,18 @@ namespace {
 }  // namespace
 
 GetURLHandler* GetURLHandler::Create(pp::Instance* instance,
-                                     const std::string& url, const std::string& conversionType) {
+                                     const std::string& url, const std::string& conversionType, const std::string& vidID) {
   //ffmpeg debug
   //avcodec_init();
   
-  return new GetURLHandler(instance, url, conversionType);
+  return new GetURLHandler(instance, url, conversionType, vidID);
 }
 
 GetURLHandler::GetURLHandler(pp::Instance* instance,
-                             const std::string& url, const std::string& conversionType)
+                             const std::string& url, const std::string& conversionType, const std::string& vidID)
     : instance_(instance),
       url_(url),
+      vidID_(vidID),
       conversionType_(conversionType),
       url_request_(instance),
       url_loader_(instance),
@@ -41,8 +42,7 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetRecordDownloadProgress(true);
   
   //debugging
-  //instance_->PostMessage(url);
-  
+  //instance_->PostMessage(conversionType_);
 }
 
 GetURLHandler::~GetURLHandler() {
@@ -139,7 +139,7 @@ void GetURLHandler::ReadBody() {
 		
 	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
 	pp::Var progressReportBack(percentage);
-	instance_->PostMessage(progressReportBack);
+	//instance_->PostMessage(progressReportBack);
 	
       }
     }
@@ -172,7 +172,7 @@ void GetURLHandler::ReportResult(const std::string& fname,
   fflush(stdout);
   if (instance_) {
     pp::Var var_result((double) 100);
-    instance_->PostMessage(var_result);
+    //instance_->PostMessage(var_result);
   }
 }
 

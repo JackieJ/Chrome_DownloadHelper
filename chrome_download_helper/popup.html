@@ -6,6 +6,46 @@
     <script src="lib/jquery-1.7.2.min.js"></script>
     <script src="lib/jquery.mobile-1.1.1/jquery.mobile-1.1.1.min.js"></script>
     <script type="text/javascript" src="popup.js"></script>
+    <style type="text/css">
+      
+      #downloadList {
+      width:235px;
+      height:305px;
+      overflow:scroll;
+      }
+
+      .conversionTypes {
+      -moz-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+      -webkit-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+      box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+      background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5) );
+      background:-moz-linear-gradient( center top, #79bbff 5%, #378de5 100% );
+      filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5');
+      background-color:#79bbff;
+      -moz-border-radius:42px;
+      -webkit-border-radius:42px;
+      border-radius:42px;
+      border:1px solid #84bbf3;
+      display:inline-block;
+      color:#ffffff;
+      font-family:arial;
+      font-size:12px;
+      font-weight:bold;
+      padding:0px 5px;
+      text-decoration:none;
+      text-shadow:1px 1px 0px #528ecc;
+      }
+      .conversionTypes:hover {
+      background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff) );
+      background:-moz-linear-gradient( center top, #378de5 5%, #79bbff 100% );
+      filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#378de5', endColorstr='#79bbff');
+      background-color:#378de5;
+      }
+      .conversionTypes:active {
+      position:relative;
+      top:1px;
+      }
+    </style>
   </head>
   <body style="width:250px;height:100px"  onload="pageDidLoad()">
     <!--Listener for NACL module-->
@@ -28,39 +68,24 @@
       </div>
       <div data-role="content">
 	<div id="downdables">
-	  <ul id="downloadList" class="ui-listview-inset" data-role="listview">
+	  <ul id="listHeading" class="ui-listview-inset" data-role="listview">
 	    <li data-role="list-divider ui-bar-a" role="heading">
 	      Downloadables
 	      <span id="counter" class="ui-li-count ui-btn-up-c ui-btn-corner-all">0</span>
 	    </li>
 	  </ul>
+	  <ul id="downloadList" class="ui-listview-inset" data-role="listview">
+	    
+	  </ul>
 	</div>
       </div>
     </div>
-    <div data-role="page" id="conversionTypes">
-      <div align="center" class="ui-bar ui-bar-b">
-	<h3>Convert To</h3>
-      </div>
+    
+    <div data-role="page" id="test">
       <div data-role="content">
-	<ul id="types" class="ui-listview-inset" data-role="listview"></ul>
-      </div>
-    </div>
-   
-    <div data-role="page" id="savePath">
-      <div align="center" class="ui-bar ui-bar-b">
-        <h3>Save To</h3>
+	<span id="testContent"></span>
       </div>
     </div>
     
-    <div data-role="page" id="progress">
-      <div align="center" class="ui-bar ui-bar-b">
-        <h3>Downloading...</h3>
-      </div>
-      <div data-role="content">
-        <div id="progressbar"></div>
-	<div id="report"></div>
-      </div>
-    </div>
-       
   </body>
 </html>

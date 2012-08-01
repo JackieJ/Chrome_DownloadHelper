@@ -16,7 +16,7 @@ var moduleDidLoad = function() {
 
 var handleMessage = function(message_event) {
     
-    var report = document.getElementById("report");
+    var report = document.getElementById("testContent");
     report.textContent = message_event.data;
 
 };
@@ -61,49 +61,20 @@ var metaComparator = function(newMeta) {
     return null;
 };
 
-var videoLink = null;
-var conversionType = null;
-
 var rMeta = {};
 
-var videoSelector = function(vID) {
+var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     
-    if(!videoLink) {
-	videoLink = null;
-    }
-    videoLink = rMeta[vID];
-    
-    //debugging message
-    //console.log(JSON.stringify(videoLink));
-    
+    //send message to NACL
+    var mstr = vidID + "((--))" + conversionType + "((--))" + mediaURL; 
+    loadURL(mstr);
 };
 
-var hookupNACL = function(videoURL, convertType) {
-    var mStr = convertType + ":" + videoURL;
-    
-    //debugging
-    console.log(mStr);
-    
-    loadURL(mStr);
-};
-
-var conversionTypeSelector = function(cType) {
-
-    if(!conversionType) {
-	conversionType = null;
-    }
-
-    //get conversion type
-    conversionType = cType;
-    
-    //send message to NACL and start encoding process
-    hookupNACL(videoLink, conversionType);    
-    
-    //debugging message
-    //console.log("conversion type:"+conversionType);
-    
-};
-
+var conversionOptions = [
+			 "MP3",
+			 "MP4",
+			 "Original"
+			 ];
 var listContructor = function(requestsMeta) {
     
     rMeta = requestsMeta;
@@ -111,35 +82,25 @@ var listContructor = function(requestsMeta) {
     var iter;
     for(iter in requestsMeta) { 
 	
-	var name = iter.length < 25 ? iter : iter.substring(0,25) + "...";
+	var name = iter.length < 20 ? iter : ("..." + iter.substring(iter.length - 20));
 	
-	var content = "<li onclick=\"videoSelector(\'"+iter+"\')\" "
+	var inlineButtons = "";
+	for (var iterator = 0 ; iterator < conversionOptions.length ; iterator++) {
+	    inlineButtons += 
+		"<a onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+conversionOptions[iterator]+"\',\'"
+		+rMeta[iter]+"\')\" "
+		+"href=\"#test\" class=\"conversionTypes\">"+conversionOptions[iterator]+"</a>"
+	}
+	
+	var content = "<li "
 	+"class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\">"
-	+"<a href=\"#conversionTypes\""
-	+">"+name+"</a></li>";
+	+"<span id=\""+iter+"\">"+name+"<br>"+inlineButtons+"</span></li>";
 	
 	$('#downloadList').append(content);
     }
 };
 
-//media type list
-var mediaTypes = [
-		  "MP3"
-		  ];
-
 $(document).ready(function() {
-
-	//construct the conversion type menu
-	for(var ID = 0; ID < mediaTypes.length; ID++) {
-	    
-	    var listItem = 
-		"<li class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\""
-		+"onclick=\"conversionTypeSelector(\'"+mediaTypes[ID]+"\')\">"
-		+"<a href=\"#progress\">"+mediaTypes[ID]+"</a></li>";
-	    
-	    $('#types').append(listItem);
-
-	}
 	
 	var tabMeta;
 	var bgp = chrome.extension.getBackgroundPage();
@@ -157,10 +118,5 @@ $(document).ready(function() {
 	} else {
 	    counterTag.textContent = 0;
 	}
-
-	//initialize the progress bar
-	$('#progressbar').progressbar({
-		value:0
-	    });
 	
     });
