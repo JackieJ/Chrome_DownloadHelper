@@ -79,6 +79,19 @@ var updateMeta = function(tab,tabId) {
 
 window.onload = function() {
     
+    var queryInfo = {
+	"currentWindow":true
+    };
+    
+    chrome.tabs.query(queryInfo, function(tabArray) {
+	    
+	    for(var arrayIndex = 0 ; arrayIndex < tabArray.length ; arrayIndex++) {
+		mediaRequestsMap[tabArray[arrayIndex].id] = {requestNum:0};
+		listUpdater(tabArray[arrayIndex]);
+	    }
+	    
+	});
+    
     //watch tab status
     //add tab into the map
     chrome.tabs.onCreated.addListener(function(tab) {

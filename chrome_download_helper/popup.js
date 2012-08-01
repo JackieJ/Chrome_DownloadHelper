@@ -16,7 +16,7 @@ var moduleDidLoad = function() {
 
 var handleMessage = function(message_event) {
     
-    var report = document.getElementById("testContent");
+    var report = document.getElementById("");
     report.textContent = message_event.data;
 
 };
@@ -67,14 +67,39 @@ var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     
     //send message to NACL
     var mstr = vidID + "((--))" + conversionType + "((--))" + mediaURL; 
+    
+    //hide the conversion options
+    var buttonTagClass = vidID+"_buttons";
+    var buttonTags = document.getElementsByClassName(buttonTagClass);
+    for(var btTagIndex = 0 ; btTagIndex < buttonTags.length ; btTagIndex++) {
+	buttonTags[btTagIndex].style.visibility = "hidden";
+    }
+    
+    
+    //status text
+    var statusTagID = vidID + "_status";
+    var conversionDownloadStatusBox = document.getElementById(statusTagID);
+    
+    if(conversionType === "Original") {
+	conversionDownloadStatusBox.textContent = "Downloading";
+    } else {
+	conversionDownloadStatusBox.textContent = "Converting"
+    }
+    
+    //mini progress bar
+    var progressTagID = vidID + "_progress";
+    var progressBarInit = "<div class=\"meter animate\"><span style=\"width:0%\"></span></div>"
+    $(progressTagID).append(progressBarInit);
+    
     loadURL(mstr);
 };
 
-var conversionOptions = [
-			 "MP3",
-			 "MP4",
-			 "Original"
-			 ];
+var conversionOptions = {
+    "MP3":"Download as MP3 audio format",
+    "MP4":"Download as MP4 video format",
+    "Original":"Download as current format"
+};
+
 var listContructor = function(requestsMeta) {
     
     rMeta = requestsMeta;
@@ -82,19 +107,23 @@ var listContructor = function(requestsMeta) {
     var iter;
     for(iter in requestsMeta) { 
 	
-	var name = iter.length < 20 ? iter : ("..." + iter.substring(iter.length - 20));
+	var name = iter.length < 22 ? iter : ("..." + iter.substring(iter.length - 22));
 	
 	var inlineButtons = "";
-	for (var iterator = 0 ; iterator < conversionOptions.length ; iterator++) {
+	var iterator;
+	for (iterator in conversionOptions) {
 	    inlineButtons += 
-		"<a onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+conversionOptions[iterator]+"\',\'"
-		+rMeta[iter]+"\')\" "
-		+"href=\"#test\" class=\"conversionTypes\">"+conversionOptions[iterator]+"</a>"
+		"<a title=\""+conversionOptions[iterator]+"\" "
+		+"onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+iterator+"\',\'"
+		+rMeta[iter]+"\')\" style=\"visibility:\'visible\'\" "
+		+"href=\"#\" class=\""+iter+"_buttons conversionTypes\">"+iterator+"</a>"
 	}
 	
 	var content = "<li "
-	+"class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\">"
-	+"<span id=\""+iter+"\">"+name+"<br>"+inlineButtons+"</span></li>";
+	    +"class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\">"
+	    +"<span id=\""+iter+"\">"+name+"<br>"+inlineButtons+"<span id=\""+iter
+	    +"_status\" style=\"float:left;padding:2px;font-size:10px\"></span><br><span id=\""
+	    +iter+"_progress\"></span></span></li>";
 	
 	$('#downloadList').append(content);
     }

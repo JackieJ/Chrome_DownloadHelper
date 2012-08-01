@@ -1,7 +1,3 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "ppapi/c/pp_errors.h"
@@ -139,7 +135,7 @@ void GetURLHandler::ReadBody() {
 		
 	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
 	pp::Var progressReportBack(percentage);
-	//instance_->PostMessage(progressReportBack);
+	instance_->PostMessage(progressReportBack);
 	
       }
     }
@@ -171,7 +167,7 @@ void GetURLHandler::ReportResult(const std::string& fname,
     printf("GetURLHandler::ReportResult(Err). %s\n", text.c_str());
   fflush(stdout);
   if (instance_) {
-    pp::Var var_result((double) 100);
+    //pp::Var var_result((double) 100);
     //instance_->PostMessage(var_result);
   }
 }

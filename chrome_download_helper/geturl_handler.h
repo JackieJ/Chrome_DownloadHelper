@@ -1,9 +1,5 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-#ifndef EXAMPLES_GETURL_GETURL_HANDLER_H_
-#define EXAMPLES_GETURL_GETURL_HANDLER_H_
+#ifndef GETURL_GETURL_HANDLER_H_
+#define GETURL_GETURL_HANDLER_H_
 
 #include <string>
 #include "ppapi/cpp/completion_callback.h"
@@ -13,22 +9,6 @@
 #include "ppapi/utility/completion_callback_factory.h"
 #define READ_BUFFER_SIZE 32768
 
-// GetURLHandler is used to download data from |url|. When download is
-// finished or when an error occurs, it posts a message back to the browser
-// with the results encoded in the message as a string and self-destroys.
-//
-// pp::URLLoader.GetDownloadProgress() is used to to allocate the memory
-// required for url_response_body_ before the download starts.  (This is not so
-// much of a performance improvement, but it saves some memory since
-// std::string.insert() typically grows the string's capacity by somewhere
-// between 50% to 100% when it needs more memory, depending on the
-// implementation.)  Other performance improvements made as outlined in this
-// bug: http://code.google.com/p/chromium/issues/detail?id=103947
-//
-// EXAMPLE USAGE:
-// GetURLHandler* handler* = GetURLHandler::Create(instance,url);
-// handler->Start();
-//
 class GetURLHandler {
  public:
   // Creates instance of GetURLHandler on the heap.
@@ -87,5 +67,5 @@ class GetURLHandler {
   void operator=(const GetURLHandler&);
 };
 
-#endif  // EXAMPLES_GETURL_GETURL_HANDLER_H_
+#endif  //GETURL_GETURL_HANDLER_H_
 
