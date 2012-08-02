@@ -15,10 +15,17 @@ var moduleDidLoad = function() {
 };
 
 var handleMessage = function(message_event) {
-    
-    var report = document.getElementById("");
-    report.textContent = message_event.data;
-
+    var NACLMessage = message_event.data;
+    console.log(NACLMessage);
+    if(/^progress---->/.test(NACLMessage)) {
+	var mediaProgressInfo = /^progress---->(.*)---->(\d+)$/.exec(NACLMessage);
+	if(mediaProgressInfo) {
+	    var mediaID = mediaProgressInfo[1];
+	    var psValue = mediaProgressInfo[2];
+	    var progressBarTag = document.getElementById(mediaID);
+	    progressBarTag.querySelector('.meter span').style.width = (psValue + "%").toString();
+	}
+    }
 };
 
 var pageDidLoad = function() {
@@ -81,23 +88,25 @@ var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     var conversionDownloadStatusBox = document.getElementById(statusTagID);
     
     if(conversionType === "Original") {
-	conversionDownloadStatusBox.textContent = "Downloading";
+	conversionDownloadStatusBox.textContent = "downloading";
     } else {
-	conversionDownloadStatusBox.textContent = "Converting"
+	conversionDownloadStatusBox.textContent = "converting"
     }
     
     //mini progress bar
     var progressTagID = vidID + "_progress";
+    //console.log(progressTagID);
+    var progressTag = document.getElementById(progressTagID);
     var progressBarInit = "<div class=\"meter animate\"><span style=\"width:0%\"></span></div>"
-    $(progressTagID).append(progressBarInit);
+    $(progressTag).append(progressBarInit);
     
     loadURL(mstr);
 };
 
 var conversionOptions = {
-    "MP3":"Download as MP3 audio format",
-    "MP4":"Download as MP4 video format",
-    "Original":"Download as current format"
+    "mp3":"Download as MP3 audio format",
+    "mp4":"Download as MP4 video format",
+    "original":"Download as current format"
 };
 
 var listContructor = function(requestsMeta) {
@@ -122,7 +131,7 @@ var listContructor = function(requestsMeta) {
 	var content = "<li "
 	    +"class=\"ui-li ui-li-static ui-body-c\" data-role=\"ui-bar-a\">"
 	    +"<span id=\""+iter+"\">"+name+"<br>"+inlineButtons+"<span id=\""+iter
-	    +"_status\" style=\"float:left;padding:2px;font-size:10px\"></span><br><span id=\""
+	    +"_status\" style=\"float:left;padding:2px;font-size:9px\"></span><br><span id=\""
 	    +iter+"_progress\"></span></span></li>";
 	
 	$('#downloadList').append(content);

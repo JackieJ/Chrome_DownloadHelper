@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
 #include "ppapi/c/pp_errors.h"
 #include "ppapi/c/ppb_instance.h"
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
+#include <fstream>
+#include <iostream>
 
 #include "geturl_handler.h"
 
@@ -76,11 +79,9 @@ void GetURLHandler::OnOpen(int32_t result) {
 void GetURLHandler::AppendDataBytes(const char* buffer, int32_t num_bytes) {
   if (num_bytes <= 0)
     return;
-  // Make sure we don't get a buffer overrun.
+  
   num_bytes = std::min(READ_BUFFER_SIZE, num_bytes);
-  // Note that we do *not* try to minimally increase the amount of allocated
-  // memory here by calling url_response_body_.reserve().  Doing so causes a
-  // lot of string reallocations that kills performance for large files.
+  
   url_response_body_.insert(url_response_body_.end(),
                             buffer,
                             buffer + num_bytes);
@@ -88,8 +89,7 @@ void GetURLHandler::AppendDataBytes(const char* buffer, int32_t num_bytes) {
 
 void GetURLHandler::OnRead(int32_t result) {
   if (result == PP_OK) {
-    // Streaming the file is complete, delete the read buffer since it is
-    // no longer needed.
+    //reclaim memory
     delete [] buffer_;
     buffer_ = NULL;
     ReportResultAndDie(url_, url_response_body_, true);
@@ -99,7 +99,7 @@ void GetURLHandler::OnRead(int32_t result) {
     AppendDataBytes(buffer_, result);
     ReadBody();
   } else {
-    // A read error occurred.
+    //read error handling
     ReportResultAndDie(url_,
                        "pp::URLLoader::ReadResponseBody() result<0",
                        false);
@@ -107,21 +107,13 @@ void GetURLHandler::OnRead(int32_t result) {
 }
 
 void GetURLHandler::ReadBody() {
-  // Note that you specifically want an "optional" callback here. This will
-  // allow ReadBody() to return synchronously, ignoring your completion
-  // callback, if data is available. For fast connections and large files,
-  // reading as fast as we can will make a large performance difference
-  // However, in the case of a synchronous return, we need to be sure to run
-  // the callback we created since the loader won't do anything with it.
+  
   pp::CompletionCallback cc =
       cc_factory_.NewOptionalCallback(&GetURLHandler::OnRead);
   int32_t result = PP_OK;
   do {
     result = url_loader_.ReadResponseBody(buffer_, READ_BUFFER_SIZE, cc);
-    // Handle streaming data directly. Note that we *don't* want to call
-    // OnRead here, since in the case of result > 0 it will schedule
-    // another call to this function. If the network is very fast, we could
-    // end up with a deeply recursive stack.
+  
     if (result > 0) {
       AppendDataBytes(buffer_, result);
       
@@ -134,9 +126,15 @@ void GetURLHandler::ReadBody() {
       if (totalBytes != 0) {  
 		
 	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
-	pp::Var progressReportBack(percentage);
+	ostringstream strs;
+	strs << percentage;
+	string percentageStr = strs.str();
+	string progressReport("progress---->");
+	progressReport.append(vidID_);
+	progressReport.append("---->");
+	progressReport.append(percentageStr);
+	pp::Var progressReportBack(progressReport);
 	instance_->PostMessage(progressReportBack);
-	
       }
     }
   } while (result > 0);
@@ -166,9 +164,25 @@ void GetURLHandler::ReportResult(const std::string& fname,
   else
     printf("GetURLHandler::ReportResult(Err). %s\n", text.c_str());
   fflush(stdout);
+
+  //debug:write data into a file
+  ofstream outputFile;
+  const char* fileName = "output.mp3";
+  //strcpy(fileName, conversionType_.c_str());
+  outputFile.open(fileName);
+  outputFile << text;
+  outputFile.close();
+  pp::Var report("Writing File");
+  instance_->PostMessage(report);
+  
   if (instance_) {
-    //pp::Var var_result((double) 100);
-    //instance_->PostMessage(var_result);
+    
+    string progressReport("progress---->");
+    progressReport.append(vidID_);
+    progressReport.append("---->100");
+    pp::Var progressReportBack(progressReport);
+    instance_->PostMessage(progressReportBack);
+    
   }
 }
 

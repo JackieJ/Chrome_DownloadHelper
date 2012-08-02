@@ -2,10 +2,12 @@
 #define GETURL_GETURL_HANDLER_H_
 
 #include <string>
+#include <cstring>
 #include "ppapi/cpp/completion_callback.h"
 #include "ppapi/cpp/url_loader.h"
 #include "ppapi/cpp/url_request_info.h"
 #include "ppapi/cpp/instance.h"
+#include "ppapi/cpp/file_io.h"
 #include "ppapi/utility/completion_callback_factory.h"
 #define READ_BUFFER_SIZE 32768
 
