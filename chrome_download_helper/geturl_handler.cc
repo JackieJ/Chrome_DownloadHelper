@@ -10,6 +10,9 @@
 
 #include "geturl_handler.h"
 
+//#include "libavcodec/avcodec.h"
+//#include "nacl-mounts/base/BaseMount.h"
+
 using namespace std;
 
 namespace {
@@ -20,9 +23,6 @@ namespace {
 
 GetURLHandler* GetURLHandler::Create(pp::Instance* instance,
                                      const std::string& url, const std::string& conversionType, const std::string& vidID) {
-  //ffmpeg debug
-  //avcodec_init();
-  
   return new GetURLHandler(instance, url, conversionType, vidID);
 }
 
@@ -40,7 +40,7 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
   
-  //debugging
+   //debugging
   //instance_->PostMessage(conversionType_);
 }
 

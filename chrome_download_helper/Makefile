@@ -1,19 +1,3 @@
-# Copyright (c) 2011 The Native Client Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style license that can be
-# found in the LICENSE file.
-
-#
-# GNU Make based build file.  For details on GNU Make see:
-#   http://www.gnu.org/software/make/manual/make.html
-#
-
-#
-# Project information
-#
-# These variables store project specific settings for the project name
-# build flags, files to copy or install.  In the examples it is typically
-# only the list of sources and project name that will actually change and
-#
 PROJECT:=chrome_download_helper
 LDFLAGS:=-lppapi_cpp -lppapi
 CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc

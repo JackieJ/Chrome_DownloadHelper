@@ -5,3 +5,5 @@
 ### go to out/repo-config/ffmpeg and configure --enable-shared
 ### make and make install
 ### In Makefile, add the -I "ffmpeg lib dir".
+
+### choose the correct version of NACL compilers based on the computer architecture.
