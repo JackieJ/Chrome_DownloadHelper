@@ -40,7 +40,7 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
   
-   //debugging
+  //debugging
   //instance_->PostMessage(conversionType_);
 }
 
