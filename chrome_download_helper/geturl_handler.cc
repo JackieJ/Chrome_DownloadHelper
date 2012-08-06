@@ -10,7 +10,7 @@
 
 #include "geturl_handler.h"
 extern "C" {
-#include "ffmpeg/libavcodec/avcodec.h"
+#include "libavcodec/avcodec.h"
 }
 //#include "nacl-mounts/base/BaseMount.h"
 
@@ -42,6 +42,7 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetRecordDownloadProgress(true);
   
   //debugging
+  avcodec_init();
   //instance_->PostMessage(conversionType_);
 }
 
