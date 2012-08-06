@@ -9,10 +9,12 @@
 #include <iostream>
 
 #include "geturl_handler.h"
+
 extern "C" {
+#include "libavformat/avformat.h"
 #include "libavcodec/avcodec.h"
+#include "libavutil/mathematics.h"
 }
-//#include "nacl-mounts/base/BaseMount.h"
 
 using namespace std;
 
@@ -43,6 +45,7 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   
   //debugging
   avcodec_init();
+  avcodec_register_all();
   //instance_->PostMessage(conversionType_);
 }
 

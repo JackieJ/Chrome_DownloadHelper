@@ -1,5 +1,5 @@
 PROJECT:=chrome_download_helper
-LDFLAGS:=-lavcodec -lavutil -lppapi_cpp -lppapi
+LDFLAGS:=-lavdevice -lavformat -lavcodec -lavutil -lmp3lame -ltheoradec -ltheoraenc -ltheora -lvorbisfile -lvorbisenc -lvorbis -logg -lppapi_cpp -lppapi
 CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc
 
 #
