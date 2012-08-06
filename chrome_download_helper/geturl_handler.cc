@@ -9,8 +9,9 @@
 #include <iostream>
 
 #include "geturl_handler.h"
-
-//#include "libavcodec/avcodec.h"
+extern "C" {
+#include "ffmpeg/libavcodec/avcodec.h"
+}
 //#include "nacl-mounts/base/BaseMount.h"
 
 using namespace std;
