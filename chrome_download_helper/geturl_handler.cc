@@ -5,7 +5,6 @@
 #include "ppapi/c/ppb_instance.h"
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
-#include <fstream>
 #include <iostream>
 
 #include "geturl_handler.h"
@@ -171,13 +170,6 @@ void GetURLHandler::ReportResult(const std::string& fname,
   fflush(stdout);
 
   //debug:write data into a file
-  ofstream outputFile;
-  const char* fileName = "output.mp3";
-  //strcpy(fileName, conversionType_.c_str());
-  outputFile.open(fileName);
-  outputFile << text;
-  outputFile.close();
-  pp::Var report("Writing File");
   instance_->PostMessage(report);
   
   if (instance_) {
