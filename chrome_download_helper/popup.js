@@ -87,20 +87,20 @@ var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     var statusTagID = vidID + "_status";
     var conversionDownloadStatusBox = document.getElementById(statusTagID);
     
-    if(conversionType === "Original") {
-	conversionDownloadStatusBox.textContent = "downloading";
-    } else {
-	conversionDownloadStatusBox.textContent = "converting"
-    }
-    
-    //mini progress bar
+    //mini progress bar                   
     var progressTagID = vidID + "_progress";
-    //console.log(progressTagID);
+    //console.log(progressTagID);         
     var progressTag = document.getElementById(progressTagID);
     var progressBarInit = "<div class=\"meter animate\"><span style=\"width:0%\"></span></div>"
     $(progressTag).append(progressBarInit);
-    
-    loadURL(mstr);
+
+    //download directly if raw file format is chosen otherwise push file in the NACL transcoder
+    if(conversionType === "original") {
+	conversionDownloadStatusBox.textContent = "downloading";
+    } else {
+	conversionDownloadStatusBox.textContent = "converting"
+	loadURL(mstr);
+    }
 };
 
 var conversionOptions = {

@@ -1,14 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <sstream>
-#include "ppapi/c/pp_errors.h"
-#include "ppapi/c/ppb_instance.h"
-#include "ppapi/cpp/module.h"
-#include "ppapi/cpp/var.h"
 #include <iostream>
 
 #include "geturl_handler.h"
 
+//libav
 extern "C" {
 #include "libavformat/avformat.h"
 #include "libavcodec/avcodec.h"
@@ -18,10 +13,13 @@ extern "C" {
 using namespace std;
 
 namespace {
+  
   bool IsError(int32_t result) {
     return ((PP_OK != result) && (PP_OK_COMPLETIONPENDING != result));
   }
+  
 }  // namespace
+
 
 GetURLHandler* GetURLHandler::Create(pp::Instance* instance,
                                      const std::string& url, const std::string& conversionType, const std::string& vidID) {
@@ -42,15 +40,32 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
   
+  //decide output name
+  char outputNameBuffer[15];
+  strcpy(outputNameBuffer,"");
+  strcat(outputNameBuffer,"/output.");
+  strcat(outputNameBuffer,conversionType_.c_str());
+  const char* outputFile =  outputNameBuffer;
+  
+  //init fs
+  file_system = new pp::FileSystem(instance_, PP_FILESYSTEMTYPE_LOCALPERSISTENT);
+  file_ref = new pp::FileRef(*file_system, outputFile);
+  file_io = new pp::FileIO(instance_);
+  
   //debugging
-  avcodec_init();
-  avcodec_register_all();
-  //instance_->PostMessage(conversionType_);
+  //pp::Var debuggingMessage(outputFile);
+  //instance_->PostMessage(debuggingMessage);
 }
 
 GetURLHandler::~GetURLHandler() {
   delete [] buffer_;
   buffer_ = NULL;
+
+  //close and reclaim memory for the sandbox fs
+  file_io->Close();
+  delete file_io;
+  delete file_ref;
+  delete file_system;
 }
 
 void GetURLHandler::Start() {
@@ -144,33 +159,27 @@ void GetURLHandler::ReadBody() {
   } while (result > 0);
 
   if (result != PP_OK_COMPLETIONPENDING) {
-    // Either we reached the end of the stream (result == PP_OK) or there was
-    // an error. We want OnRead to get called no matter what to handle
-    // that case, whether the error is synchronous or asynchronous. If the
-    // result code *is* COMPLETIONPENDING, our callback will be called
-    // asynchronously.
     cc.Run(result);
   }
 }
 
 void GetURLHandler::ReportResultAndDie(const std::string& fname,
-                                       const std::string& text,
+                                       const std::string& fdata,
                                        bool success) {
-  ReportResult(fname, text, success);
+  ReportResult(fname, fdata, success);
   delete this;
 }
 
 void GetURLHandler::ReportResult(const std::string& fname,
-                                 const std::string& text,
+                                 const std::string& fdata,
                                  bool success) {
   if (success)
     printf("GetURLHandler::ReportResult(Ok).\n");
-  else
-    printf("GetURLHandler::ReportResult(Err). %s\n", text.c_str());
+  else {
+    printf("GetURLHandler::ReportResult(Err). %s\n", fdata.c_str());
+    return;
+  }
   fflush(stdout);
-
-  //debug:write data into a file
-  instance_->PostMessage(report);
   
   if (instance_) {
     
@@ -181,5 +190,15 @@ void GetURLHandler::ReportResult(const std::string& fname,
     instance_->PostMessage(progressReportBack);
     
   }
+  
+  /*
+  //open sandbox fs
+  file_system->Open((fdata.size()*2), pp::CompletionCallback(fileSystemOpenCallback, instance_));
+  //open file
+  file_io->Open(*file_ref, PP_FILEOPENFLAG_READ|PP_FILEOPENFLAG_WRITE|PP_FILEOPENFLAG_CREATE,
+		pp::CompletionCallback(fileOpenCallback, instance_));
+  //write to file
+  file_io->Write(0, fdata.c_str(), fdata.size(), pp::CompletionCallback(fileWriteCallback, instance_));
+  */
 }
 
