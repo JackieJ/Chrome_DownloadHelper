@@ -2,7 +2,7 @@
 
 
 //nacl message handling
-DownloadHelperModule = null;//initialization                                                                                                                                                                                                                                
+DownloadHelperModule = null;//initialization                                                                         
 var headTitle = 'Initiliazing';
 
 var loadURL = function(mediaStr) {
@@ -11,7 +11,7 @@ var loadURL = function(mediaStr) {
 
 var moduleDidLoad = function() {	
     DownloadHelperModule = document.getElementById('chrome_download_helper');	
-    updateStatus('Download Helper');
+    updateStatus('Available Downloads');
 };
 
 var handleMessage = function(message_event) {
@@ -39,7 +39,7 @@ var pageDidLoad = function() {
 var updateStatus = function(opt_message) {
     if (opt_message)
         headTitle = opt_message;
-    var statusField = document.getElementById('headTitle');
+    var statusField = document.getElementById('downloads');
     if (statusField) {
         statusField.innerHTML = headTitle;
     }
@@ -92,11 +92,15 @@ var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     //console.log(progressTagID);         
     var progressTag = document.getElementById(progressTagID);
     var progressBarInit = "<div class=\"meter animate\"><span style=\"width:0%\"></span></div>"
-    $(progressTag).append(progressBarInit);
-
+    
+    if (conversionType !== "original") {
+	$(progressTag).append(progressBarInit);
+    }
+    
     //download directly if raw file format is chosen otherwise push file in the NACL transcoder
     if(conversionType === "original") {
 	conversionDownloadStatusBox.textContent = "downloading";
+	
     } else {
 	conversionDownloadStatusBox.textContent = "converting"
 	loadURL(mstr);
@@ -104,9 +108,9 @@ var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
 };
 
 var conversionOptions = {
-    "mp3":"Download as MP3 audio format",
-    "mp4":"Download as MP4 video format",
-    "original":"Download as current format"
+    "mp3":{tooltip:"Convert and download as MP3 audio format",href:"#"},
+    "mp4":{tooltip:"Convert and download as MP4 video format",href:"#"},
+    "original":{tooltip:"Download as current format",href:"#"}
 };
 
 var listContructor = function(requestsMeta) {
@@ -121,11 +125,31 @@ var listContructor = function(requestsMeta) {
 	var inlineButtons = "";
 	var iterator;
 	for (iterator in conversionOptions) {
-	    inlineButtons += 
-		"<a title=\""+conversionOptions[iterator]+"\" "
-		+"onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+iterator+"\',\'"
-		+rMeta[iter]+"\')\" style=\"visibility:\'visible\'\" "
-		+"href=\"#\" class=\""+iter+"_buttons conversionTypes\">"+iterator+"</a>"
+	    if (iterator === "original") {
+		conversionOptions[iterator].href = rMeta[iter];
+		
+		var downloadName = "";
+		var downloadNameCaptured = /.*\/([^\/]+)$/.exec(iter);
+		if (downloadNameCaptured) {
+		    downloadName = downloadNameCaptured[1];
+		} else {
+		    downloadName = iter;
+		}
+		
+		inlineButtons += 
+		    "<a title=\""+conversionOptions[iterator].tooltip+"\" "
+		    +"onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+iterator+"\',\'"
+		    +rMeta[iter]+"\')\" style=\"visibility:\'visible\'\" "
+		    +"href=\""+conversionOptions[iterator].href+"\" class=\""
+		    +iter+"_buttons conversionTypes\" download=\""+downloadName+"\">"+iterator+"</a>";
+	    } else {
+		inlineButtons += 
+		    "<a title=\""+conversionOptions[iterator].tooltip+"\" "
+                    +"onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+iterator+"\',\'"
+                    +rMeta[iter]+"\')\" style=\"visibility:\'visible\'\" "
+                    +"href=\""+conversionOptions[iterator].href+"\" class=\""
+		    +iter+"_buttons conversionTypes\">"+iterator+"</a>";
+	    }
 	}
 	
 	var content = "<li "
@@ -144,7 +168,7 @@ $(document).ready(function() {
 	var bgp = chrome.extension.getBackgroundPage();
 	tabMeta = metaComparator(bgp.mediaRequestsMap);
 	
-	var counterTag = document.getElementById("counter");
+	var counterTag = document.getElementById("downloadnumber");
 	if(tabMeta) {
 	    counterTag.textContent = tabMeta.requestNum;
 	    for(reqMetaID in tabMeta) {

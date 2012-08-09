@@ -28,14 +28,14 @@ GetURLHandler* GetURLHandler::Create(pp::Instance* instance,
 
 GetURLHandler::GetURLHandler(pp::Instance* instance,
                              const std::string& url, const std::string& conversionType, const std::string& vidID)
-    : instance_(instance),
-      url_(url),
-      vidID_(vidID),
-      conversionType_(conversionType),
-      url_request_(instance),
-      url_loader_(instance),
-      buffer_(new char[READ_BUFFER_SIZE]),
-      cc_factory_(this) {
+  : instance_(instance),
+    url_(url),
+    vidID_(vidID),
+    conversionType_(conversionType),
+    url_request_(instance),
+    url_loader_(instance),
+    buffer_(new char[READ_BUFFER_SIZE]),
+    cc_factory_(this) {
   url_request_.SetURL(url);
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
@@ -47,11 +47,13 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   strcat(outputNameBuffer,conversionType_.c_str());
   const char* outputFile =  outputNameBuffer;
   
+  
   //init fs
-  file_system = new pp::FileSystem(instance_, PP_FILESYSTEMTYPE_LOCALPERSISTENT);
+  file_system = new pp::FileSystem(instance_, PP_FILESYSTEMTYPE_LOCALTEMPORARY);
   file_ref = new pp::FileRef(*file_system, outputFile);
   file_io = new pp::FileIO(instance_);
   
+
   //debugging
   //pp::Var debuggingMessage(outputFile);
   //instance_->PostMessage(debuggingMessage);
@@ -60,12 +62,14 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
 GetURLHandler::~GetURLHandler() {
   delete [] buffer_;
   buffer_ = NULL;
-
+  
   //close and reclaim memory for the sandbox fs
   file_io->Close();
+  
   delete file_io;
   delete file_ref;
   delete file_system;
+  
 }
 
 void GetURLHandler::Start() {
@@ -191,14 +195,23 @@ void GetURLHandler::ReportResult(const std::string& fname,
     
   }
   
+  
+  //callback factory for member functions
+  pp::CompletionCallback fsOpenCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileSystemOpenCallback, this);
+  pp::CompletionCallback fOpenCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileOpenCallback, this);
+  pp::CompletionCallback fWriteCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileWriteCallback, this);
+  
+  file_ref->GetName();
   /*
   //open sandbox fs
-  file_system->Open((fdata.size()*2), pp::CompletionCallback(fileSystemOpenCallback, instance_));
+  file_system->Open((fdata.size()*2), fsOpenCallback);
   //open file
-  file_io->Open(*file_ref, PP_FILEOPENFLAG_READ|PP_FILEOPENFLAG_WRITE|PP_FILEOPENFLAG_CREATE,
-		pp::CompletionCallback(fileOpenCallback, instance_));
+  file_io->Open(*file_ref, 
+		PP_FILEOPENFLAG_READ|PP_FILEOPENFLAG_WRITE|PP_FILEOPENFLAG_CREATE,
+		fOpenCallback);
   //write to file
-  file_io->Write(0, fdata.c_str(), fdata.size(), pp::CompletionCallback(fileWriteCallback, instance_));
+  file_io->Write(0, fdata.c_str(), fdata.size(), fWriteCallback);
+  instance_->PostMessage(file_ref->GetName());
   */
 }
 

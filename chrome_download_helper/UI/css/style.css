@@ -1,0 +1,292 @@
+
+.backgroundimage
+{
+	background-image: url(../img/background.gif);
+	width: 251px;
+	height: 422px;
+	position: relative;
+}
+
+
+#foreground
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#logo
+{
+	position: absolute;
+	top: 28px;
+	left: 20px;
+}
+
+#textareatop
+{
+	z-index:3;
+	position: relative;
+	top: 83px;
+	left: 18px;
+	color: #4d4d4d;
+	width: 215px;
+}
+
+#textareabottom
+{
+	z-index:3;
+	left: 10px;
+	color: #4d4d4d;
+	width: 234px;
+	position: absolute;
+	top: 115px;
+	line-height: 35px;
+	height: 290px;
+	overflow: auto;
+}
+
+.foundcontainer
+{
+	height: 35px;
+	width: 214px;	
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.51);
+	margin-left: 2px;
+	overflow: hidden;
+	background: url(../img/gradient_loader.png) -225px; /* Gradient is at -223 and loader starts at -221 and ends at 0 */
+	/*CSS Generated Gradient below*/
+/*	background: -webkit-linear-gradient(top, #ebecee 0%, #d4d6da 100%) #ebecee;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ebecee), to(#d4d6da)) #ebecee;*/
+	margin-top: 8px !important;
+	float: left;
+	position: relative;
+	
+}
+
+.foundcontainer-on {
+		background: url(../img/gradient_loader_on.png) -225px; /* Gradient is at -223 and loader starts at -221 and ends at 0 */
+	/*CSS Generated Gradient below*/
+/*	background: -webkit-linear-gradient(top, #ebecee 0%, #d4d6da 100%) #ebecee;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ebecee), to(#d4d6da)) #ebecee;*/
+}
+
+
+
+
+.foundcontainer p
+{
+	font: 13px/22px 'AvalonDemi';
+	text-align: center;
+	color: #525c69;
+	text-shadow: 0 2px 1px #ffffff;
+	margin-top: 6px;
+	width: 210px;
+	position: relative;
+}
+
+.first
+{
+	margin-top: 0 !important;
+}
+
+.last
+{
+	margin-bottom: 5px;
+}
+
+.cancel
+{
+	display: block;
+	width: 20px;
+	height: 18px;
+	background: url('../img/cancelsprite.png') no-repeat 0 bottom;
+	text-indent: -99999px;
+	position: absolute;
+	z-index: 99;
+	cursor: pointer;
+	left: 196px;
+	top: 3px;
+	
+}
+
+.cancel:hover
+{
+	background-position: 0 0;
+}
+
+
+/*File Type Buttons Start*/
+
+.selectcontainer
+{
+	display: block;
+	width: 186px;
+	height: 31px;
+	position: absolute;
+	overflow: visible;
+	top: 3px;
+	left: 11px;
+}
+
+.btn
+{
+	position: absolute;
+	height: 22px;
+	font: 13px/21px AvalonDemi;
+	padding-right: 8px;
+	padding-left: 8px;
+	color: #ffffff;
+	-moz-box-shadow: 0 2px 4px #605a5a;
+	-webkit-box-shadow: 0 2px 4px #605a5a;
+	box-shadow: 0 2px 4px #605a5a;
+}
+
+
+
+.mp3{
+	position: absolute;
+	left: 20px;
+	top: 2px;
+	border-radius: 6px 0px 0px 6px;
+	background: -moz-linear-gradient(90deg, #da3818 0%, #f59380 100%) #dd7d6b;
+	background: -webkit-gradient(linear, left bottom, left top, from(#da3818), to(#f59380)) #dd7d6b;
+	z-index: 10;
+}
+
+.mp3:hover
+{
+	background: -moz-linear-gradient(90deg, #da3818 0%, #f9b4a7 100%) #c65a45;
+	background: -webkit-gradient(linear, left bottom, left top, from(#da3818), to(#f9b4a7)) #c65a45;
+	cursor: pointer;
+}
+
+.mp4{
+	position: absolute;
+	left: 61px;
+	top: 2px;
+	border-radius: 0px 0px 0px 0px;
+	background: -moz-linear-gradient(90deg, #3c7dbd 0%, #75a8dc 100%) #4b8ed3;
+	background: -webkit-gradient(linear, left bottom, left top, from(#3c7dbd), to(#75a8dc)) #4b8ed3;
+	z-index: 11;
+	
+}
+
+.mp4:hover
+{
+	background: -moz-linear-gradient(90deg, #3c7dbd 0%, #bbd4ed 100%) #60a2e6;
+	background: -webkit-gradient(linear, left bottom, left top, from(#3c7dbd), to(#bbd4ed)) #60a2e6;
+	cursor: pointer;
+}
+
+
+.original{
+	position: absolute;
+	left: 102px;
+	top: 2px;
+	border-radius: 0px 6px 6px 0px;
+	background: -moz-linear-gradient(90deg, #2c912c 0%, #65dd65 100%) #48cb48;
+	background: -webkit-gradient(linear, left bottom, left top, from(#2c912c), to(#65dd65)) #48cb48;
+	z-index: 12;
+	
+}
+
+.original:hover
+{
+	background: -moz-linear-gradient(90deg, #2c912c 0%, #bcf0bc 100%) #62e462;
+	background: -webkit-gradient(linear, left bottom, left top, from(#2c912c), to(#bcf0bc)) #62e462;
+	cursor: pointer;
+	
+}
+
+/*File Type Buttons End*/
+
+
+.downloadandfilenametomove
+{
+	position: relative;
+	display: inline-block;
+	left: -213px; /* variable should be -213px for initial filename and -1px for 'download' link  */
+	width: 426px;
+	height: 31px;
+}
+
+.downloadthis, .filename, .downloadingfile
+{
+	float: left;
+}
+
+.downloadthis, .filename:hover
+{
+	text-decoration: underline;
+	color: #1e66af;
+	cursor: pointer;
+}
+
+
+#downloads
+{
+	position: relative;
+	color: #4d4d4d;
+	float: left;
+	display: inline;
+	font: 16px 'AvalonDemi';
+	margin-right: 8px;
+	margin-left: 8px;
+	text-shadow: 1px 2px 1px #ffffff;
+}
+
+#downloadnumber
+{
+	float: left;
+	width: 35px;
+	height: 22px;
+	border-radius: 4px;
+	background-color: #395059;
+	-moz-box-shadow: inset 0 1px 3px #1d282d;
+	-webkit-box-shadow: inset 0 1px 3px #1d282d;
+	box-shadow: inset 0 1px 3px #1d282d;
+	color: white;
+	text-align: center;
+	position: relative;
+	bottom: 1px;
+	font: 15px/22px 'AvalonDemi';
+}
+
+/*fonts*/
+
+@font-face {
+    font-family: 'AvalonBold';
+    src: url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.eot');
+    src: url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.woff') format('woff'),
+         url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.ttf') format('truetype'),
+         url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.svg#AvalonBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'AvalonBook';
+    src: url('../fonts/avalon_book_macroman/Avalon-Book-webfont.eot');
+    src: url('../fonts/avalon_book_macroman/Avalon-Book-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/avalon_book_macroman/Avalon-Book-webfont.woff') format('woff'),
+         url('../fonts/avalon_book_macroman/Avalon-Book-webfont.ttf') format('truetype'),
+         url('../fonts/avalon_book_macroman/Avalon-Book-webfont.svg#AvalonBook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AvalonDemi';
+    src: url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.eot');
+    src: url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.woff') format('woff'),
+         url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.ttf') format('truetype'),
+         url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.svg#AvalonDemi') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+

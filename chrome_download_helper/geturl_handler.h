@@ -44,27 +44,29 @@ class GetURLHandler {
   ~GetURLHandler();
 
   //nacl sandbox fs: put them outside the class
-  /*
-  void fileFlushCallback(void*, int32_t result) {}
-  void fileSystemOpenCallback(void* data, int32_t result) {}
-  void fileOpenCallback(void* data, int32_t result) {}
-  void fileWriteCallback(void* data, int32_t bytes_written) {
+  
+  void fileFlushCallback(int32_t result, void* data) {}
+  void fileSystemOpenCallback(int32_t result, void* data) {}
+  void fileOpenCallback(int32_t result, void* data) {}
+  void fileWriteCallback(int32_t bytes_written, void* data) {
     
-    file_io->Flush(pp::CompletionCallback(fileFlushCallback,NULL));
+    if (bytes_written < 0) {
+      return;//error
+    }
+    
+    pp::CompletionCallback flushCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileFlushCallback, this);
+    file_io->Flush(flushCallback);
+    
     
   }
-  void fileReadCallback(void* data, int32_t bytes_read) {}
-  */
+  void fileReadCallback(int32_t bytes_read, void* data) {}
+  
 
   //read url 
   void OnOpen(int32_t result);
-
   void OnRead(int32_t result);
-
   void ReadBody();
- 
   void AppendDataBytes(const char* buffer, int32_t num_bytes);
-  
   void ReportResult(const std::string& fname,
                     const std::string& fdata,
                     bool success);
