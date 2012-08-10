@@ -68,8 +68,25 @@ var metaComparator = function(newMeta) {
     return null;
 };
 
-var rMeta = {};
 
+//file saver blob
+/*
+var xhr = new XMLHttpRequest();
+var saveFile = function() {
+    saveAs(xhr.response, xhr.filename);
+};
+xhr.onload = function(e) {
+    saveFile();
+};
+xhr.onerror = function() {
+    console.log("error getting the file");
+};
+*/
+var rMeta = {};
+var metaToNotification = {
+    "vidID":null,
+    "mediaURL":null
+};
 var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     
     //send message to NACL
@@ -93,13 +110,40 @@ var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     var progressTag = document.getElementById(progressTagID);
     var progressBarInit = "<div class=\"meter animate\"><span style=\"width:0%\"></span></div>"
     
-    if (conversionType !== "original") {
-	$(progressTag).append(progressBarInit);
-    }
+    $(progressTag).append(progressBarInit);
+    
+    //debugging
+    //console.log(JSON.stringify(rMeta));
     
     //download directly if raw file format is chosen otherwise push file in the NACL transcoder
     if(conversionType === "original") {
 	conversionDownloadStatusBox.textContent = "downloading";
+	
+	//send file saver to notification
+	metaToNotification.vidID = vidID;
+	metaToNotification.mediaURL = mediaURL;
+	
+	//debugging
+	console.log(JSON.stringify(metaToNotification));
+	
+	var notification = webkitNotifications.createHTMLNotification('notification.html');
+	notification.show();
+	
+	/*
+	var downloadName = "";
+	
+	var downloadNameCaptured = /.*\/([^\/]+)$/.exec(vidID);
+	if (downloadNameCaptured) {
+	    downloadName = downloadNameCaptured[1];
+	} else {
+	    downloadName = vidID;
+	}
+	
+	xhr.open('GET', mediaURL, true);
+	xhr.filename = purl(downloadName).attr('file');
+	xhr.responseType = 'blob';
+	xhr.send();
+	*/
 	
     } else {
 	conversionDownloadStatusBox.textContent = "converting"
@@ -113,43 +157,27 @@ var conversionOptions = {
     "original":{tooltip:"Download as current format",href:"#"}
 };
 
-var listContructor = function(requestsMeta) {
+var listConstructor = function(requestsMeta) {
     
     rMeta = requestsMeta;
     
     var iter;
     for(iter in requestsMeta) { 
 	
-	var name = iter.length < 22 ? iter : ("..." + iter.substring(iter.length - 22));
+	var name = iter.length < 20 ? iter : ("..." + iter.substring(iter.length - 20));
 	
 	var inlineButtons = "";
 	var iterator;
 	for (iterator in conversionOptions) {
 	    if (iterator === "original") {
 		conversionOptions[iterator].href = rMeta[iter];
-		
-		var downloadName = "";
-		var downloadNameCaptured = /.*\/([^\/]+)$/.exec(iter);
-		if (downloadNameCaptured) {
-		    downloadName = downloadNameCaptured[1];
-		} else {
-		    downloadName = iter;
-		}
-		
-		inlineButtons += 
-		    "<a title=\""+conversionOptions[iterator].tooltip+"\" "
-		    +"onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+iterator+"\',\'"
-		    +rMeta[iter]+"\')\" style=\"visibility:\'visible\'\" "
-		    +"href=\""+conversionOptions[iterator].href+"\" class=\""
-		    +iter+"_buttons conversionTypes\" download=\""+downloadName+"\">"+iterator+"</a>";
-	    } else {
-		inlineButtons += 
-		    "<a title=\""+conversionOptions[iterator].tooltip+"\" "
-                    +"onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+iterator+"\',\'"
-                    +rMeta[iter]+"\')\" style=\"visibility:\'visible\'\" "
-                    +"href=\""+conversionOptions[iterator].href+"\" class=\""
-		    +iter+"_buttons conversionTypes\">"+iterator+"</a>";
 	    }
+	    inlineButtons += 
+		"<a title=\""+conversionOptions[iterator].tooltip+"\" "
+		+"onclick=\"mediaAndTypeSelector(\'"+iter+"\',\'"+iterator+"\',\'"
+		+rMeta[iter]+"\')\" style=\"visibility:\'visible\'\" "
+		+"href=\""+conversionOptions[iterator].href+"\" class=\""
+		+iter+"_buttons conversionTypes\">"+iterator+"</a>";
 	}
 	
 	var content = "<li "
@@ -174,7 +202,7 @@ $(document).ready(function() {
 	    for(reqMetaID in tabMeta) {
 		var subMeta = tabMeta[reqMetaID];
 		if(reqMetaID !== "requestNum") {
-		    listContructor(subMeta.requests);
+		    listConstructor(subMeta.requests);
 		}
 	    }
 	} else {

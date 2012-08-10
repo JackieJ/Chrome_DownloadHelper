@@ -14,7 +14,6 @@
     }
   }
 */
-
 //acitve tab and url check
 var activeURL = null;
 var activeTabId = null;
@@ -186,3 +185,4 @@ window.onload = function() {
 	    return;
 	},{urls: ["<all_urls>"]});
 };
+

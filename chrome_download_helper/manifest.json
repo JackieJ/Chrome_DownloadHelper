@@ -5,7 +5,7 @@
    },
    "browser_action": {
       "default_icon": "icon.png",
-      "popup": "popup.html"
+      "popup": "popup_back.html"
    },
    "description": "Chrome Download Helper",
    "icons": {
@@ -13,7 +13,7 @@
       "16": "icon.png",
       "48": "icon.png"
    },
-   "permissions": ["webRequest", "webRequestBlocking", "tabs",
+   "permissions": ["webRequest", "webRequestBlocking", "tabs","notifications",
                    "<all_urls>"],
    "options_page": "options.html",
    "version": "0.0.1"
