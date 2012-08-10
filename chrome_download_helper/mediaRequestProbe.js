@@ -186,3 +186,20 @@ window.onload = function() {
 	},{urls: ["<all_urls>"]});
 };
 
+var metaToNotification = null;
+//message passing bewtween popup and notification
+chrome.extension.onConnect.addListener(function(port) {
+	if(port.name === "popup_") {
+	    port.onMessage.addListener(function(msg) {
+		    
+		    metaToNotification = msg;
+
+		    var notification = webkitNotifications.createHTMLNotification("notification.html");
+		    notification.show();
+
+		});
+	    
+	}
+	
+    });
+

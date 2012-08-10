@@ -1,8 +1,8 @@
 $(document).ready(function() {
-	var popupViews = chrome.extension.getViews({type:popup});
+	var bgView = chrome.extension.getBackgroundPage();
 	var statusText = document.getElementById('textArea');
-	var popupViewMeta = popupViews[0].metaToNotification;
-	if (popupViewMeta.mediaURL && popupViewMeta.vidID) {
+	var popupViewMeta = bgView.metaToNotification;
+	if (popupViewMeta) {
 	    var downloadItem = document.getElementById('downloadItem');
 	    downloadItem.href = popupViewMeta.mediaURL;
 	    

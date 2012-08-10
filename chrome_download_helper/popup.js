@@ -87,6 +87,10 @@ var metaToNotification = {
     "vidID":null,
     "mediaURL":null
 };
+
+//connect to the background script
+var port = chrome.extension.connect({name: "popup_"});
+
 var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
     
     //send message to NACL
@@ -123,11 +127,10 @@ var mediaAndTypeSelector = function(vidID, conversionType, mediaURL) {
 	metaToNotification.vidID = vidID;
 	metaToNotification.mediaURL = mediaURL;
 	
+	port.postMessage(metaToNotification);
+	
 	//debugging
 	console.log(JSON.stringify(metaToNotification));
-	
-	var notification = webkitNotifications.createHTMLNotification('notification.html');
-	notification.show();
 	
 	/*
 	var downloadName = "";
