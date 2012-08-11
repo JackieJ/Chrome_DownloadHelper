@@ -53,7 +53,7 @@ var listConstructor = function(requestsMeta) {
 	    +"onclick=\"mediaAndTypeSelector(\'"
 	    +iter+"\',\'"+rMeta[iter]+"\')\""
 	    +" class=\"foundcontainer\"><div class=\"downloadandfilenametomove\">"
-	    +"<p class=\"downloadthis\">Grab through the popup window</p><p class=\"filename\">"
+	    +"<p class=\"downloadthis\">Grab through the dialog window</p><p class=\"filename\">"
 	    +name+"</p>"+"</div></div>"
 	    
 	$('#textareabottom').append(content);
