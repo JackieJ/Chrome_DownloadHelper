@@ -6,7 +6,7 @@
     <title>Audio & Video Grabber</title>
     <link rel="stylesheet" href="UI/css/style.css">
     <!--<link rel="stylesheet" href="UI/css/reset.css">-->
-    <script src="UI/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="UI/jquery-1.8.0.min.js" type="text/javascript"></script>
     <script src="lib/FileSaver.min.js" type="text/javascript"></script>
     <script src="popup.js" type="text/javascript"></script>
     <script>
@@ -36,29 +36,10 @@
 	<img id="foreground" style="z-index:1;" src="UI/img/forground.png" />
 	<img id="logo" style="z-index:2;" src="UI/img/logo.png" />
 	<div id="textareatop">
-	  <div id="downloads">Initializing</div>
+	  <div id="downloads">Available Downloads</div>
 	  <div id="downloadnumber">0</div>
 	</div>
-	
-	<!--Listener for NACL module-->
-	<div id="listener" style="visibility:hidden">
-	  <script type="text/javascript">
-            var listener = document.getElementById('listener');
-            listener.addEventListener('load', moduleDidLoad, true);
-            listener.addEventListener('message', handleMessage, true);
-	  </script>
-	  <embed name="nacl_module"
-		 id="chrome_download_helper"
-		 width=0 height=0
-		 src="chrome_download_helper.nmf"
-		 type="application/x-nacl" />
-	</div>
-	
-	<div id="textareabottom">
-	  
-	</div>
-	
-	
+	<div id="textareabottom"></div>
       </div>
     </div>
   </body>

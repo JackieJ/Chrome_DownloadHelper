@@ -20,3 +20,5 @@ $(document).ready(function() {
 	    statusText.textContent = "Oops! Error on loading the file. Please close this window and try again!"
 	}
     });
+
+

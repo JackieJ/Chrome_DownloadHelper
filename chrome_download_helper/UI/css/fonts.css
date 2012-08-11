@@ -1,0 +1,38 @@
+/*fonts*/
+
+@font-face {
+    font-family: 'AvalonBold';
+    src: url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.eot');
+    src: url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.woff') format('woff'),
+         url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.ttf') format('truetype'),
+         url('../fonts/avalon_bold_macroman/Avalon-Bold-webfont.svg#AvalonBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'AvalonBook';
+    src: url('../fonts/avalon_book_macroman/Avalon-Book-webfont.eot');
+    src: url('../fonts/avalon_book_macroman/Avalon-Book-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/avalon_book_macroman/Avalon-Book-webfont.woff') format('woff'),
+         url('../fonts/avalon_book_macroman/Avalon-Book-webfont.ttf') format('truetype'),
+         url('../fonts/avalon_book_macroman/Avalon-Book-webfont.svg#AvalonBook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AvalonDemi';
+    src: url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.eot');
+    src: url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.woff') format('woff'),
+         url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.ttf') format('truetype'),
+         url('../fonts/avalon_demi_macroman/Avalon-Demi-webfont.svg#AvalonDemi') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
