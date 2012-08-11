@@ -20,7 +20,8 @@ var activeTabId = null;
 
 var mediaRequestsMap = {};
 //media file extensions regex
-var mediaPattern = /.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\.flv|.*\.mpg3|.*\.mp4|.*\.mp3/;
+var mediaPattern = 
+    /.*\.mp2|.*\.mpeg2|.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\.flv|.*\.mpg3|.*\.mp4|.*\.mpeg4|.*\.mp3/;
 
 //list updater
 var listUpdater = function (tab) {

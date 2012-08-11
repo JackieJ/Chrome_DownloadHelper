@@ -13,7 +13,7 @@
       "16": "icon.png",
       "48": "icon.png"
    },
-   "permissions": ["webRequest", "webRequestBlocking", "tabs","notifications",
+   "permissions": ["webRequest", "webRequestBlocking", "tabs","notifications","experimental",
                    "<all_urls>"],
    "options_page": "options.html",
    "version": "0.0.1"
