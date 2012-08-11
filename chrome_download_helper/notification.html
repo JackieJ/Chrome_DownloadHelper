@@ -3,19 +3,29 @@
   <head>
     <title id="notificationTitle">Audio & Video Grabber</title>
     <meta charset="utf-8">
-   
-    <link rel="stylesheet" href="UI/css/style.css">
-    <script src="UI/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="lib/FileSaver.min.js" type="text/javascript"></script>
-    <script src="lib/purl.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="UI/css/pop_style.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <!--<link rel="stylesheet" href="css/reset.css">-->
+    <script src="UI/jquery-1.8.0.min.js" type="text/javascript"></script>
     <script src="notification.js" type="text/javascript"></script>
   </head>
-  <body>
-    
-    <p id="textArea">Initializing...</p>
-    <div align="center">
-      <button><a id="downloadItem" href="#" download="">Save File</a></button>
+  <body style="margin:0;">
+    <div class="row">
+      <div class="span1 backgroundimage">
+	<div id="saving" class="saveas"></div>
+	<div class="selectcontainer">
+          <div class="btn mp3">MP3</div>
+          <div class="btn mp4">MP4</div>
+          <div class="btn original">Original</div>
+	</div>
+	<div class="foundcontainer">
+	  <div class="cancel"><a href="#">Cancel</a></div>
+	  <div class="downloadandfilenametomove">
+            <p class="downloadthis">File Downloading</p>
+	  </div>
+	</div>
+      </div>
     </div>
-    
   </body>
 </html>

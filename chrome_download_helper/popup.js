@@ -29,15 +29,18 @@ var metaToNotification = {
 };
 
 //connect to the background script
-var port = chrome.extension.connect({name: "popup_"});
+var port = chrome.extension.connect({name: "popupToNotification"});
+
+var downloadedMedia = {};
 
 var mediaAndTypeSelector = function(vidID, mediaURL) {
-    
-    metaToNotification.vidID = vidID;
-    metaToNotification.mediaURL = mediaURL;
-
-    port.postMessage(metaToNotification);
-    
+    if(!downloadedMedia.hasOwnProperty(mediaURL)) {
+	metaToNotification.vidID = vidID;
+	metaToNotification.mediaURL = mediaURL;
+	
+	port.postMessage(metaToNotification);
+	downloadedMedia[mediaURL] = true; 
+    }
 };
 
 var listConstructor = function(requestsMeta) {

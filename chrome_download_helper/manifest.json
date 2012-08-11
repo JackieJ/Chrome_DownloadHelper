@@ -1,5 +1,5 @@
 {
-   "name": "Chrome_DownloadHelper",
+   "name": "Audio & Video Grabber",
    "background": {
       "scripts": ["mediaRequestProbe.js"]
    },

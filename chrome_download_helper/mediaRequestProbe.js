@@ -189,7 +189,7 @@ window.onload = function() {
 var metaToNotification = null;
 //message passing bewtween popup and notification
 chrome.extension.onConnect.addListener(function(port) {
-	if(port.name === "popup_") {
+	if(port.name === "popupToNotification") {
 	    port.onMessage.addListener(function(msg) {
 		    
 		    metaToNotification = msg;
