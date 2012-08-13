@@ -190,7 +190,7 @@ window.onload = function() {
 var metaToNotification = null;
 //message passing bewtween popup and notification
 chrome.extension.onConnect.addListener(function(port) {
-	if(port.name === "popupToNotification") {
+	if (port.name === "popupToNotification") {
 	    port.onMessage.addListener(function(msg) {
 		    
 		    metaToNotification = msg;
@@ -201,6 +201,15 @@ chrome.extension.onConnect.addListener(function(port) {
 		});
 	    
 	}
+	
+	if (port.name === "debug") {
+	    port.onMessage.addListener(function(msg) {
+		    console.log("====Debug Message====");
+		    console.log(msg);
+		    console.log("=====================");
+		});
+	}
+	
 	
     });
 

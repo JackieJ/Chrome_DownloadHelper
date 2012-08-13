@@ -13,7 +13,7 @@
   <body style="margin:0;">
     <div class="row">
       <div class="span1 backgroundimage">
-	<div class="saveas"><b id="saving"></b></div>
+	<div class="saveas"><b id="saving">Initializing</b></div>
 	<div class="selectcontainer">
           <a title="" href="#" id="mp3">
 	    <div class="btn mp3">MP3</div>
@@ -31,6 +31,19 @@
             <p class="downloadthis">File Downloading</p>
 	  </div>
 	</div>
+      </div>
+      <!--Listener for NACL module-->
+      <div id="listener">
+	<script type="text/javascript">
+          var listener = document.getElementById('listener');
+          listener.addEventListener('load', moduleDidLoad, true);
+          listener.addEventListener('message', handleMessage, true);
+	</script>
+	<embed name="nacl_module"
+               id="chrome_download_helper"
+               width=0 height=0
+               src="chrome_download_helper.nmf"
+               type="application/x-nacl" />
       </div>
     </div>
   </body>

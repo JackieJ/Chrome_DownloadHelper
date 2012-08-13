@@ -1,6 +1,3 @@
-//UI components
-
-
 //nacl message handling
 DownloadHelperModule = null;//initialization                                                                         
 var headTitle = 'Initiliazing';
