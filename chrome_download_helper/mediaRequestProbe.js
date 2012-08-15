@@ -20,8 +20,38 @@ var activeTabId = null;
 
 var mediaRequestsMap = {};
 //media file extensions regex
-var mediaPattern = 
-    /.*\.mp2|.*\.mpeg2|.*\.rmvb|.*\.mpg|.*\.mpeg|.*\.avi|.*\.rm|.*\.wmv|.*\.mov|.*\.flv|.*\.mpg3|.*\.mp4|.*\.mpeg4|.*\.mp3/;
+
+var mediaFormats = [
+		    "mp2",
+		    "mpeg2",
+		    "rmvb",
+		    "mpg",
+		    "mpeg",
+		    "avi",
+		    "rm",
+		    "wmv",
+		    "mov",
+		    "flv",
+		    "mpg3",
+		    "mp4",
+		    "mpeg4",
+		    "mp3",
+		    "mpeg3",
+		    ];
+
+var siteExceptions = {
+    "youtube.com":{"keyword":"videoplayback","format":"flv"}
+};
+
+var patternPartial = {
+    "prefix":"\.+\\.",
+    "suffix":"[^A-Za-z]*"
+};
+
+var patterns = [];
+for (var index = 0; index < mediaFormats.length ; index++) {
+    patterns.push(new RegExp("("+patternPartial["prefix"]+mediaFormats[index]+")"+patternPartial["suffix"]));
+}
 
 //list updater
 var listUpdater = function (tab) {
@@ -84,12 +114,10 @@ window.onload = function() {
     };
     
     chrome.tabs.query(queryInfo, function(tabArray) {
-	    
 	    for(var arrayIndex = 0 ; arrayIndex < tabArray.length ; arrayIndex++) {
 		mediaRequestsMap[tabArray[arrayIndex].id] = {requestNum:0};
 		listUpdater(tabArray[arrayIndex]);
 	    }
-	    
 	});
     
     //watch tab status
@@ -152,7 +180,21 @@ window.onload = function() {
 	    //threshholds
 	    if (details.tabId === -1) return;//return if the request if not  related to a tab
 	    if (!mediaRequestsMap.hasOwnProperty(details.tabId)) return;//return if tab is no longer open
-	    if(mediaPattern.test(details.url)) {
+	    
+	    var isMatched = false;
+	    var mediaPattern;
+	    for (var pIndex = 0 ; pIndex < patterns.length ; pIndex++) {
+		if(patterns[pIndex].test(details.url)) {
+		    isMatched = true;
+		    mediaPattern = patterns[pIndex];
+		    //console.log(mediaPattern);
+		    break;
+		}
+	    }
+	    
+	    //console.log(details.type);
+
+	    if(isMatched) {
 		//console.log("Inside webRequest:"+activeURL);
 		//console.log("Inside webRequest:"+details.tabId);
 		if(mediaRequestsMap.hasOwnProperty(details.tabId)) {
@@ -176,7 +218,11 @@ window.onload = function() {
 				urlMeta.requests = {};
 			    }
 			    
-			    var captureGroup = new RegExp("("+mediaPattern+")"+".*");
+			    var captureGroup = mediaPattern;
+			    
+			    //console.log(captureGroup);
+			    //console.log(details.url);
+			    			    
 			    var mediaID = (captureGroup.exec(details.url))[1];
 			    urlMeta.requests[mediaID] = details.url;
 			    listUpdater(tab);
