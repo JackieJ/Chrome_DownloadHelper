@@ -58,13 +58,25 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
     DOMElement.title = conversionOptions[convertType].tooltip;
     
     DOMElement.addEventListener("mouseover", function() {
-	    document.getElementById("saving").textContent = conversionOptions[convertType].tooltip;
+	    
+	    var downloadType = "current";
+	    var fmatCaptured = /[^\.]+\.([^\.]+)$/.exec(fileName);
+	    
+	    if (fmatCaptured) {
+		downloadType = fmatCaptured[1];
+	    }
+	    
+	    if (convertType !== "original") {
+		document.getElementById("saving").textContent = conversionOptions[convertType].tooltip;
+	    } else {
+		document.getElementById("saving").textContent = "Download as " + downloadType + " format";
+	    }
 	}, false);
-
+    
     DOMElement.addEventListener("mouseout", function() {
 	    document.getElementById("saving").textContent = globleStatusText;
 	}, false);
-
+    
     //direct download if no conversion is needed
     if (convertType === "original") {
 	DOMElement.href = mediaURL;
@@ -79,6 +91,9 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
     else {
 	//send the url to NACL for transcoding
 	DOMElement.addEventListener("click", function() {
+		var statusTag = document.getElementById("saving");
+		statusTag.textContent = "Converting '"+fileName+"'...";
+		
 		var mstr = vidID + "((--))" 
 		+ convertType + "((--))" + mediaURL;
 		
@@ -86,6 +101,7 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 		
 	    }, false);
     }
+    
 };
 
 $(document).ready(function() {
@@ -166,9 +182,11 @@ $(document).ready(function() {
 	}
 	savingStatusTag.textContent = text;
 	
+	/*
 	document.querySelector(".cancel").addEventListener("mouseover", function() {
 		savingStatusTag.textContent = "Cancel";
 	    }, false);
+	*/
 	
 	//append tooltips to conversion formats
 	var mp3Tag = document.getElementById("mp3");
@@ -200,6 +218,7 @@ $(document).ready(function() {
 	    statusText.textContent = "Oops! Error on loading the file. Please close this window and try again!"
 	}
 	*/
+
     });
 
 
