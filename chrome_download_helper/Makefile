@@ -19,13 +19,6 @@ OSNAME:=$(shell python $(NACL_SDK_ROOT)/tools/getos.py)
 TC_PATH:=$(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_x86_newlib)
 CXX:=$(TC_PATH)/bin/i686-nacl-g++
 
-#
-# Disable DOS PATH warning when using Cygwin based tools Windows
-#
-CYGWIN ?= nodosfilewarning
-export CYGWIN
-
-
 # Declare the ALL target first, to make the 'all' target the default build
 all: $(PROJECT)_x86_32.nexe $(PROJECT)_x86_64.nexe
 
