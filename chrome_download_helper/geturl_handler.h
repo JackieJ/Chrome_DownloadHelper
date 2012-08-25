@@ -19,11 +19,14 @@
 #include "ppapi/utility/completion_callback_factory.h"
 
 //NACL fs libs
+
+/*
 #include "ppapi/c/pp_file_info.h"
 #include "ppapi/c/ppb_file_io.h"
 #include "ppapi/cpp/file_io.h"
 #include "ppapi/cpp/file_ref.h"
 #include "ppapi/cpp/file_system.h"
+*/
 
 #define READ_BUFFER_SIZE 32768
 
@@ -45,22 +48,13 @@ class GetURLHandler {
 
   //nacl sandbox fs: put them outside the class
   
+  /*
   void fileFlushCallback(int32_t result, void* data) {}
   void fileSystemOpenCallback(int32_t result, void* data) {}
   void fileOpenCallback(int32_t result, void* data) {}
-  void fileWriteCallback(int32_t bytes_written, void* data) {
-    
-    if (bytes_written < 0) {
-      return;//error
-    }
-    
-    pp::CompletionCallback flushCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileFlushCallback, this);
-    file_io->Flush(flushCallback);
-    
-    
-  }
+  void fileWriteCallback(int32_t bytes_written, void* data) {}
   void fileReadCallback(int32_t bytes_read, void* data) {}
-  
+  */
 
   //read url 
   void OnOpen(int32_t result);

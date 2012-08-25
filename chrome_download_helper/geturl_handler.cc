@@ -20,7 +20,6 @@ namespace {
   
 }  // namespace
 
-
 GetURLHandler* GetURLHandler::Create(pp::Instance* instance,
                                      const std::string& url, const std::string& conversionType, const std::string& vidID) {
   return new GetURLHandler(instance, url, conversionType, vidID);
@@ -40,6 +39,7 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
   
+  /*
   //decide output name
   char outputNameBuffer[15];
   strcpy(outputNameBuffer,"");
@@ -47,12 +47,11 @@ GetURLHandler::GetURLHandler(pp::Instance* instance,
   strcat(outputNameBuffer,conversionType_.c_str());
   const char* outputFile =  outputNameBuffer;
   
-  
   //init fs
   file_system = new pp::FileSystem(instance_, PP_FILESYSTEMTYPE_LOCALTEMPORARY);
   file_ref = new pp::FileRef(*file_system, outputFile);
   file_io = new pp::FileIO(instance_);
-  
+  */
 
   //debugging
   //pp::Var debuggingMessage(outputFile);
@@ -146,8 +145,8 @@ void GetURLHandler::ReadBody() {
       url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
       
       int64_t totalBytes = bytes_received + total_bytes_to_be_received;
+      
       if (totalBytes != 0) {  
-		
 	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
 	ostringstream strs;
 	strs << percentage;
@@ -195,14 +194,15 @@ void GetURLHandler::ReportResult(const std::string& fname,
     
   }
   
-  
+  /*
   //callback factory for member functions
   pp::CompletionCallback fsOpenCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileSystemOpenCallback, this);
   pp::CompletionCallback fOpenCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileOpenCallback, this);
   pp::CompletionCallback fWriteCallback = cc_factory_.NewOptionalCallback(&GetURLHandler::fileWriteCallback, this);
   
-  file_ref->GetName();
-  /*
+  pp:: Var fileName(file_ref->GetName());
+  instance_->PostMessage(fileName);
+  
   //open sandbox fs
   file_system->Open((fdata.size()*2), fsOpenCallback);
   //open file
