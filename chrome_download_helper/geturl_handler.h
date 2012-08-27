@@ -38,9 +38,9 @@ class GetURLHandler {
   void Start();
 
   //NACL sandbox file system
-  pp::FileIO* file_io;
-  pp::FileSystem* file_system;
-  pp::FileRef* file_ref;
+  //pp::FileIO* file_io;
+  //pp::FileSystem* file_system;
+  //pp::FileRef* file_ref;
   
  private:
   GetURLHandler(pp::Instance* instance_, const std::string& url, const std::string& conversionType, const std::string& vidID);

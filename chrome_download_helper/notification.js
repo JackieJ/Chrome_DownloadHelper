@@ -6,7 +6,7 @@ var sText = null;
 var debugPort = chrome.extension.connect({name:"debug"});
 
 var moduleDidLoad = function() {
-    vagModule = document.getElementById("chrome_download_helper");
+    vagModule = document.getElementById("NACL_Module");
     updateStatus("Transcoder successfully loaded!");
 };
 

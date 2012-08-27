@@ -63,11 +63,11 @@ GetURLHandler::~GetURLHandler() {
   buffer_ = NULL;
   
   //close and reclaim memory for the sandbox fs
-  file_io->Close();
+  //file_io->Close();
   
-  delete file_io;
-  delete file_ref;
-  delete file_system;
+  //delete file_io;
+  //delete file_ref;
+  //delete file_system;
   
 }
 

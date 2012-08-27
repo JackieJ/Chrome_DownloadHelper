@@ -1,4 +1,4 @@
-PROJECT:=chrome_download_helper
+PROJECT:=NACL_Module
 LDFLAGS:=-lavdevice -lavformat -lavcodec -lavutil -lmp3lame -ltheoradec -ltheoraenc -ltheora -lvorbisfile -lvorbisenc -lvorbis -logg -lppapi_cpp -lppapi
 CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc
 
