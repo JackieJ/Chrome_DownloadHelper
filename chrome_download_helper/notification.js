@@ -77,6 +77,7 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 	    document.getElementById("saving").textContent = globleStatusText;
 	}, false);
     
+    var buttons = document.querySelectorAll('.btn');
     //direct download if no conversion is needed
     if (convertType === "original") {
 	DOMElement.href = mediaURL;
@@ -85,14 +86,27 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 	//change status text
 	DOMElement.addEventListener("click",function() {
 		var statusTag = document.getElementById("saving");
-		statusTag.textContent = "Grabbing '"+fileName+"'...";
+		statusTag.textContent = "Download and Save!"
+		globleStatusText = statusTag.textContent;
+		document.querySelector('p.downloadthis em b').textContent = "Downloading......";
 	    }, false);
     }
     else {
 	//send the url to NACL for transcoding
 	DOMElement.addEventListener("click", function() {
+		
+		for (var buttonIndex = 0 ; buttonIndex < buttons.length ; buttonIndex++) {
+		    $(buttons[buttonIndex]).fadeOut('slow', function() {
+			    // Animation complete.
+			});
+		}
+		
+		$('.downloadandfilenametomove').animate({left:'-1'}, 1000);
+		
 		var statusTag = document.getElementById("saving");
 		statusTag.textContent = "Converting '"+fileName+"'...";
+		globleStatusText = statusTag.textContent;
+		document.querySelector('p.downloadthis em b').textContent = "Conversion In Progress......"
 		
 		var mstr = vidID + "((--))" 
 		+ convertType + "((--))" + mediaURL;
@@ -105,16 +119,6 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 };
 
 $(document).ready(function() {
-	//UI
-	var filenameHover = function(){
-	    $(this).parent().parent().toggleClass('foundcontainer-on');
-	};
-	$('p.filename').on('hover', filenameHover);
-	$('p.filename').click(function(){
-		$(this).off('hover', filenameHover);
-		$(this).parent().parent().addClass('foundcontainer-on');
-		$(this).parent().animate({left:'-1'}, 1000);
-	    });
 	//media meta from background page
 	var bgView = chrome.extension.getBackgroundPage();
 	var mediaMeta = bgView.metaToNotification;

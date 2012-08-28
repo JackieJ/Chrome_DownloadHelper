@@ -131,6 +131,16 @@
 	cursor: pointer;
 }
 
+.mp3:active {
+	position: absolute;
+	left: 20px;
+	top: 2px;
+	border-radius: 6px 0px 0px 6px;
+	background: -moz-linear-gradient(90deg, #da3818 0%, #f59380 100%) #dd7d6b;
+	background: -webkit-gradient(linear, left bottom, left top, from(#da3818), to(#f59380)) #dd7d6b;
+	z-index: 10;
+}
+
 .mp4{
 	position: absolute;
 	left: 61px;
@@ -139,7 +149,6 @@
 	background: -moz-linear-gradient(90deg, #3c7dbd 0%, #75a8dc 100%) #4b8ed3;
 	background: -webkit-gradient(linear, left bottom, left top, from(#3c7dbd), to(#75a8dc)) #4b8ed3;
 	z-index: 11;
-	
 }
 
 .mp4:hover
@@ -149,6 +158,15 @@
 	cursor: pointer;
 }
 
+.mp4:active {
+	position: absolute;
+	left: 61px;
+	top: 2px;
+	border-radius: 0px 0px 0px 0px;
+	background: -moz-linear-gradient(90deg, #3c7dbd 0%, #75a8dc 100%) #4b8ed3;
+	background: -webkit-gradient(linear, left bottom, left top, from(#3c7dbd), to(#75a8dc)) #4b8ed3;
+	z-index: 11;
+}
 
 .original{
 	position: absolute;
@@ -168,6 +186,18 @@
 	cursor: pointer;
 	
 }
+
+.original:active{
+	position: absolute;
+	left: 102px;
+	top: 2px;
+	border-radius: 0px 6px 6px 0px;
+	background: -moz-linear-gradient(90deg, #2c912c 0%, #65dd65 100%) #48cb48;
+	background: -webkit-gradient(linear, left bottom, left top, from(#2c912c), to(#65dd65)) #48cb48;
+	z-index: 12;
+	
+}
+
 
 /*File Type Buttons End*/
 
