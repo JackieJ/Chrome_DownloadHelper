@@ -44,8 +44,7 @@ class Transcoder {
   void OnRead(int32_t result);
   void ReadBody();
   void AppendDataBytes(const char* buffer, int32_t num_bytes);
-  void finishDataRead(const std::string& fname,
-		      char* buffer, bool success);
+  void FinalReport(char* buffer, bool success);
   //weak pointer to the NACL module instance
   pp::Instance *instace_;
   
