@@ -6,6 +6,7 @@
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 //ppapi
 #include "ppapi/c/pp_errors.h"
@@ -20,6 +21,7 @@
 
 //macros
 #define READ_BUFFER_SIZE 1024
+typedef std::vector<char> BUFFER;
 
 class Transcoder {
  public:
@@ -44,14 +46,16 @@ class Transcoder {
   void OnRead(int32_t result);
   void ReadBody();
   void AppendDataBytes(const char* buffer, int32_t num_bytes);
-  void FinalReport(char* buffer, bool success);
+  void FinalReport(BUFFER buffer, bool success);
+  void Die(BUFFER buffer, bool success);
   //weak pointer to the NACL module instance
   pp::Instance *instace_;
   
   std::string url_;
   std::string vidID_;
   std::string conversionType_;
-  
+
+  BUFFER totalBuffer;
   char* buffer_;
   
   //url loading

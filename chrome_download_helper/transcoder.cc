@@ -50,6 +50,23 @@ void Transcoder::Start() {
 
 void Transcoder::OnOpen(int32_t result) {
   if (result != PP_OK) {
-    FinalReport(buffer_, false);
+    Die(buffer_, false);
+    return;
   }
+  
+  
+  
+}
+
+void Transcoder::FinalReport(BUFFER buffer, bool success) {
+  if (!success) {
+    Printf("Error!");
+  } else {
+    
+  }
+}
+
+void Transcoder::Die(BUFFER buffer, bool success) {
+  FinalReport(buffer, success);
+  delete this;
 }
