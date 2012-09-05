@@ -54,7 +54,7 @@ class Transcoder {
   std::string url_;
   std::string vidID_;
   std::string conversionType_;
-
+  
   BUFFER totalBuffer;
   char* buffer_;
   

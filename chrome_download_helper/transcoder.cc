@@ -44,7 +44,7 @@ Transcoder::~Transcoder() {
 }
 
 void Transcoder::Start() {
-  pp::CompletionCallback cc = cc_factory_.NewCallback(Transcoder::OnOpen);
+  pp::CompletionCallback cc = cc_factory_.NewCallback(&Transcoder::OnOpen);
   url_loader_.Open(url_request_, cc);
 }
 
@@ -54,7 +54,74 @@ void Transcoder::OnOpen(int32_t result) {
     return;
   }
   
+  url_request_.SetRecordDownloadProgress(true);
   
+  ReadBody();
+  
+}
+
+void Transcoder::OnRead(int32_t result) {
+  if (result == PP_OK) {
+    //reclaim memory
+    delete[] buffer_;
+    buffer_ = NULL;
+    Die(totalBuffer, true);
+  } else if (result > 0) {
+    AppendDataBytes(buffer_. result);
+    ReadBody();
+  } else {
+    Die(buffer_, false);
+  }
+}
+
+void Transcoder::AppendDataBytes(const char* buffer, int32_t num_bytes) {
+  if (num_bytes <= 0) return;
+  
+  num_bytes = std::min(READ_BUFFER_SIZE, num_bytes);
+  
+  for (int index = 0 ; index < num_bytes ; index++) {
+    totalBuffer.push_back(buffer[index]);
+  }
+}
+
+
+void Transcoder::ReadBody() {
+  pp::CompletionCallback cc = cc_factory_.NewOptionalCallback(&Transcoder::OnRead);
+  int32_t result = PP_OK;
+  
+  do {
+    result = url_loader_.ReadResponseBody(buffer_, READ_BUFFER_SIZE, cc);
+    if (result > 0) {
+      
+      AppendDataBytes(buffer_, result);
+      
+      //progress tracking
+      int64_t bytes_received = 0;
+      int64_t total_bytes_to_be_received = 0;
+      
+      url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
+      
+      int64_t totalBytes = bytes_received + total_bytes_to_be_received;
+      
+      if (totalBytes != 0) {
+	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
+	ostringstream strs;
+	strs << percentage;
+	string percentageStr = strs.str();
+	string progressReport("progress---->");
+	progressReport.append(vidID_);
+	progressReport.append("---->");
+	progressReport.append(percentageStr);
+	pp::Var progressReportBack(progressReport);
+	instance_->PostMessage(progressReportBack);
+      }
+    }
+  } while (result > 0);
+  
+  //completion pending
+  if (result != PP_OK_COMPLETIONPENDING) {
+    cc.Run(result);
+  }
   
 }
 

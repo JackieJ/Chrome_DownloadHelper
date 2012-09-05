@@ -1,6 +1,6 @@
 PROJECT:=NACL_Module
 LDFLAGS:=-lavdevice -lavformat -lavcodec -lavutil -lmp3lame -ltheoradec -ltheoraenc -ltheora -lvorbisfile -lvorbisenc -lvorbis -logg -lppapi_cpp -lppapi
-CXX_SOURCES:=$(PROJECT).cc geturl_handler.cc transcoder.cc
+CXX_SOURCES:=NACL_Module.cc transcoder.cc
 
 #
 # Get pepper directory for toolchain and includes.
