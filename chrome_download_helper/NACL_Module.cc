@@ -4,6 +4,8 @@
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
 #include "ppapi/cpp/url_loader.h"
+
+//#include "geturl_handler.h"
 #include "transcoder.h"
 
 class NACL_ModuleInstance : public pp::Instance {
@@ -36,6 +38,7 @@ void NACL_ModuleInstance::HandleMessage(const pp::Var& var_message) {
   }
   //create a url handler
   Transcoder* handler = Transcoder::Create(this, url, conversionType, vidID);  
+  //GetURLHandler* handler = GetURLHandler::Create(this, url, conversionType, vidID); 
   if(handler != NULL) {
     //start url content processing
     handler->Start();

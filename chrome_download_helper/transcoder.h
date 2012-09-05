@@ -49,20 +49,20 @@ class Transcoder {
   void FinalReport(BUFFER buffer, bool success);
   void Die(BUFFER buffer, bool success);
   //weak pointer to the NACL module instance
-  pp::Instance *instace_;
+  pp::Instance *instance_;
   
   std::string url_;
   std::string vidID_;
   std::string conversionType_;
   
-  BUFFER totalBuffer;
-  char* buffer_;
-  
   //url loading
   pp::URLRequestInfo url_request_;
   pp::URLLoader url_loader_;
   
+  BUFFER totalBuffer;
+  char* buffer_;
+    
   pp::CompletionCallbackFactory<Transcoder> cc_factory_;
-}
+};
 
 #endif

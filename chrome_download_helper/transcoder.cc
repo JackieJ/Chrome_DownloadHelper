@@ -50,7 +50,7 @@ void Transcoder::Start() {
 
 void Transcoder::OnOpen(int32_t result) {
   if (result != PP_OK) {
-    Die(buffer_, false);
+    Die(totalBuffer, false);
     return;
   }
   
@@ -67,10 +67,10 @@ void Transcoder::OnRead(int32_t result) {
     buffer_ = NULL;
     Die(totalBuffer, true);
   } else if (result > 0) {
-    AppendDataBytes(buffer_. result);
+    AppendDataBytes(buffer_, result);
     ReadBody();
   } else {
-    Die(buffer_, false);
+    Die(totalBuffer, false);
   }
 }
 
@@ -127,7 +127,7 @@ void Transcoder::ReadBody() {
 
 void Transcoder::FinalReport(BUFFER buffer, bool success) {
   if (!success) {
-    Printf("Error!");
+    printf("Error!");
   } else {
     
   }
