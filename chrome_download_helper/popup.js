@@ -45,8 +45,25 @@ var mediaAndTypeSelector = function(vidID, mediaURL) {
 
 var listConstructor = function(requestsMeta) {
     rMeta = requestsMeta;
+    
+    //get rid of dups
+    var i;
+    for (i in requestsMeta) {
+	var isDup = false;
+	var rMetaIndex
+	for (rMetaIndex in rMeta) {
+	    if (rMeta[rMetaIndex] === requestsMeta[i]) {
+		isDup = true;
+		break;
+	    }
+	}
+	if(!isDup) {
+	    rMeta[i] = requestsMeta[rMetaIndex];
+	}
+    }
+    
     var iter;
-    for(iter in requestsMeta) { 
+    for(iter in rMeta) { 
 	var name = iter.length < 20 ? iter : ("..." + iter.substring(iter.length - 20));
 	var content = "<div "
 	    +"onclick=\"mediaAndTypeSelector(\'"

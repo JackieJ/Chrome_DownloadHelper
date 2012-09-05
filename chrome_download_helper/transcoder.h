@@ -20,7 +20,7 @@
 #include "ppapi/utility/completion_callback_factory.h"
 
 //macros
-#define READ_BUFFER_SIZE 1024
+#define READ_BUFFER_SIZE 32768
 typedef std::vector<char> BUFFER;
 
 class Transcoder {
@@ -63,6 +63,9 @@ class Transcoder {
   char* buffer_;
     
   pp::CompletionCallbackFactory<Transcoder> cc_factory_;
+  
+  Transcoder(const Transcoder&);
+  void operator=(const Transcoder&);
 };
 
 #endif

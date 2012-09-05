@@ -129,7 +129,10 @@ void Transcoder::FinalReport(BUFFER buffer, bool success) {
   if (!success) {
     printf("Error!");
   } else {
-    
+
+    //for debugging
+    pp::Var dataLength((int32_t)buffer.size());
+    instance_->PostMessage(dataLength);
   }
 }
 
