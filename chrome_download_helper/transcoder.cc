@@ -40,7 +40,9 @@ Transcoder::Transcoder(pp::Instance* instance,
 
 Transcoder::~Transcoder() {
   delete [] buffer_;
+  delete [] encodingBuffer;
   buffer_ = NULL;
+  encodingBuffer = NULL;
 }
 
 void Transcoder::Start() {
@@ -129,10 +131,31 @@ void Transcoder::FinalReport(BUFFER buffer, bool success) {
   if (!success) {
     printf("Error!");
   } else {
-
+    
+    encodingBuffer = new char[buffer.size()];
+    
+    //collect data through the char vector buffer
+    int increment = 0;
+    for (vector<char>::iterator it = buffer.begin(); it != buffer.end(); it++) {
+      encodingBuffer[increment] = *it;
+      increment++;
+    }
+    
+    
     //for debugging
-    pp::Var dataLength((int32_t)buffer.size());
-    instance_->PostMessage(dataLength);
+    //pp::Var dataLength((double) strlen(encodingBuffer));
+    //instance_->PostMessage(dataLength);
+    //pp::VarArrayBuffer outputBuffer(encodingBuffer);
+    
+    string progressReport("progress---->");
+    progressReport.append(vidID_);
+    progressReport.append("---->100");
+    pp::Var progressReportBack(progressReport);
+    instance_->PostMessage(progressReportBack);
+    
+    //pp::Var byteLength((int32_t)outputBuffer.ByteLength());
+    
+    //instance_->PostMessage(byteLength);
   }
 }
 

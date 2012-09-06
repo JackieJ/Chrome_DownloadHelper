@@ -71,28 +71,28 @@ var listConstructor = function(requestsMeta) {
 	    +" class=\"foundcontainer\"><div class=\"downloadandfilenametomove\">"
 	    +"<p class=\"downloadthis\">Grab through the dialog window</p><p class=\"filename\">"
 	    +name+"</p>"+"</div></div>"
-	    
-	    $('#textareabottom').append(content);
+	
+	$('#textareabottom').append(content);
     }
 };
 
 $(document).ready(function() {
-	
-	var tabMeta;
-	var bgp = chrome.extension.getBackgroundPage();
-	tabMeta = metaComparator(bgp.mediaRequestsMap);
-	
-	var counterTag = document.getElementById("downloadnumber");
-	if(tabMeta) {
-	    counterTag.textContent = tabMeta.requestNum;
-	    for(reqMetaID in tabMeta) {
-		var subMeta = tabMeta[reqMetaID];
-		if(reqMetaID !== "requestNum") {
-		    listConstructor(subMeta.requests);
-		}
+    
+    var tabMeta;
+    var bgp = chrome.extension.getBackgroundPage();
+    tabMeta = metaComparator(bgp.mediaRequestsMap);
+    
+    var counterTag = document.getElementById("downloadnumber");
+    if(tabMeta) {
+	counterTag.textContent = tabMeta.requestNum;
+	for(reqMetaID in tabMeta) {
+	    var subMeta = tabMeta[reqMetaID];
+	    if(reqMetaID !== "requestNum") {
+		listConstructor(subMeta.requests);
 	    }
-	} else {
-	    counterTag.textContent = 0;
 	}
-	
-    });
+    } else {
+	counterTag.textContent = 0;
+    }
+    
+});

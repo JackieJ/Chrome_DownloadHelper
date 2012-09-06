@@ -13,13 +13,13 @@
 #include "ppapi/c/ppb_instance.h"
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
+#include "ppapi/cpp/var_array_buffer.h"
 #include "ppapi/cpp/completion_callback.h"
 #include "ppapi/cpp/url_loader.h"
 #include "ppapi/cpp/url_request_info.h"
 #include "ppapi/cpp/instance.h"
 #include "ppapi/utility/completion_callback_factory.h"
 
-//macros
 #define READ_BUFFER_SIZE 32768
 typedef std::vector<char> BUFFER;
 
@@ -61,7 +61,7 @@ class Transcoder {
   
   BUFFER totalBuffer;
   char* buffer_;
-    
+  char* encodingBuffer;
   pp::CompletionCallbackFactory<Transcoder> cc_factory_;
   
   Transcoder(const Transcoder&);
