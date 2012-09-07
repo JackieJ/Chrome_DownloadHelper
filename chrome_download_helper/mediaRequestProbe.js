@@ -77,6 +77,33 @@ var listUpdater = function (tab) {
 	}
 	mediaRequestsMap[tab.id].requestNum = num;
     }
+    //change icon tooltip based on the media request number
+    if (mediaRequestsMap[tab.id].requestNum !== 0) {
+	
+	chrome.browserAction.setIcon({
+	    tabId:tab.id,
+	    path:"UI/img/18x_icon_on.png"
+	}, function() {
+	    console.log("Icon turned on!");
+	});
+	
+	chrome.browserAction.setTitle({
+	    tabId:tab.id,
+	    title:mediaRequestsMap[tab.id].requestNum+" audio/videos available!"
+	});
+    } else {
+	
+	chrome.browserAction.setIcon({
+	    tabId:tab.id,
+	    path:"UI/img/18x_icon_off.png"
+	}, function() {
+	    console.log("Icon turned off!");
+	});
+	chrome.browserAction.setTitle({
+	    tabId:tab.id,
+	    title:"Downdload/Transcode Audio&Videos"
+	});
+    }
     
     //debugging
     console.log(JSON.stringify(mediaRequestsMap));

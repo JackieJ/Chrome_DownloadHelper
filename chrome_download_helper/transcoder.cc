@@ -56,6 +56,16 @@ void Transcoder::OnOpen(int32_t result) {
     return;
   }
   
+  //reserve memory for downloaded content
+  int64_t bytes_received = 0;
+  int64_t total_bytes_to_be_received = 0;
+  if (url_loader_.GetDownloadProgress(&bytes_received,
+                                      &total_bytes_to_be_received)) {
+    if (total_bytes_to_be_received > 0) {
+      url_response_body_.reserve(total_bytes_to_be_received);
+    }
+  }
+  
   url_request_.SetRecordDownloadProgress(true);
   
   ReadBody();
@@ -93,6 +103,18 @@ void Transcoder::ReadBody() {
   
   do {
     result = url_loader_.ReadResponseBody(buffer_, READ_BUFFER_SIZE, cc);
+    
+    //debugging
+    pp::Var bufferSize((int32_t)strlen(buffer_));
+    instance_->PostMessage(bufferSize);
+    
+    pp::Var buf(buffer);
+    if(buf.is_array_buffer) {
+      pp::Var debugMsg("It's an array buffer");
+      instance_->PostMessage(debugMsg);
+    }
+    pp::VarArrayBuffer transcodeBuffer((uint32_t)strlen(buffer_));
+        
     if (result > 0) {
       
       AppendDataBytes(buffer_, result);
@@ -141,21 +163,12 @@ void Transcoder::FinalReport(BUFFER buffer, bool success) {
       increment++;
     }
     
-    
-    //for debugging
-    //pp::Var dataLength((double) strlen(encodingBuffer));
-    //instance_->PostMessage(dataLength);
-    //pp::VarArrayBuffer outputBuffer(encodingBuffer);
-    
     string progressReport("progress---->");
     progressReport.append(vidID_);
     progressReport.append("---->100");
     pp::Var progressReportBack(progressReport);
     instance_->PostMessage(progressReportBack);
     
-    //pp::Var byteLength((int32_t)outputBuffer.ByteLength());
-    
-    //instance_->PostMessage(byteLength);
   }
 }
 
