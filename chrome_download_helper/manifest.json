@@ -8,7 +8,7 @@
       "default_title":"Download/Transcode Audio&Videos",
       "popup": "popup.html"
    },
-   "description": "Transcode and download videos and audios",
+   "description": "Download and transcode audio&videos",
    "icons": {
       "128": "UI/img/128x_icon_off.png",
       "16": "UI/img/18x_icon_off.png",

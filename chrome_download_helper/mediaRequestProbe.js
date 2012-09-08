@@ -14,6 +14,42 @@
     }
   }
 */
+
+//animation definitions
+var setIcon = function(imgData,tab) {
+    chrome.browserAction.setIcon({
+	tabId:tab.id,
+	path:imgData
+    }, function(){
+	console.log("Icon Updated!");
+    });  
+};
+
+var iconSequence = [
+    "UI/img/icon_sequence/01.png",
+    "UI/img/icon_sequence/02.png",
+    "UI/img/icon_sequence/03.png",
+    "UI/img/icon_sequence/04.png",
+    "UI/img/icon_sequence/05.png",
+    "UI/img/icon_sequence/06.png",
+    "UI/img/icon_sequence/07.png",
+    "UI/img/icon_sequence/08.png",
+    "UI/img/icon_sequence/09.png",
+    "UI/img/icon_sequence/10.png",
+    "UI/img/icon_sequence/11.png",
+    "UI/img/icon_sequence/12.png",
+    "UI/img/icon_sequence/13.png",
+    "UI/img/icon_sequence/14.png",
+    "UI/img/icon_sequence/15.png",
+    "UI/img/icon_sequence/16.png",
+    "UI/img/icon_sequence/17.png",
+    "UI/img/icon_sequence/18.png",
+    "UI/img/icon_sequence/19.png",
+    "UI/img/icon_sequence/20.png"
+];
+
+var frames = [];
+
 //acitve tab and url check
 var activeURL = null;
 var activeTabId = null;
@@ -36,7 +72,7 @@ var mediaFormats = [
     "mp4",
     "mpeg4",
     "mp3",
-    "mpeg3",
+    "mpeg3"
 ];
 
 var siteExceptions = {
@@ -80,25 +116,22 @@ var listUpdater = function (tab) {
     //change icon tooltip based on the media request number
     if (mediaRequestsMap[tab.id].requestNum !== 0) {
 	
-	chrome.browserAction.setIcon({
-	    tabId:tab.id,
-	    path:"UI/img/18x_icon_on.png"
-	}, function() {
-	    console.log("Icon turned on!");
-	});
+	setIcon("UI/img/18x_icon_on.png", tab);
 	
 	chrome.browserAction.setTitle({
 	    tabId:tab.id,
 	    title:mediaRequestsMap[tab.id].requestNum+" audio/videos available!"
 	});
+	
+	chrome.browserAction.setBadgeText({
+	    tabId:tab.id,
+	    text:mediaRequestsMap[tab.id].requestNum.toString()
+	});
+	
     } else {
 	
-	chrome.browserAction.setIcon({
-	    tabId:tab.id,
-	    path:"UI/img/18x_icon_off.png"
-	}, function() {
-	    console.log("Icon turned off!");
-	});
+	setIcon("UI/img/18x_icon_off.png", tab);
+	
 	chrome.browserAction.setTitle({
 	    tabId:tab.id,
 	    title:"Downdload/Transcode Audio&Videos"
@@ -134,14 +167,44 @@ var updateMeta = function(tab,tabId) {
     }
 };
 
-window.onload = function() {
+//animation
+var doAnimation = false;
+var animateIcon = (function() {
+    //animation using canvas
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    var img = document.createElement('img');
+    img.setAttribute('height', 19);
+    img.setAttribute('width', 19);
+    canvas.setAttribute('height', img.height);
+    canvas.setAttribute('width', img.width);
     
+    for (var sequenceIndex = 0; sequenceIndex < iconSequence.length; sequenceIndex++) {
+	img.src = iconSequence[sequenceIndex];
+	ctx.drawImage(img, 0, 0);
+	frames.push(ctx.getImageData(0,0,img.width,img.height));
+    }
+    
+    var speed = 100;
+    return function(){
+	for (var i=0, length=frames.length; i<length; i++) {
+	    setTimeout(function(){
+		setIcon(frames[i]);
+	    }, speed*i);
+	}
+	if (doAnimation) {
+	    setTimeout(function(){ animateIcon()}, speed*frames.length);
+	}
+    }
+})();
+
+window.onload = function() {
     var queryInfo = {
 	"currentWindow":true
     };
     
     chrome.tabs.query(queryInfo, function(tabArray) {
-	for(var arrayIndex = 0 ; arrayIndex < tabArray.length ; arrayIndex++) {
+	for(var arrayIndex = 0; arrayIndex < tabArray.length; arrayIndex++) {
 	    mediaRequestsMap[tabArray[arrayIndex].id] = {requestNum:0};
 	    listUpdater(tabArray[arrayIndex]);
 	}

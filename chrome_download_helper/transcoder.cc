@@ -114,7 +114,7 @@ void Transcoder::ReadBody() {
       instance_->PostMessage(debugMsg);
     }
     pp::VarArrayBuffer transcodeBuffer((uint32_t)strlen(buffer_));
-        
+    
     if (result > 0) {
       
       AppendDataBytes(buffer_, result);
