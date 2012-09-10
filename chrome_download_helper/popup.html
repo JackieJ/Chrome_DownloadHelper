@@ -9,28 +9,8 @@
     <script src="UI/jquery-1.8.0.min.js" type="text/javascript"></script>
     <script src="lib/FileSaver.min.js" type="text/javascript"></script>
     <script src="popup.js" type="text/javascript"></script>
-    <script>
-      $(document).ready(function(){
-      
-      var filenameHover = function(){
-      
-      $(this).parent().parent().toggleClass('foundcontainer-on');
-      };
-      
-      $('p.filename').on('hover', filenameHover);
-      
-      $('p.filename').click(function(){
-      
-      $(this).off('hover', filenameHover);
-      $(this).parent().parent().addClass('foundcontainer-on');
-      $(this).parent().animate({left:'-1'}, 1000);
-      
-      });
-      
-      })
-    </script>
   </head>
-  <body style="margin:0px;" onload="pageDidLoad()">
+  <body style="margin:0px;">
     <div class="row">
       <div class="span1 backgroundimage">
 	<img id="foreground" style="z-index:1;" src="UI/img/forground.png" />
@@ -43,5 +23,4 @@
       </div>
     </div>
   </body>
-  
 </html>    

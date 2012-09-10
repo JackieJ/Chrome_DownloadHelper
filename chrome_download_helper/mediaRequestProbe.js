@@ -89,16 +89,16 @@ for (var index = 0; index < mediaFormats.length ; index++) {
     patterns.push(new RegExp("("+patternPartial["prefix"]+mediaFormats[index]+")"+patternPartial["suffix"]));
 }
 
+var doAnimation = false;
+var targetTab = null;
 //list updater
 var listUpdater = function (tab) {
-    
+    targetTab = tab;
     var hasTab = false;
     var tabMeta = mediaRequestsMap[tab.id];
-    
     if (tabMeta) {
 	hasTab = true;
     }
-    
     if (hasTab) {
 	var num = 0;
 	var iter;
@@ -107,7 +107,7 @@ var listUpdater = function (tab) {
 	    if(iter !== "requestNum") {
 		var requests = tabMeta[iter].requests;
 		for (i in requests) {
-		    num++
+		    num++;
 		}
 	    }
 	}
@@ -115,23 +115,21 @@ var listUpdater = function (tab) {
     }
     //change icon tooltip based on the media request number
     if (mediaRequestsMap[tab.id].requestNum !== 0) {
-	
 	setIcon("UI/img/18x_icon_on.png", tab);
-	
+	//doAnimation = true;
+	//animateIcon(tab);
 	chrome.browserAction.setTitle({
 	    tabId:tab.id,
 	    title:mediaRequestsMap[tab.id].requestNum+" audio/videos available!"
 	});
-	
 	chrome.browserAction.setBadgeText({
 	    tabId:tab.id,
 	    text:mediaRequestsMap[tab.id].requestNum.toString()
 	});
 	
     } else {
-	
+	//doAnimation = false;
 	setIcon("UI/img/18x_icon_off.png", tab);
-	
 	chrome.browserAction.setTitle({
 	    tabId:tab.id,
 	    title:"Downdload/Transcode Audio&Videos"
@@ -167,8 +165,8 @@ var updateMeta = function(tab,tabId) {
     }
 };
 
+/*
 //animation
-var doAnimation = false;
 var animateIcon = (function() {
     //animation using canvas
     var canvas = document.createElement("canvas");
@@ -181,22 +179,23 @@ var animateIcon = (function() {
     
     for (var sequenceIndex = 0; sequenceIndex < iconSequence.length; sequenceIndex++) {
 	img.src = iconSequence[sequenceIndex];
+	console.log(img.src);
 	ctx.drawImage(img, 0, 0);
 	frames.push(ctx.getImageData(0,0,img.width,img.height));
     }
-    
-    var speed = 100;
+    var speed = 2000;
     return function(){
-	for (var i=0, length=frames.length; i<length; i++) {
-	    setTimeout(function(){
-		setIcon(frames[i]);
-	    }, speed*i);
+	if(doAnimation) {
+	    for (var i=0, length=frames.length; i<length; i++) {
+		setTimeout(function(){
+		    setIcon(frames[i], targetTab);
+		}, speed*i);
+	    }
+	    setTimeout(function(){animateIcon();}, speed*frames.length);
 	}
-	if (doAnimation) {
-	    setTimeout(function(){ animateIcon()}, speed*frames.length);
-	}
-    }
+    };
 })();
+*/
 
 window.onload = function() {
     var queryInfo = {
