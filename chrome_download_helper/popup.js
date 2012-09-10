@@ -1,5 +1,6 @@
 //meta data comparator(only compare the meta in the active tab)
 var metaComparator = function(newMeta) {
+    var tabIndex;
     //compare pick out active tab
     for (tabIndex in newMeta) {
 	var isActive = false;

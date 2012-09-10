@@ -106,7 +106,7 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 	    var statusTag = document.getElementById("saving");
 	    statusTag.textContent = "Converting '"+fileName+"'...";
 	    globleStatusText = statusTag.textContent;
-	    document.querySelector('p.downloadthis em b').textContent = "Conversion In Progress......"
+	    document.querySelector('p.downloadthis em b').textContent = "Conversion In Progress......";
 	    
 	    var mstr = vidID + "((--))" 
 		+ convertType + "((--))" + mediaURL;
