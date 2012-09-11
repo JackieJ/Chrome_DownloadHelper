@@ -24,11 +24,7 @@
 	</div>
 	<!--Listener for NACL module-->
 	<div id="listener">
-	  <script type="text/javascript">
-            var listener = document.getElementById('listener');
-            listener.addEventListener('load', moduleDidLoad, true);
-            listener.addEventListener('message', handleMessage, true);
-	  </script>
+	  <script type="text/javascript" src="listener.js"></script>
 	  <embed name="nacl_module"
 		 id="NACL_Module"
 		 width=0 height=0

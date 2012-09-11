@@ -59,17 +59,9 @@ void Transcoder::OnOpen(int32_t result) {
   //reserve memory for downloaded content
   int64_t bytes_received = 0;
   int64_t total_bytes_to_be_received = 0;
-  if (url_loader_.GetDownloadProgress(&bytes_received,
-                                      &total_bytes_to_be_received)) {
-    if (total_bytes_to_be_received > 0) {
-      url_response_body_.reserve(total_bytes_to_be_received);
-    }
-  }
-  
+  url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
   url_request_.SetRecordDownloadProgress(true);
-  
   ReadBody();
-  
 }
 
 void Transcoder::OnRead(int32_t result) {
@@ -103,30 +95,49 @@ void Transcoder::ReadBody() {
   
   do {
     result = url_loader_.ReadResponseBody(buffer_, READ_BUFFER_SIZE, cc);
-    
     //debugging
+    pp::VarArrayBuffer testBuf(15);
+    //test if map/unmap works
+    testBuf.Unmap();
+    testBuf.Map();
+    char* test_buf = static_cast<char*>(testBuf.Map());
+    const uint32_t testByteLength = testBuf.ByteLength();
+    for (size_t bufIndex = 0; bufIndex < testByteLength; bufIndex++) {
+      //put bytes in the mapped array buffer
+    }
+    
+    /*
     pp::Var bufferSize((int32_t)strlen(buffer_));
     instance_->PostMessage(bufferSize);
-    
-    pp::Var buf(buffer);
-    if(buf.is_array_buffer) {
+    pp::Var buf(buffer_);
+    */
+    /*
+    if(buf.is_array_buffer()) {
       pp::Var debugMsg("It's an array buffer");
       instance_->PostMessage(debugMsg);
+    } else {
+      pp::Var debugMsg("It's NOT an array buffer");
+      instance_->PostMessage(debugMsg);
     }
-    pp::VarArrayBuffer transcodeBuffer((uint32_t)strlen(buffer_));
-    
+    */
+    //pp::VarArrayBuffer transcodeBuffer(buf);
+    //debug
+    /*
+    if(transcodeBuffer.is_array_buffer()) {
+      pp::Var debugMsg("It's an array buffer");
+      instance_->PostMessage(debugMsg);
+    } else {
+      pp::Var debugMsg("It's NOT an array buffer");
+      instance_->PostMessage(debugMsg);
+    }
+    */
     if (result > 0) {
-      
       AppendDataBytes(buffer_, result);
-      
       //progress tracking
       int64_t bytes_received = 0;
       int64_t total_bytes_to_be_received = 0;
-      
       url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
-      
       int64_t totalBytes = bytes_received + total_bytes_to_be_received;
-      
       if (totalBytes != 0) {
 	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
 	ostringstream strs;
