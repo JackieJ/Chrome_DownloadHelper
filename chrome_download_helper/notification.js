@@ -1,6 +1,7 @@
-//NACL module
+//constants
 vagModule = null;
 var sText = null;
+window.URL = window.URL || window.webkitURL;
 
 //messaging to the background page
 var debugPort = chrome.extension.connect({name:"debug"});
@@ -36,9 +37,53 @@ var loadURL = function(messageStr) {
     vagModule.postMessage(messageStr);
 };
 
+var downloadFileName = "download";
+var globleText = null;
+var createDownloadBlob = function (data) {
+    var blob = new Blob([data], {type:"audo/video"});
+    var blobURL = window.URL.createObjectURL(blob);
+    //fade away the text content
+    $(".downloadthis").fadeOut('slow', function() {
+	// Animation complete.
+    });
+    //download button appears
+    var selectContainer = document.querySelector(".selectcontainer");
+    var downloadButton = document.createElement("a");
+    downloadButton.addEventListener('click', function(e) {
+	$(downloadButton).fadeOut('slow', function() {});
+	var hiddenButtons = document.querySelectorAll(".btn");
+	for(var buttonIndex = 0; buttonIndex < hiddenButtons.length; buttonIndex++) {
+	    var hiddenButton = hiddenButtons[buttonIndex];
+	    if (hiddenButton.parentNode.id !== "downloadBtn") {
+		console.log(hiddenButton.id);
+		$(hiddenButton).fadeIn('slow', function(e) {});
+	    }
+	}
+	globleStatusText = globleText;
+    });
+    downloadButton.setAttribute("id", "downloadBtn");
+    downloadButton.setAttribute("href", blobURL);
+    downloadButton.setAttribute("download", downloadFileName);
+    var insideDiv = document.createElement("div");
+    insideDiv.className = "btn "+"downloadBtn";
+    insideDiv.textContent = "download";
+    downloadButton.appendChild(insideDiv);
+    selectContainer.appendChild(downloadButton);
+};
+
 var handleMessage = function(message_event) {
     var NACLMessage = message_event.data;
-    debugPort.postMessage(NACLMessage);
+    if (NACLMessage.hasOwnProperty("byteLength")) {
+	//debugPort.postMessage(typeof NACLMessage.byteLength);
+	//buf view for accessing the array buffer
+	var bufView = new Uint8Array(NACLMessage.byteLength);
+	bufView.set(NACLMessage);
+	//debug port
+	debugPort.postMessage(bufView);
+	createDownloadBlob("This is a test!");
+    } else {
+	
+    }
 };
 
 var transcodeOptions = {
@@ -86,9 +131,9 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 	//change status text
 	DOMElement.addEventListener("click",function() {
 	    var statusTag = document.getElementById("saving");
-	    statusTag.textContent = "Download and Save!"
+	    statusTag.textContent = "Download and Save!";
 	    globleStatusText = statusTag.textContent;
-	    document.querySelector('p.downloadthis em b').textContent = "Downloading......";
+	    document.querySelector('p.downloadthis b').textContent = "Downloading......";
 	}, false);
     }
     else {
@@ -106,11 +151,14 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 	    var statusTag = document.getElementById("saving");
 	    statusTag.textContent = "Converting '"+fileName+"'...";
 	    globleStatusText = statusTag.textContent;
-	    document.querySelector('p.downloadthis em b').textContent = "Conversion In Progress......";
+	    document.querySelector('p.downloadthis b').textContent = "Conversion In Progress......";
 	    
 	    var mstr = vidID + "((--))" 
-		+ convertType + "((--))" + mediaURL;
-	    
+		    + convertType + "((--))" + mediaURL;
+	    var fileNameComponents = /([^\.]+\.)[^\.]+$/.exec(fileName);
+	    if (fileNameComponents) {
+		downloadFileName = fileNameComponents[1]+convertType;
+	    }
 	    loadURL(mstr);
 	    
 	}, false);
@@ -178,19 +226,13 @@ $(document).ready(function() {
 	    ? downloadName 
 	    : ("..." + downloadName.substring(downloadName.length - 20));
 	text = "Save  \'"+trimmedName+"\' as";
-	
+	globleText = text;
 	globleStatusText = text;
 	
     } else {
 	text = "Oops! Error on loading the file!";
     }
     savingStatusTag.textContent = text;
-    
-    /*
-	document.querySelector(".cancel").addEventListener("mouseover", function() {
-		savingStatusTag.textContent = "Cancel";
-	    }, false);
-	*/
     
     //append tooltips to conversion formats
     var mp3Tag = document.getElementById("mp3");

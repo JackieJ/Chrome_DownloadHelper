@@ -63,12 +63,6 @@ var listConstructor = function(requestsMeta) {
     for(iter in rMeta) { 
 	var name = iter.length < 20 ? iter : ("..." + iter.substring(iter.length - 20));
 	
-	/*
-	var content = "<div"+" class=\"foundcontainer\"><div class=\"downloadandfilenametomove\">"
-	    +"<p class=\"downloadthis\">Grab through the dialog window</p><p class=\"filename\">"
-		+name+"</p>"+"</div></div>";
-	*/
-	
 	var entryDiv = document.createElement("div");
 	entryDiv.className = "foundcontainer";
 	entryDiv.addEventListener('click', function(e) {

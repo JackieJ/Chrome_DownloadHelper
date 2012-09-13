@@ -217,7 +217,7 @@
 
 .downloadthis, .filename:hover
 {
-	text-decoration: underline;
+	/*text-decoration: underline;*/
 	color: #1e66af;
 	cursor: pointer;
 }

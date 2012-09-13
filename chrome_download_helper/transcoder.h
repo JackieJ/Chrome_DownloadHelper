@@ -41,6 +41,11 @@ class Transcoder {
   //destructor
   ~Transcoder();
   
+  //transcoders CODECS:
+  void FLVToMP3();
+  void FLVToMP4();
+  void MP4ToMP3();
+  
   //callbacks
   void OnOpen(int32_t result);
   void OnRead(int32_t result);

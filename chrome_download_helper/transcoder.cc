@@ -36,6 +36,18 @@ Transcoder::Transcoder(pp::Instance* instance,
   url_request_.SetURL(url);
   url_request_.SetMethod("GET");
   url_request_.SetRecordDownloadProgress(true);
+
+  //array buffer test
+  uint32_t testSize = 3;
+  pp::VarArrayBuffer testBuf(testSize);
+  char* testData = static_cast<char*>(testBuf.Map());
+  const char* input = "ABC";
+  for (size_t dataIndex = 0; dataIndex < testSize; dataIndex++) {
+    testData[dataIndex] = input[dataIndex];
+  }
+  testBuf.Unmap();
+  instance_->PostMessage(testBuf);
+  
 }
 
 Transcoder::~Transcoder() {
@@ -78,6 +90,7 @@ void Transcoder::OnRead(int32_t result) {
   }
 }
 
+
 void Transcoder::AppendDataBytes(const char* buffer, int32_t num_bytes) {
   if (num_bytes <= 0) return;
   
@@ -88,49 +101,13 @@ void Transcoder::AppendDataBytes(const char* buffer, int32_t num_bytes) {
   }
 }
 
-
 void Transcoder::ReadBody() {
   pp::CompletionCallback cc = cc_factory_.NewOptionalCallback(&Transcoder::OnRead);
   int32_t result = PP_OK;
   
   do {
     result = url_loader_.ReadResponseBody(buffer_, READ_BUFFER_SIZE, cc);
-    //debugging
-    pp::VarArrayBuffer testBuf(15);
-    //test if map/unmap works
-    testBuf.Unmap();
-    testBuf.Map();
-    char* test_buf = static_cast<char*>(testBuf.Map());
-    const uint32_t testByteLength = testBuf.ByteLength();
-    for (size_t bufIndex = 0; bufIndex < testByteLength; bufIndex++) {
-      //put bytes in the mapped array buffer
-    }
-    
-    /*
-    pp::Var bufferSize((int32_t)strlen(buffer_));
-    instance_->PostMessage(bufferSize);
-    pp::Var buf(buffer_);
-    */
-    /*
-    if(buf.is_array_buffer()) {
-      pp::Var debugMsg("It's an array buffer");
-      instance_->PostMessage(debugMsg);
-    } else {
-      pp::Var debugMsg("It's NOT an array buffer");
-      instance_->PostMessage(debugMsg);
-    }
-    */
-    //pp::VarArrayBuffer transcodeBuffer(buf);
-    //debug
-    /*
-    if(transcodeBuffer.is_array_buffer()) {
-      pp::Var debugMsg("It's an array buffer");
-      instance_->PostMessage(debugMsg);
-    } else {
-      pp::Var debugMsg("It's NOT an array buffer");
-      instance_->PostMessage(debugMsg);
-    }
-    */
+    //geturl progress report
     if (result > 0) {
       AppendDataBytes(buffer_, result);
       //progress tracking
@@ -139,7 +116,7 @@ void Transcoder::ReadBody() {
       url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
       int64_t totalBytes = bytes_received + total_bytes_to_be_received;
       if (totalBytes != 0) {
-	double percentage = (double)((bytes_received * 100) / total_bytes_to_be_received);
+	double percentage = (double)(0.5*(bytes_received * 100) / total_bytes_to_be_received);
 	ostringstream strs;
 	strs << percentage;
 	string percentageStr = strs.str();
@@ -176,7 +153,7 @@ void Transcoder::FinalReport(BUFFER buffer, bool success) {
     
     string progressReport("progress---->");
     progressReport.append(vidID_);
-    progressReport.append("---->100");
+    progressReport.append("---->50");
     pp::Var progressReportBack(progressReport);
     instance_->PostMessage(progressReportBack);
     

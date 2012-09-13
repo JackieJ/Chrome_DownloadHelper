@@ -1,4 +1,3 @@
-
 .backgroundimage
 {
 	background-image: url(../img_pop/background.png);
@@ -7,7 +6,6 @@
 	position: relative;
 }
 
-
 .saveas {
 	font: 15px 'AvalonBook';
 	top: 17px;
@@ -15,7 +13,6 @@
 	text-align: center;
 	color: #444444;
 }
-
 
 .foundcontainer
 {
@@ -35,14 +32,11 @@
 }
 
 .foundcontainer-on {
-		background: url(../img_pop/gradient_loader_on.png) -225px; /* Gradient is at -223 and loader starts at -221 and ends at 0 */
+	background: url(../img_pop/gradient_loader_on.png) -225px; /* Gradient is at -223 and loader starts at -221 and ends at 0 */
 	/*CSS Generated Gradient below*/
 /*	background: -webkit-linear-gradient(top, #ebecee 0%, #d4d6da 100%) #ebecee;
 	background: -webkit-gradient(linear, left top, left bottom, from(#ebecee), to(#d4d6da)) #ebecee;*/
 }
-
-
-
 
 .foundcontainer p
 {
@@ -85,7 +79,6 @@
 	background-position: 0 0;
 }
 
-
 /*File Type Buttons Start*/
 
 .selectcontainer
@@ -111,8 +104,6 @@
 	-webkit-box-shadow: 0 2px 4px #605a5a;
 	box-shadow: 0 2px 4px #605a5a;
 }
-
-
 
 .mp3{
 	position: absolute;
@@ -198,9 +189,37 @@
 	
 }
 
+.downloadBtn {
+	position: absolute;
+	left: 60px;
+	top: 2px;
+	border-radius: 6px 6px 6px 6px;
+	background: -moz-linear-gradient(90deg, #2c912c 0%, #65dd65 100%) #48cb48;
+	background: -webkit-gradient(linear, left bottom, left top, from(#2c912c), to(#65dd65)) #48cb48;
+	z-index: 12;
+	
+}
+
+.downloadBtn:hover
+{
+	background: -moz-linear-gradient(90deg, #2c912c 0%, #bcf0bc 100%) #62e462;
+	background: -webkit-gradient(linear, left bottom, left top, from(#2c912c), to(#bcf0bc)) #62e462;
+	cursor: pointer;
+	
+}
+
+.downloadBtn:active{
+	position: absolute;
+	left: 65px;
+	top: 2px;
+	border-radius: 6px 6px 6px 6px;
+	background: -moz-linear-gradient(90deg, #2c912c 0%, #65dd65 100%) #48cb48;
+	background: -webkit-gradient(linear, left bottom, left top, from(#2c912c), to(#65dd65)) #48cb48;
+	z-index: 12;
+	
+}
 
 /*File Type Buttons End*/
-
 
 .downloadandfilenametomove
 {
@@ -218,7 +237,7 @@
 
 .downloadthis, .filename:hover
 {
-	text-decoration: underline;
+	/*text-decoration: underline;*/
 	color: #1e66af;
 	cursor: pointer;
 }

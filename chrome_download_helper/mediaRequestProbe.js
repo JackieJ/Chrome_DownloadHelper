@@ -120,7 +120,8 @@ var listUpdater = function (tab) {
 	//animateIcon(tab);
 	chrome.browserAction.setTitle({
 	    tabId:tab.id,
-	    title:mediaRequestsMap[tab.id].requestNum+" audio/videos available!"
+	    title:mediaRequestsMap[tab.id].requestNum
+		+" audio/videos available!"
 	});
 	chrome.browserAction.setBadgeText({
 	    tabId:tab.id,
