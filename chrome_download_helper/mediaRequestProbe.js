@@ -10,6 +10,10 @@
 	  requestId2:request2,
 	  ...
 	}
+        contentTypes:{
+          requestId1:request1,
+          requestId2:request2
+        }
       }
     }
   }
