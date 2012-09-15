@@ -38,6 +38,7 @@ Transcoder::Transcoder(pp::Instance* instance,
   url_request_.SetRecordDownloadProgress(true);
 
   //array buffer test
+  /*
   uint32_t testSize = 3;
   pp::VarArrayBuffer testBuf(testSize);
   char* testData = static_cast<char*>(testBuf.Map());
@@ -47,7 +48,7 @@ Transcoder::Transcoder(pp::Instance* instance,
   }
   testBuf.Unmap();
   instance_->PostMessage(testBuf);
-  
+  */
 }
 
 Transcoder::~Transcoder() {
@@ -116,7 +117,7 @@ void Transcoder::ReadBody() {
       url_loader_.GetDownloadProgress(&bytes_received, &total_bytes_to_be_received);
       int64_t totalBytes = bytes_received + total_bytes_to_be_received;
       if (totalBytes != 0) {
-	double percentage = (double)(0.5*(bytes_received * 100) / total_bytes_to_be_received);
+	double percentage = (double)(0.25*(bytes_received * 100) / total_bytes_to_be_received);
 	ostringstream strs;
 	strs << percentage;
 	string percentageStr = strs.str();
@@ -153,7 +154,7 @@ void Transcoder::FinalReport(BUFFER buffer, bool success) {
     
     string progressReport("progress---->");
     progressReport.append(vidID_);
-    progressReport.append("---->50");
+    progressReport.append("---->25");
     pp::Var progressReportBack(progressReport);
     instance_->PostMessage(progressReportBack);
     

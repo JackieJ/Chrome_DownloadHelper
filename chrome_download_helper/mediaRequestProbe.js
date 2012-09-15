@@ -335,16 +335,17 @@ chrome.extension.onConnect.addListener(function(port) {
 	    notification.show();
 	    
 	});
-    }
-    
-    if (port.name === "debug") {
+    } else if (port.name === "debug") {
 	port.onMessage.addListener(function(msg) {
 	    console.log("====Debug Message====");
 	    console.log(msg);
 	    console.log("=====================");
 	});
+    } else if (port.name === "progress") {
+	//track download progress from chrome download page
+	port.onMessage.addListener(function(msg) {
+	    
+	});
     }
-    
-    
 });
 

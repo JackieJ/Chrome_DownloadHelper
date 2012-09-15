@@ -5,7 +5,7 @@ window.URL = window.URL || window.webkitURL;
 
 //messaging to the background page
 var debugPort = chrome.extension.connect({name:"debug"});
-
+var progressMsgPort = chrome.extension.connect({name:"progress"});
 var moduleDidLoad = function() {
     vagModule = document.getElementById("NACL_Module");
     updateStatus("Transcoder successfully loaded!");
@@ -71,6 +71,26 @@ var createDownloadBlob = function (data) {
     selectContainer.appendChild(downloadButton);
 };
 
+var progressBarDisplay = function(fName, progressStat) {
+    var gLength = 220;
+    var px = 220 - 220 * 0.01 * progressStat;
+    var barURL = '';
+    debugPort.postMessage("progressStat:"+px);
+    if (/\.mp3|\.mpeg3/.test(fName)) {
+	//debugPort.postMessage("mp3");
+	barURL = 'UI/img/red.png';
+    } else if (/\.mp4|\.mpeg4/.test(fName)) {
+	//debugPort.postMessage("mp4");
+	barURL = 'UI/img/blue.png';
+    } else {
+	//debugPort.postMessage("original download");
+	barURL = 'UI/img/green.png';
+    }
+    var container = document.querySelector(".foundcontainer");
+    container.style.backgroundImage = "url("+barURL+")";
+    container.style.backgroundPosition = "-"+px+"px 50%";
+};
+
 var handleMessage = function(message_event) {
     var NACLMessage = message_event.data;
     if (NACLMessage.hasOwnProperty("byteLength")) {
@@ -82,7 +102,13 @@ var handleMessage = function(message_event) {
 	debugPort.postMessage(bufView);
 	createDownloadBlob("This is a test!");
     } else {
-	
+	var progressCaptured = /^progress---->.+---->(.+)$/.exec(NACLMessage);
+	if (progressCaptured) {
+	    //transcoding progress
+	    var progressStat = parseFloat(progressCaptured[1]);
+	    //debugPort.postMessage(progressStat);
+	    progressBarDisplay(downloadFileName, progressStat); 
+	}
     }
 };
 
@@ -130,6 +156,15 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 	
 	//change status text
 	DOMElement.addEventListener("click",function() {
+	    
+	    for (var buttonIndex = 0 ; buttonIndex < buttons.length ; buttonIndex++) {
+		$(buttons[buttonIndex]).fadeOut('slow', function() {
+		    // Animation complete.
+		});
+	    }
+	    
+	    $('.downloadandfilenametomove').animate({left:'-1'}, 1000);
+	    
 	    var statusTag = document.getElementById("saving");
 	    statusTag.textContent = "Download and Save!";
 	    globleStatusText = statusTag.textContent;

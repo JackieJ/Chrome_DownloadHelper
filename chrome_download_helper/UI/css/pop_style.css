@@ -32,7 +32,7 @@
 }
 
 .foundcontainer-on {
-	background: url(../img_pop/gradient_loader_on.png) -225px; /* Gradient is at -223 and loader starts at -221 and ends at 0 */
+	background: url(UI/img_pop/gradient_loader_on.png) -225px; /* Gradient is at -223 and loader starts at -221 and ends at 0 */
 	/*CSS Generated Gradient below*/
 /*	background: -webkit-linear-gradient(top, #ebecee 0%, #d4d6da 100%) #ebecee;
 	background: -webkit-gradient(linear, left top, left bottom, from(#ebecee), to(#d4d6da)) #ebecee;*/
