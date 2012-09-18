@@ -1,3 +1,4 @@
+`Will not be released until NACL is supported as part of Chrome extension development`     
 Setup Steps
 ===========
 
