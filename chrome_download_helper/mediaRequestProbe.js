@@ -1,23 +1,23 @@
 /*=====================Extension API==========================*/
 //info hash for media requests
 /*
-  {
-    tabId:{
-      url:{
-        active:true/false,
-	requests:{
-	  requestId1:request1,
-	  requestId2:request2,
-	  ...
-	}
-        contentTypes:{
-          requestId1:request1,
-          requestId2:request2
-        }
-      }
-    }
-  }
-*/
+ {
+ tabId:{
+ url:{
+ active:true/false,
+ requests:{
+ requestId1:request1,
+ requestId2:request2,
+ ...
+ }
+ contentTypes:{
+ requestId1:request1,
+ requestId2:request2
+ }
+ }
+ }
+ }
+ */
 
 //animation definitions
 var setIcon = function(imgData,tab) {
@@ -170,36 +170,36 @@ var updateMeta = function(tab,tabId) {
 };
 
 /*
-//animation
-var animateIcon = (function() {
-    //animation using canvas
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d");
-    var img = document.createElement('img');
-    img.setAttribute('height', 19);
-    img.setAttribute('width', 19);
-    canvas.setAttribute('height', img.height);
-    canvas.setAttribute('width', img.width);
-    
-    for (var sequenceIndex = 0; sequenceIndex < iconSequence.length; sequenceIndex++) {
-	img.src = iconSequence[sequenceIndex];
-	console.log(img.src);
-	ctx.drawImage(img, 0, 0);
-	frames.push(ctx.getImageData(0,0,img.width,img.height));
-    }
-    var speed = 2000;
-    return function(){
-	if(doAnimation) {
-	    for (var i=0, length=frames.length; i<length; i++) {
-		setTimeout(function(){
-		    setIcon(frames[i], targetTab);
-		}, speed*i);
-	    }
-	    setTimeout(function(){animateIcon();}, speed*frames.length);
-	}
-    };
-})();
-*/
+ //animation
+ var animateIcon = (function() {
+ //animation using canvas
+ var canvas = document.createElement("canvas");
+ var ctx = canvas.getContext("2d");
+ var img = document.createElement('img');
+ img.setAttribute('height', 19);
+ img.setAttribute('width', 19);
+ canvas.setAttribute('height', img.height);
+ canvas.setAttribute('width', img.width);
+ 
+ for (var sequenceIndex = 0; sequenceIndex < iconSequence.length; sequenceIndex++) {
+ img.src = iconSequence[sequenceIndex];
+ console.log(img.src);
+ ctx.drawImage(img, 0, 0);
+ frames.push(ctx.getImageData(0,0,img.width,img.height));
+ }
+ var speed = 2000;
+ return function(){
+ if(doAnimation) {
+ for (var i=0, length=frames.length; i<length; i++) {
+ setTimeout(function(){
+ setIcon(frames[i], targetTab);
+ }, speed*i);
+ }
+ setTimeout(function(){animateIcon();}, speed*frames.length);
+ }
+ };
+ })();
+ */
 
 window.onload = function() {
     var queryInfo = {

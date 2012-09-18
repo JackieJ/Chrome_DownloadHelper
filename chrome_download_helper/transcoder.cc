@@ -39,15 +39,15 @@ Transcoder::Transcoder(pp::Instance* instance,
 
   //array buffer test
   /*
-  uint32_t testSize = 3;
-  pp::VarArrayBuffer testBuf(testSize);
-  char* testData = static_cast<char*>(testBuf.Map());
-  const char* input = "ABC";
-  for (size_t dataIndex = 0; dataIndex < testSize; dataIndex++) {
+    uint32_t testSize = 3;
+    pp::VarArrayBuffer testBuf(testSize);
+    char* testData = static_cast<char*>(testBuf.Map());
+    const char* input = "ABC";
+    for (size_t dataIndex = 0; dataIndex < testSize; dataIndex++) {
     testData[dataIndex] = input[dataIndex];
-  }
-  testBuf.Unmap();
-  instance_->PostMessage(testBuf);
+    }
+    testBuf.Unmap();
+    instance_->PostMessage(testBuf);
   */
 }
 

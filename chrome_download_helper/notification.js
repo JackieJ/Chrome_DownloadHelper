@@ -220,11 +220,11 @@ $(document).ready(function() {
 	    var selections = "";
 	    if (formats.length === 2) {
 		var selection1 = 
-		    "<a id=\""+formats[0]+"\"><div style=\"left:45px;border-radius: 6px 0px 0px 6px;\" class=\"btn "
-		    +formats[0]+"\">"+formats[0]+"</div></a>";
+		        "<a id=\""+formats[0]+"\"><div style=\"left:45px;border-radius: 6px 0px 0px 6px;\" class=\"btn "
+		        +formats[0]+"\">"+formats[0]+"</div></a>";
 		var selection2 = 
-		    "<a id=\""+formats[1]+"\"><div style=\"left:85px;border-radius: 0px 6px 6px 0px;\" class=\"btn "
-		    +formats[1]+"\">"+formats[1]+"</div></a>";
+		        "<a id=\""+formats[1]+"\"><div style=\"left:85px;border-radius: 0px 6px 6px 0px;\" class=\"btn "
+		        +formats[1]+"\">"+formats[1]+"</div></a>";
 		selections = selection1+selection2;
 	    } else if (formats.length === 3) {
 		for (var fIndex = 0 ; fIndex < formats.length ; fIndex++) {
