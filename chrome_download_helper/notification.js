@@ -5,7 +5,6 @@ window.URL = window.URL || window.webkitURL;
 
 //messaging to the background page
 var debugPort = chrome.extension.connect({name:"debug"});
-var progressMsgPort = chrome.extension.connect({name:"progress"});
 var moduleDidLoad = function() {
     vagModule = document.getElementById("NACL_Module");
     updateStatus("Transcoder successfully loaded!");
@@ -211,6 +210,8 @@ $(document).ready(function() {
     var paIter;
     var detected = false;
     var selectContainer = document.querySelector(".selectcontainer");
+    
+    //chrome download API:In Dev Progress
     
     for (paIter in transcodeOptions) {
 	if ((mediaMeta.vidID).indexOf(paIter) !== -1) {

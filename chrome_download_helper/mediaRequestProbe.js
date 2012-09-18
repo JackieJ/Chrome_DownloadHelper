@@ -57,10 +57,9 @@ var frames = [];
 //acitve tab and url check
 var activeURL = null;
 var activeTabId = null;
-
 var mediaRequestsMap = {};
+var converstionTypeMeta = {};
 //media file extensions regex
-
 var mediaFormats = [
     "mp2",
     "mpeg2",
@@ -344,11 +343,6 @@ chrome.extension.onConnect.addListener(function(port) {
 	    console.log("====Debug Message====");
 	    console.log(msg);
 	    console.log("=====================");
-	});
-    } else if (port.name === "progress") {
-	//track download progress from chrome download page
-	port.onMessage.addListener(function(msg) {
-	    
 	});
     }
 });
