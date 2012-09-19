@@ -16,19 +16,22 @@ using namespace std;
 Transcoder* Transcoder::Create(pp::Instance* instance, 
 			       const string& url, 
 			       const string& conversionType,
-			       const string& vidID) {
-  return new Transcoder(instance, url, conversionType, vidID);
+			       const string& vidID, 
+                               const string& cFormat) {
+  return new Transcoder(instance, url, conversionType, vidID, cFormat);
 }
 
 //constructor
 Transcoder::Transcoder(pp::Instance* instance, 
 		       const string& url, 
 		       const string& conversionType,
-		       const string& vidID)
+		       const string& vidID, 
+                       const string& cFormat)
   : instance_(instance),
     url_(url),
     vidID_(vidID),
     conversionType_(conversionType),
+    currentFormat_(cFormat),
     url_request_(instance),
     url_loader_(instance),
     buffer_(new char[READ_BUFFER_SIZE]),

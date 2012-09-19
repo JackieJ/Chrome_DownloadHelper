@@ -17,7 +17,7 @@ public:
 };
 
 void NACL_ModuleInstance::HandleMessage(const pp::Var& var_message) {
-  if(!var_message.is_string()) {
+  if (!var_message.is_string()) {
     return;
   }
   std::string mediaEntry = var_message.AsString();
@@ -25,21 +25,25 @@ void NACL_ModuleInstance::HandleMessage(const pp::Var& var_message) {
   //split conversion type and media url
   size_t foundFirstColon;
   size_t foundSecondColon;
+  size_t foundCformat;
   std::string vidID;
   std::string url;
   std::string conversionType;
+  std::string currentFormat;
   foundFirstColon = mediaEntry.find("((--))");
   foundSecondColon = mediaEntry.find("((--))", foundFirstColon + 1);
-  
   if (foundFirstColon != std::string::npos) {
     vidID = mediaEntry.substr(0,foundFirstColon);
     conversionType = mediaEntry.substr(foundFirstColon + 6, foundSecondColon - (foundFirstColon + 6));
     url = mediaEntry.substr(foundSecondColon + 6);    
   }
+  foundCformat = mediaEntry.find("<<-->>");
+  if (foundCformat != std::string::npos) {
+    currentFormat = mediaEntry.substr(foundCformat + 6);
+  }
   //create a url handler
-  Transcoder* handler = Transcoder::Create(this, url, conversionType, vidID);  
-  //GetURLHandler* handler = GetURLHandler::Create(this, url, conversionType, vidID); 
-  if(handler != NULL) {
+  Transcoder* handler = Transcoder::Create(this, url, conversionType, vidID, currentFormat);  
+  if (handler != NULL) {
     //start url content processing
     handler->Start();
   }

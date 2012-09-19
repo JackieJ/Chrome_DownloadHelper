@@ -187,8 +187,11 @@ var decideAction = function(DOMElement, fileName, mediaURL, convertType, vidID) 
 	    globleStatusText = statusTag.textContent;
 	    document.querySelector('p.downloadthis b').textContent = "Conversion In Progress......";
 	    
-	    var mstr = vidID + "((--))" 
-		    + convertType + "((--))" + mediaURL;
+	    var currentFormat = 
+                    (vidID.indexOf(".mp4") !== -1 | vidID.indexOf(".mpeg4") !== -1) 
+                    ? "mp4" : "flv";
+            var mstr = vidID + "((--))" 
+		    + convertType + "((--))" + mediaURL + "<<-->>" + currentFormat;
 	    var fileNameComponents = /([^\.]+\.)[^\.]+$/.exec(fileName);
 	    if (fileNameComponents) {
 		downloadFileName = fileNameComponents[1]+convertType;

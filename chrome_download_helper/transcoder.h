@@ -8,7 +8,14 @@
 #include <stdlib.h>
 #include <vector>
 
-//ppapi
+//ppapi fs
+#include "ppapi/c/pp_file_info.h"
+#include "ppapi/c/ppb_file_io.h"
+#include "ppapi/cpp/file_io.h"
+#include "ppapi/cpp/file_ref.h"
+#include "ppapi/cpp/file_system.h"
+
+//ppapi utils
 #include "ppapi/c/pp_errors.h"
 #include "ppapi/c/ppb_instance.h"
 #include "ppapi/cpp/module.h"
@@ -28,7 +35,8 @@ class Transcoder {
   static Transcoder* Create(pp::Instance* instance, 
 			    const std::string& url, 
 			    const std::string& conversionType,
-			    const std::string& vidID);
+			    const std::string& vidID,
+                            const std::string& cFormat);
   //start fetching content
   void Start();
   
@@ -37,7 +45,8 @@ class Transcoder {
   Transcoder(pp::Instance* instance, 
 	     const std::string& url, 
 	     const std::string& conversionType,
-	     const std::string& vidID);
+	     const std::string& vidID, 
+             const std::string& cFormat);
   //destructor
   ~Transcoder();
   
@@ -46,7 +55,17 @@ class Transcoder {
   void FLVToMP4();
   void MP4ToMP3();
   
-  //callbacks
+  //fileIO callbacks
+  pp::FileIO* file_io;
+  pp::FileSystem* file_system;
+  pp::FileRef* file_ref;
+  void fileFlushCallback(int32_t result, void* data) {}
+  void fileSystemOpenCallback(int32_t result, void* data) {}
+  void fileOpenCallback(int32_t result, void* data) {}
+  void fileWriteCallback(int32_t bytes_written, void* data) {}
+  void fileReadCallback(int32_t bytes_read, void* data) {}
+  
+  //callbacks for bytes retrieval
   void OnOpen(int32_t result);
   void OnRead(int32_t result);
   void ReadBody();
@@ -59,7 +78,7 @@ class Transcoder {
   std::string url_;
   std::string vidID_;
   std::string conversionType_;
-  
+  std::string currentFormat_;
   //url loading
   pp::URLRequestInfo url_request_;
   pp::URLLoader url_loader_;
