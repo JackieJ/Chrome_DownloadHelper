@@ -32,12 +32,12 @@ Development Documentation
   * `chrome.webRequest.onBeforeRequest` gets web requests. mediaReqeustsMap holds request metadata.      
   * Message passing, icon animation, triggering notifications.     
 
-###*[popup.html](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/popup.html)/[popup.js](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/popup.js)*     
+###*[popup.html](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/popup.html) / [popup.js](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/popup.js)*     
 
   * Display available download entries if available.      
   * Pass message back to the background script triggering notification windows for download options      
 
-###*[notification.html](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/notification.html)/[notification.js](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/notification.js)*      
+###*[notification.html](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/notification.html) / [notification.js](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/notification.js)*      
 
   * Display download options according the original file format.e.g.if the file is .mp4, `mp3` and `original` show up as download options      
   * Passing download meta data(URL, vidID, current format and the conversion format,etc) to the NACL transcoder.      
@@ -46,7 +46,7 @@ Development Documentation
  
   * Communication between NACL and client-side js.
 
-###*[transcoder.cc](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/transcoder.cc)/[transcoder.h](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/transcoder.h)*      
+###*[transcoder.cc](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/transcoder.cc) / [transcoder.h](https://github.com/CloudClown/Chrome_DownloadHelper/blob/master/chrome_download_helper/transcoder.h)*      
 
   * transcoding(*In Progresss*) options: MP4->MP3, FLV->MP4/MP3.      
   * TODO: implement using ffmpeg/libav.      
